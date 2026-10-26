@@ -5,12 +5,12 @@ import type { DrawingClient } from "../drawings/client"
 import { logEvent } from "@shared/log"
 import { h, replace, svg } from "./dom"
 import { icon } from "./icons"
+import { animateTo, annotates, cancelMotion, prewarm, SPACING_STEP, type Motion, type MotionDeps } from "./motion"
+import type { Schedule } from "./runner"
 import type { AppState, Store } from "./store"
 
-const SPACING_STEP = 0.1
 const ZOOM_STEP = 0.2
 const ZOOM_RANGE: [number, number] = [0.6, 2.4]
-const FRAME_MS = 45
 
 interface StageParts {
   sheet: HTMLElement
@@ -25,12 +25,14 @@ interface StageContext {
   parts: StageParts
 }
 
-export function stage(store: Store, drawings: DrawingClient): HTMLElement {
+export function stage(store: Store, drawings: DrawingClient, schedule: Schedule): HTMLElement {
+  const motion: Motion = { run: 0 }
+  const deps: MotionDeps = { painter: drawings, schedule, motion }
   const parts: StageParts = {
     sheet: h("div", { class: "sheet", attrs: { "aria-busy": "true" } }),
     titleBlock: h("div", { class: "title-block" }),
     status: h("div", { class: "render-status", attrs: { "aria-live": "polite" } }),
-    controls: controlRefs(store),
+    controls: controlRefs(store, deps),
   }
   const context: StageContext = { store, drawings, parts }
   store.subscribe(update.bind(null, context))
@@ -43,7 +45,7 @@ function update(context: StageContext, state: AppState, previous: AppState | nul
   const { drawings, parts } = context
   const device = deviceById(state.deviceId) as Device
   if (needsDrawing(state, previous)) void paint(context, state)
-  if (previous?.deviceId !== state.deviceId) prewarm(drawings, device.id)
+  if (previous?.deviceId !== state.deviceId) prewarm(drawings, device.id, state.explosion)
   parts.sheet.style.setProperty("--zoom", String(state.zoom))
   replace(parts.titleBlock, ...titleRows(device))
   syncControls(parts.controls, state)
@@ -62,7 +64,7 @@ async function paint(context: StageContext, state: AppState): Promise<void> {
 
 async function drawOrLog(drawings: DrawingClient, state: AppState): Promise<string | null> {
   try {
-    return await drawings.draw(state.deviceId, state.explosion, state.labels && isSettled(state.explosion))
+    return await drawings.draw(state.deviceId, state.explosion, annotates(state))
   } catch (error) {
     logEvent("drawing.failed", { deviceId: state.deviceId, message: String(error) }, "error")
     return null
@@ -75,26 +77,8 @@ function showDrawing(parts: StageParts, markup: string): void {
   parts.status.textContent = ""
 }
 
-/** Labels show only at rest: mid-animation frames skip them, as the teardown viewer does. */
-function isSettled(explosion: number): boolean {
-  return explosion === 0 || explosion === 1
-}
-
 function isCurrent(now: AppState, drawn: AppState): boolean {
   return now.deviceId === drawn.deviceId && now.explosion === drawn.explosion && now.labels === drawn.labels
-}
-
-function prewarm(drawings: DrawingClient, deviceId: string): void {
-  for (const explosion of spacingStops()) void drawings.draw(deviceId, explosion, false)
-  void drawings.draw(deviceId, 1, true)
-}
-
-function spacingStops(): number[] {
-  return Array.from({ length: Math.round(1 / SPACING_STEP) + 1 }, stopAt)
-}
-
-function stopAt(_: unknown, i: number): number {
-  return Math.round(i * SPACING_STEP * 100) / 100
 }
 
 function titleRows(device: Device): HTMLElement[] {
@@ -115,13 +99,13 @@ interface ControlRefs {
   zoom: HTMLSpanElement
 }
 
-function controlRefs(store: Store): ControlRefs {
+function controlRefs(store: Store, deps: MotionDeps): ControlRefs {
   return {
-    assembled: h("button", { on: { click: animateTo.bind(null, store, 0) } }, [copy.stage.assembled]),
-    exploded: h("button", { on: { click: animateTo.bind(null, store, 1) } }, [copy.stage.exploded]),
+    assembled: h("button", { on: { click: animateTo.bind(null, store, deps, 0) } }, [copy.stage.assembled]),
+    exploded: h("button", { on: { click: animateTo.bind(null, store, deps, 1) } }, [copy.stage.exploded]),
     slider: h("input", {
       attrs: { type: "range", min: 0, max: 1, step: SPACING_STEP, "aria-label": copy.stage.spacing },
-      on: { input: onSpacing.bind(null, store) },
+      on: { input: onSpacing.bind(null, store, deps.motion) },
     }),
     labels: h("button", { class: "chip", on: { click: toggleLabels.bind(null, store) } }, [svg(icon("tag", 14)), copy.stage.labels]),
     zoom: h("span"),
@@ -151,7 +135,8 @@ function syncControls(refs: ControlRefs, state: AppState): void {
   refs.zoom.textContent = `${Math.round(state.zoom * 100)}%`
 }
 
-function onSpacing(store: Store, event: Event): void {
+function onSpacing(store: Store, motion: Motion, event: Event): void {
+  cancelMotion(motion)
   store.set({ explosion: Number((event.target as HTMLInputElement).value) })
 }
 
@@ -166,13 +151,4 @@ function zoomBy(store: Store, step: number): void {
 
 function zoomReset(store: Store): void {
   store.set({ zoom: 1 })
-}
-
-/** Step the spacing one stop per frame toward the target; cached frames make it smooth. */
-function animateTo(store: Store, target: number): void {
-  const current = store.get().explosion
-  if (current === target) return
-  const next = stopAt(null, Math.round(current / SPACING_STEP) + Math.sign(target - current))
-  store.set({ explosion: next })
-  if (next !== target) setTimeout(animateTo.bind(null, store, target), FRAME_MS)
 }

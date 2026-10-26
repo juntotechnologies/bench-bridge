@@ -46,7 +46,7 @@ function mount(root: HTMLElement): void {
   const drawings = new DrawingClient(new DrawWorker())
   const dock = h("div", { class: "dock" }, [pipelineStrip(store, deps), paneNav(store)])
   bindPane(root, store)
-  root.replaceChildren(header(clock), deviceList(store, drawings), stage(store, drawings), inspector(store), dock)
+  root.replaceChildren(header(clock), deviceList(store, drawings), stage(store, drawings, schedule), inspector(store), dock)
 }
 
 mount(document.getElementById("app") as HTMLElement)
