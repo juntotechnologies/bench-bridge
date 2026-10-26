@@ -1,0 +1,77 @@
+import { z } from "zod"
+
+const Pair = z.tuple([z.string(), z.string()])
+const Triple = z.tuple([z.string(), z.string(), z.string()])
+
+export const TargetId = z.enum(["lims", "ledger"])
+
+export const FieldSource = z.union([z.string(), z.object({ const: z.string() })])
+
+const Delivery = z.object({
+  target: TargetId,
+  fields: z.record(z.string(), FieldSource),
+})
+
+/** One entry per protocol; a new instrument family adds a member and a parser. */
+export const ParserConfig = z.discriminatedUnion("kind", [z.object({ kind: z.literal("sics-line"), quantity: z.string() })])
+
+export const NormalizeRules = z.object({
+  dropUnstable: z.boolean().optional(),
+  byDifference: z.object({ quantity: z.string() }).optional(),
+})
+
+export const Capture = z.object({
+  startedAt: z.iso.datetime(),
+  cadenceMs: z.number().positive(),
+  sampleId: z.string(),
+  containerRef: z.string(),
+  lines: z.array(z.string()).min(1),
+})
+
+export const Device = z.object({
+  id: z.string().regex(/^[a-z0-9-]+$/),
+  name: z.string(),
+  model: z.string(),
+  era: z.number().int(),
+  status: z.enum(["bridged", "pilot", "retrofit"]),
+  assetId: z.string(),
+  summary: z.string(),
+  today: z.array(z.string()),
+  bridged: z.array(z.string()),
+  kit: z.string(),
+  specs: z.array(Pair),
+  port: z.object({ kind: z.string(), connector: z.string(), settings: z.string(), pins: z.array(Triple) }),
+  parser: ParserConfig,
+  normalize: NormalizeRules,
+  capture: Capture,
+  deliveries: z.array(Delivery).min(1),
+})
+
+export const Target = z.object({
+  label: z.string(),
+  record: z.string(),
+  endpoint: z.string(),
+  refPrefix: z.string(),
+  required: z.array(z.string()),
+})
+
+/** Every instrument the demo plans to show, ranked by value to a DEA-registered test lab. */
+export const CatalogEntry = z.object({
+  id: z.string().regex(/^[a-z0-9-]+$/),
+  name: z.string(),
+  interface: z.string(),
+  era: z.string(),
+  why: z.string(),
+})
+
+export const Stage = z.object({ id: z.string(), label: z.string(), icon: z.string(), detail: z.string() })
+
+export type Device = z.infer<typeof Device>
+export type Target = z.infer<typeof Target>
+export type Stage = z.infer<typeof Stage>
+export type CatalogEntry = z.infer<typeof CatalogEntry>
+export type ParserConfig = z.infer<typeof ParserConfig>
+export type NormalizeRules = z.infer<typeof NormalizeRules>
+export type Capture = z.infer<typeof Capture>
+export type FieldSource = z.infer<typeof FieldSource>
+export type TargetId = z.infer<typeof TargetId>

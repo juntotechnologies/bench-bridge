@@ -144,3 +144,12 @@ summary and validation instead; do not recreate the waived planning step.
 Before editing a checkout, check whether another agent is working in it: recent
 file changes, or uncommitted work you did not make. Never modify, commit or
 discard someone else's uncommitted work without asking.
+
+## 12. Repo Layout (decided by Shaun)
+
+- The repo root holds three code areas: `shared/`, `client/` and `server/`. Each area holds its code directly. There is no `src/` directory anywhere.
+- All tests live in one root directory, `tests/`. It mirrors the areas: `tests/shared/`, `tests/client/`, `tests/server/`. No area has its own test directory.
+- Every directory has an `AGENTS.md`. It states the domain knowledge and the coding rules for that directory. `npm run lint` fails when one is missing.
+- Imports cross areas only through aliases: `@shared/*`, `@client/*`, `@server/*`. `shared/` imports from no other area. `client/` and `server/` import only from `shared/`.
+- Every code file starts with a one-line `/** ... */` docstring. Lint enforces it.
+- Every function takes and returns named types. Data shapes are `interface`s or schema-inferred types, never inline object types.

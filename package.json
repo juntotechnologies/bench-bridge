@@ -3,15 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node scripts/dev.mjs",
-    "build": "tsc --noEmit && vite build",
-    "preview": "vite preview",
+    "dev": "tsx server/dev.ts",
+    "build": "tsc --noEmit && vite build --config client/vite.config.ts",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint .",
+    "lint": "eslint . && tsx tools/check-agents-md.ts",
     "test": "vitest run",
-    "proof": "tsx scripts/proof-drawings.ts",
-    "e2e": "playwright test",
-    "health": "node scripts/health.mjs",
+    "proof": "tsx client/scripts/proof-drawings.ts",
+    "health": "tsx server/health.ts",
     "check": "npm run typecheck && npm run lint && npm run test && npm run build"
   },
   "dependencies": {

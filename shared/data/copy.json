@@ -1,0 +1,75 @@
+{
+  "product": "Bench Bridge",
+  "tagline": [
+    "Capture",
+    "Parse",
+    "Deliver"
+  ],
+  "fleetLabel": "Bridged",
+  "panels": {
+    "devices": "Instrument catalogue",
+    "parts": "Parts",
+    "tabs": {
+      "overview": "Overview",
+      "port": "Port",
+      "data": "Data",
+      "deliver": "Deliver"
+    },
+    "pipeline": "Pipeline"
+  },
+  "status": {
+    "bridged": "Bridged",
+    "pilot": "Pilot",
+    "retrofit": "Retrofit",
+    "planned": "Planned"
+  },
+  "stage": {
+    "exploded": "Exploded",
+    "assembled": "Assembled",
+    "labels": "Labels",
+    "spacing": "Spacing",
+    "rendering": "Rendering",
+    "sheet": "NTS · Concept drawing",
+    "drawingNo": "DWG",
+    "drawingPrefix": "BB",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "zoomReset": "Reset zoom"
+  },
+  "overview": {
+    "problemTitle": "Today",
+    "bridgeTitle": "With the bridge",
+    "kitTitle": "Bridge kit"
+  },
+  "port": {
+    "settings": "Settings",
+    "pins": "Pins used",
+    "pin": "Pin",
+    "signal": "Signal",
+    "use": "Use"
+  },
+  "data": {
+    "raw": "Raw capture",
+    "parsed": "Readings",
+    "replay": "Replay capture",
+    "dropped": "dropped by rules",
+    "empty": "Run the bridge to see readings."
+  },
+  "deliver": {
+    "send": "Send to targets",
+    "sent": "Receipts",
+    "payload": "Payload",
+    "rejected": "Rejected",
+    "missing": "Missing fields",
+    "more": "more",
+    "opening": "Opening balance",
+    "closing": "Closing balance",
+    "schedule": "Schedule",
+    "failed": "Delivery failed. The server did not answer."
+  },
+  "run": {
+    "start": "Run bridge",
+    "again": "Run again",
+    "running": "Running"
+  }
+}
