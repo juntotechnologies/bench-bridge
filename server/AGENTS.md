@@ -6,6 +6,7 @@ The delivery API: mock LIMS and CS ledger endpoints, and the dev server.
 - A target accepts a record only when every required field is present. A rejected record names the missing fields.
 - The CS ledger is stateless in this tracer. Every run starts from the opening balance in `data/ledger.json`.
 - The server owns the clock and the reference numbers.
+- A database (SQLite or hosted) comes later. Only `containers.ts` may touch storage, so the swap stays in one file.
 - Say "designed to support validation". Never claim Part 11 compliance.
 
 ## Rules

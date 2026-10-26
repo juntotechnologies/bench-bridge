@@ -1,0 +1,34 @@
+{
+  "files": {
+    "shared/data/devices.json": "One entry per live instrument: port, parser, rules, capture and field maps",
+    "shared/data/catalog.json": "Every planned instrument, ranked by value to a DEA-registered lab",
+    "shared/data/targets.json": "Target systems: endpoint, reference prefix and required fields",
+    "shared/data/pipeline.json": "The five pipeline stages",
+    "shared/data/copy.json": "UI text",
+    "server/data/ledger.json": "Controlled-substance containers and their opening balances",
+    "server/data/dev.json": "The dev server port",
+    "tools/repo-files.ts": "Walks the repo: checked directories, entries and markdown files",
+    "tools/agents-md.ts": "Pure helper: which directories lack AGENTS.md",
+    "tools/check-agents-md.ts": "Script that runs the AGENTS.md check and sets the exit code",
+    "tools/docs/": "Docs generator: fills generated blocks and checks references",
+    "tools/eslint/": "Local ESLint rules",
+    "tools/docs/markers.ts": "Finds generated blocks in markdown and fills them from renderers",
+    "tools/docs/facts.ts": "Computes demo figures by running the real pipeline and server handler",
+    "tools/docs/renderers.ts": "One renderer per generated block name",
+    "tools/docs/references.ts": "Finds npm scripts and file paths that a doc names",
+    "tools/docs/notes.ts": "Schema and stale-note check for notes.json",
+    "tools/docs/notes.json": "Descriptions for files and npm scripts, shown in generated tables",
+    "tools/docs/sync.ts": "Script: writes or checks every generated block"
+  },
+  "scripts": {
+    "dev": "Starts the app and the API, and prints the one tailnet link",
+    "health": "Checks that the dev server answers",
+    "check": "Typecheck, lint, test and build",
+    "typecheck": "Typechecks all areas",
+    "lint": "ESLint, the AGENTS.md check and the docs check",
+    "test": "Runs all tests in tests/",
+    "build": "Typechecks, then builds the client into dist/",
+    "proof": "Renders every device drawing to proof/",
+    "docs": "Rewrites every generated block from its source"
+  }
+}

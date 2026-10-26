@@ -3,5 +3,14 @@
   "maxComplexity": 5,
   "maxDepth": 1,
   "maxParams": 4,
-  "agentsMdIgnore": ["node_modules", "dist", "proof", "archive"]
+  "agentsMdIgnore": [
+    "node_modules",
+    "dist",
+    "proof",
+    "archive"
+  ],
+  "docsCheckIgnore": [
+    "AGENTS.md",
+    "docs/pr-docs/template.md"
+  ]
 }

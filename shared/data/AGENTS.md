@@ -2,13 +2,15 @@
 
 JSON registries. Each file is the one source for its facts.
 
+<!-- gen:files shared/data -->
 | File | Holds |
-|------|-------|
-| devices.json | One entry per live instrument: port, parser, rules, capture, field maps |
-| catalog.json | Every planned instrument, ranked by value to a DEA-registered lab |
-| targets.json | Target systems: endpoint, reference prefix, required fields |
-| pipeline.json | The five pipeline stages |
-| copy.json | UI text |
+| ---- | ----- |
+| `catalog.json` | Every planned instrument, ranked by value to a DEA-registered lab |
+| `copy.json` | UI text |
+| `devices.json` | One entry per live instrument: port, parser, rules, capture and field maps |
+| `pipeline.json` | The five pipeline stages |
+| `targets.json` | Target systems: endpoint, reference prefix and required fields |
+<!-- /gen -->
 
 ## Rules
 - Add a fact here before you write it as a literal in code.

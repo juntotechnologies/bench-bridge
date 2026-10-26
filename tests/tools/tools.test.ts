@@ -1,7 +1,8 @@
 /** Tests for the repo tooling: the AGENTS.md helpers and the file docstring lint rule. */
 import { Linter } from "eslint"
 import { describe, expect, it } from "vitest"
-import { isCheckedName, missingAgentsMd } from "../../tools/agents-md"
+import { missingAgentsMd } from "../../tools/agents-md"
+import { isCheckedName } from "../../tools/repo-files"
 import fileDocstring from "../../tools/eslint/file-docstring.js"
 
 function lint(code: string): string[] {

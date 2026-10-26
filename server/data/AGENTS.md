@@ -2,11 +2,13 @@
 
 Data the server owns.
 
+<!-- gen:files server/data -->
 | File | Holds |
-|------|-------|
-| ledger.json | Controlled-substance containers and their opening balances |
-| dev.json | The dev server port |
+| ---- | ----- |
+| `dev.json` | The dev server port |
+| `ledger.json` | Controlled-substance containers and their opening balances |
+<!-- /gen -->
 
 ## Rules
-- Only `containers.ts` reads `ledger.json`. Only `dev.ts` and `health.ts` read `dev.json`.
+- Only `../containers.ts` reads `ledger.json`. Only `../dev.ts` and `../health.ts` read `dev.json`.
 - Container values are sample data.

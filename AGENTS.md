@@ -153,3 +153,10 @@ discard someone else's uncommitted work without asking.
 - Imports cross areas only through aliases: `@shared/*`, `@client/*`, `@server/*`. `shared/` imports from no other area. `client/` and `server/` import only from `shared/`.
 - Every code file starts with a one-line `/** ... */` docstring. Lint enforces it.
 - Every function takes and returns named types. Data shapes are `interface`s or schema-inferred types, never inline object types.
+
+## 13. Docs Derive From Sources (decided by Shaun)
+
+- Never type a figure, count, file list or command table by hand in a doc. Use a generated block: an HTML comment pair whose opening comment starts with `gen:` and whose closing comment is `/gen`.
+- `npm run docs` rewrites the blocks from the sources. `npm run lint` fails when a block is stale, when a doc names a file or `npm run` script that does not exist, or when a file has no note.
+- Add the fact to its source first (registry JSON, code, `tools/docs/notes.json`). Then add a generator in `tools/docs/` if none fits.
+- The demo has no database. The ledger is stateless. A database (SQLite or hosted) comes later and stays behind `server/containers.ts`.

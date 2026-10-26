@@ -1,7 +1,8 @@
 /** Repo check: fails when a directory has no AGENTS.md, so every directory states its own rules. */
 import { existsSync } from "node:fs"
 import { join } from "node:path"
-import { listDirs, missingAgentsMd } from "./agents-md"
+import { missingAgentsMd } from "./agents-md"
+import { listDirs } from "./repo-files"
 
 const ROOT = process.cwd()
 
