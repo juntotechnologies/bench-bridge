@@ -1,0 +1,6 @@
+{
+  "maxFunctionLines": 15,
+  "maxComplexity": 5,
+  "maxDepth": 1,
+  "maxParams": 4
+}

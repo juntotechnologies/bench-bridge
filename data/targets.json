@@ -1,0 +1,23 @@
+{
+  "lims": {
+    "label": "LIMS",
+    "record": "Sample result",
+    "endpoint": "POST /api/v1/results",
+    "refPrefix": "RES",
+    "required": ["sample_ref", "instrument_id", "analyte", "result_value", "unit", "measured_at"]
+  },
+  "inventory": {
+    "label": "Inventory",
+    "record": "Container or storage update",
+    "endpoint": "PATCH /api/v1/containers",
+    "refPrefix": "INV",
+    "required": ["container_ref", "quantity", "unit", "observed_at"]
+  },
+  "erp": {
+    "label": "ERP",
+    "record": "Asset usage entry",
+    "endpoint": "POST /api/v1/asset-usage",
+    "refPrefix": "AST",
+    "required": ["asset_id", "usage_kind", "usage_value", "usage_unit", "recorded_at"]
+  }
+}
