@@ -4,7 +4,7 @@ Demo that connects older lab instruments to a LIMS and a controlled-substance (C
 Live today: the <!-- gen:fact balance.name -->Analytical balance<!-- /gen -->. <!-- gen:fact catalog.planned -->10<!-- /gen --> more instruments are planned.
 The demo has no database. The ledger is stateless: every run starts from the same opening balance.
 
-Live demo: <!-- gen:fact site.url -->https://juntotechnologies.github.io/bench-bridge/<!-- /gen -->
+Live demo: <!-- gen:fact site.url -->https://bench-bridge.juntotechnologies.com/<!-- /gen -->
 The live demo runs the delivery API in the browser. The ledger resets on each page load.
 
 ![Bench Bridge after a run: the balance drawing, the LIMS receipt and the ledger line](docs/media/screenshot.png)

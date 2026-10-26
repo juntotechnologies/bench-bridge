@@ -2,7 +2,7 @@
   "name": "bench-bridge",
   "private": true,
   "type": "module",
-  "homepage": "https://juntotechnologies.github.io/bench-bridge/",
+  "homepage": "https://bench-bridge.juntotechnologies.com/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/juntotechnologies/bench-bridge.git"
