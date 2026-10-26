@@ -6,6 +6,10 @@
     "Deliver"
   ],
   "fleetLabel": "Bridged",
+  "theme": {
+    "toLight": "Switch to light theme",
+    "toDark": "Switch to dark theme"
+  },
   "filters": [
     { "id": "all", "label": "All" },
     { "id": "bridged", "label": "Bridged" },

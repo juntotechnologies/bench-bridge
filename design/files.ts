@@ -1,9 +1,9 @@
 /** The one module that knows the spec file layout: it reads the sources and writes or compares the outputs. */
 import { existsSync, readFileSync, writeFileSync } from "node:fs"
 import { join } from "node:path"
-import { Components, Layout, Principles, Tokens, Viewports, type Spec } from "./schema"
+import { Components, Contrast, Layout, Principles, Tokens, Viewports, type Spec } from "./schema"
 
-export const SOURCES = ["tokens.json", "layout.json", "viewports.json", "components.json", "principles.json"] as const
+export const SOURCES = ["tokens.json", "layout.json", "viewports.json", "components.json", "principles.json", "contrast.json"] as const
 export const OUTPUTS = ["tokens.css", "SPEC.md", "spec.lock"] as const
 
 export type Outputs = Record<(typeof OUTPUTS)[number], string>
@@ -23,6 +23,7 @@ export function readSpec(dir: string): Spec {
     viewports: Viewports.parse(readJson(dir, "viewports.json")),
     components: Components.parse(readJson(dir, "components.json")),
     principles: Principles.parse(readJson(dir, "principles.json")),
+    contrast: Contrast.parse(readJson(dir, "contrast.json")),
   }
 }
 

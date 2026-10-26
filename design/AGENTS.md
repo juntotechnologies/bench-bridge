@@ -8,9 +8,11 @@ The design spec: one source for the look of the app. Copy this directory to reus
 | `SPEC.md` | Generated readable spec |
 | `THIRD_PARTY.md` | Licence notice for patterns adapted from Beautiful UI |
 | `build.ts` | Script: writes the generated files, or checks them with --check |
-| `check.ts` | Checks that token names are unique and components name real tokens |
+| `check.ts` | Checks that token names are unique, components name real tokens, every colour has a dark value and every pair is readable |
 | `components.json` | One recipe for each UI component: selector, parts, states and tokens |
-| `css.ts` | Turns the tokens into CSS custom properties |
+| `contrast.json` | The colour pairs that must stay readable in both themes, with the least contrast ratio of each |
+| `contrast.ts` | Computes contrast ratios and finds colour pairs that are too faint in a theme |
+| `css.ts` | Turns the tokens into CSS custom properties, for the light and the dark theme |
 | `files.ts` | Reads the spec sources and writes or compares the generated files |
 | `layout.json` | Breakpoints and the compact drawing zoom |
 | `lock.ts` | Hashes the sources into spec.lock |
@@ -19,7 +21,7 @@ The design spec: one source for the look of the app. Copy this directory to reus
 | `spec.lock` | Generated hash of the sources, for detecting edits in a copy |
 | `spec.ts` | Renders SPEC.md from the sources |
 | `tokens.css` | Generated CSS custom properties |
-| `tokens.json` | The source for every colour, font, radius, shadow and timing |
+| `tokens.json` | The source for every colour, font, radius, shadow and timing, with a dark value for each colour and shadow |
 | `viewports.json` | The window sizes the fit check opens |
 <!-- /gen -->
 

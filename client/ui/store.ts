@@ -1,6 +1,7 @@
 /** App state and a minimal store: one state object, set by patch, observed by listeners. */
 import type { DeliverResponse } from "@shared/contracts"
 import type { BridgeRun } from "@shared/bridge/types"
+import type { Theme } from "./theme"
 
 export type TabId = "overview" | "port" | "data" | "deliver"
 
@@ -30,6 +31,7 @@ export interface AppState extends RunState {
   labels: boolean
   zoom: number
   catalogFilter: CatalogFilter
+  theme: Theme
 }
 
 export type Listener = (state: AppState, previous: AppState) => void

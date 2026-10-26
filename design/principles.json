@@ -7,6 +7,7 @@
   { "rule": "Build the page as drafting paper: cream sheet, fine grid and ink lines. Make cards lighter than the sheet.", "why": "The look says engineering, not marketing." },
   { "rule": "Use motion to explain a change: a line arrives, a step finishes. Use the motion tokens. Stop motion when the user asks for reduced motion.", "why": "Motion that explains is useful. Other motion distracts." },
   { "rule": "Show a state with a word or an icon as well as a colour.", "why": "Some readers cannot tell the colours apart." },
+  { "rule": "Give every colour and shadow a dark value. Never branch on the theme in a stylesheet. Keep each colour pair in the contrast file.", "why": "Both themes then come from one source, and a test finds a faint pair." },
   { "rule": "Write no raw colour, radius, shadow or timing in a stylesheet. Use a token.", "why": "One source means one change. A test enforces this." },
   { "rule": "Run the fit check after every layout change. It opens every window size in the viewports file.", "why": "A layout that fits one size often fails another." }
 ]

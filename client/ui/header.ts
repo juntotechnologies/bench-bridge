@@ -4,8 +4,8 @@ import type { Device } from "@shared/registry/schema"
 import { h, svg } from "./dom"
 import { icon } from "./icons"
 
-export function header(clock: HTMLElement): HTMLElement {
-  return h("header", { class: "topbar" }, [brand(), fleetCard(clock)])
+export function header(clock: HTMLElement, toggle: HTMLElement): HTMLElement {
+  return h("header", { class: "topbar" }, [brand(), h("div", { class: "topbar-end" }, [fleetCard(clock), toggle])])
 }
 
 function brand(): HTMLElement {

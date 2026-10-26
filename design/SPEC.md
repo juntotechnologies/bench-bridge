@@ -14,8 +14,9 @@ The design spec: one source for the look of every screen. Copy this directory to
 6. Build the page as drafting paper: cream sheet, fine grid and ink lines. Make cards lighter than the sheet. Why: The look says engineering, not marketing.
 7. Use motion to explain a change: a line arrives, a step finishes. Use the motion tokens. Stop motion when the user asks for reduced motion. Why: Motion that explains is useful. Other motion distracts.
 8. Show a state with a word or an icon as well as a colour. Why: Some readers cannot tell the colours apart.
-9. Write no raw colour, radius, shadow or timing in a stylesheet. Use a token. Why: One source means one change. A test enforces this.
-10. Run the fit check after every layout change. It opens every window size in the viewports file. Why: A layout that fits one size often fails another.
+9. Give every colour and shadow a dark value. Never branch on the theme in a stylesheet. Keep each colour pair in the contrast file. Why: Both themes then come from one source, and a test finds a faint pair.
+10. Write no raw colour, radius, shadow or timing in a stylesheet. Use a token. Why: One source means one change. A test enforces this.
+11. Run the fit check after every layout change. It opens every window size in the viewports file. Why: A layout that fits one size often fails another.
 
 ## Tokens
 
@@ -27,6 +28,7 @@ The design spec: one source for the look of every screen. Copy this directory to
 | `--panel` | `#fbf9f4` | Card surface, a little lighter than the page. |
 | `--raised` | `#ffffff` | A surface that sits on a card: hovered row, terminal, code box. |
 | `--ink` | `#1c1b19` | Text, fine lines and dark cards. |
+| `--ink-card` | `#1c1b19` | A dark card and a selected control: the ledger, the bridge kit and the active filter. |
 | `--ink-2` | `#5d5a53` | Secondary text and labels. |
 | `--ink-3` | `#9a968c` | Tertiary text, line numbers and disabled items. |
 | `--line` | `rgba(28, 27, 25, 0.14)` | Hairline borders and dividers. |
@@ -38,7 +40,8 @@ The design spec: one source for the look of every screen. Copy this directory to
 | `--on-ink` | `#ffffff` | Text on a dark card. |
 | `--on-ink-2` | `#c9c5bb` | Labels on a dark card. |
 | `--on-ink-3` | `#9d998f` | Captions on a dark card. |
-| `--ok` | `#2f7d4f` | Success text and icons. |
+| `--on-status` | `#ffffff` | Text and icons on a solid ok fill. |
+| `--ok` | `#2b7649` | Success text and icons. |
 | `--ok-soft` | `#e5f1ea` | Success tint: kept rows, receipts and done steps. |
 | `--danger` | `#b3261e` | Error text and icons. |
 | `--danger-soft` | `#fbe3e1` | Error tint: rejected receipts and dropped rows. |
@@ -89,6 +92,30 @@ The design spec: one source for the look of every screen. Copy this directory to
 | --- | --- | --- |
 | `--touch` | `44px` | Smallest tap target on a narrow window. |
 
+## Contrast
+
+Each pair must reach its least ratio in the light and the dark theme. A test enforces this.
+
+| Pair | Least | Light | Dark | Use |
+| --- | --- | --- | --- | --- |
+| `ink` on `paper` | 7 | 14.87 | 14.80 | Body text on the page. |
+| `ink` on `panel` | 7 | 16.36 | 13.66 | Body text on a card. |
+| `ink` on `raised` | 7 | 17.21 | 12.26 | Text in a terminal, code box or table. |
+| `ink-2` on `paper` | 4.5 | 5.95 | 7.36 | Secondary text on the page. |
+| `ink-2` on `panel` | 4.5 | 6.54 | 6.79 | Secondary text on a card. |
+| `ink-2` on `raised` | 4.5 | 6.88 | 6.10 | Secondary text in a terminal, code box or table. |
+| `ink-3` on `panel` | 2.5 | 2.81 | 3.85 | Line numbers, units and disabled items. These carry no needed fact. |
+| `on-ink` on `ink-card` | 7 | 17.21 | 15.78 | Text on a dark card. |
+| `on-ink-2` on `ink-card` | 4.5 | 9.99 | 9.43 | Labels on a dark card. |
+| `on-ink-3` on `ink-card` | 4.5 | 6.05 | 5.68 | Captions on a dark card. |
+| `accent` on `panel` | 3 | 3.40 | 5.42 | Accent icons, borders and the active tab on a card. |
+| `accent` on `ink-card` | 4.5 | 4.81 | 6.26 | The amount used on the ledger card. |
+| `on-accent` on `accent` | 3 | 3.58 | 3.08 | The label on the run button. |
+| `ok` on `ok-soft` | 4.5 | 4.78 | 5.93 | Accepted receipts and kept rows. |
+| `ok` on `raised` | 4.5 | 5.54 | 6.64 | String values in a code block. |
+| `danger` on `danger-soft` | 4.5 | 5.35 | 5.62 | Rejected receipts and dropped rows. |
+| `on-status` on `ok` | 4.5 | 5.54 | 7.89 | The check mark on a finished step. |
+
 ## Layout
 
 | Name | Value | Use |
@@ -122,23 +149,24 @@ The fit check opens each size.
 | --- | --- | --- | --- | --- | --- |
 | Panel | `.panel` | The card that holds each region of the app. | none | `panel`, `line`, `radius-lg`, `shadow-panel` | Original |
 | Eyebrow | `.eyebrow` | A small mono label above a group of content. | none | `ink-2`, `font-mono` | Original |
-| Segmented control | `.segmented` | Pick one of a few modes. | `is-on` | `paper`, `ink`, `on-ink`, `radius-sm` | Original |
+| Segmented control | `.segmented` | Pick one of a few modes. | `is-on` | `paper`, `on-ink`, `radius-sm`, `ink-card` | Original |
 | Chip | `.chip` | A toggle for one option. | `is-on` | `line`, `accent`, `radius-sm` | Original |
 | Tabs | `.tabs` | Switch the view inside the inspector. | `aria-selected` | `accent`, `ink`, `ink-2`, `line` | Original |
 | Device card | `.device` | One instrument in the catalogue. | `is-active`, `is-planned` | `raised`, `line`, `ink`, `ring-accent`, `radius-md` | Original |
-| Status pill | `.status` | The state of an instrument. | `is-planned` | `ink`, `on-ink`, `ink-2`, `ink-3`, `radius-pill` | Original |
-| Stage card | `.stage-card` | One pipeline step. The running step shows a spinning ring.. | `is-active`, `is-done` | `panel`, `accent`, `ring-accent`, `ok`, `ok-soft`, `motion-base` | Task Rows, Beautiful UI (MIT) |
+| Status pill | `.status` | The state of an instrument. | `is-planned` | `on-ink`, `ink-2`, `ink-3`, `radius-pill`, `ink-card` | Original |
+| Stage card | `.stage-card` | One pipeline step. The running step shows a spinning ring.. | `is-active`, `is-done` | `panel`, `accent`, `ring-accent`, `ok`, `ok-soft`, `motion-base`, `on-status` | Task Rows, Beautiful UI (MIT) |
 | Run button | `.run` | The one primary action. While a run goes on, it shows the elapsed seconds.. | `:disabled` | `accent`, `on-accent`, `shadow-cta`, `radius-md` | Loading State, Beautiful UI (MIT) |
 | Terminal | `.terminal` | Raw lines with numbers and times. Live lines arrive one by one.. | `is-live` | `raised`, `line`, `ink-3`, `accent-soft`, `motion-enter`, `ease-out` | Original |
 | Diff table | `.diff` | Show what a rule kept and what it dropped, with a count in the footer. | `is-kept`, `is-dropped` | `raised`, `line`, `ok`, `ok-soft`, `danger`, `danger-soft`, `radius-md` | Diff Table, Beautiful UI (MIT) |
 | Result card | `.result` | The one number the run produced. | none | `accent`, `accent-soft`, `radius-md`, `motion-enter` | Original |
-| Ledger card | `.ledger` | A dark card for a balance that moves from one value to another. | `is-used` | `ink`, `on-ink`, `on-ink-2`, `on-ink-3`, `accent`, `radius-md` | Original |
+| Ledger card | `.ledger` | A dark card for a balance that moves from one value to another. | `is-used` | `on-ink`, `on-ink-2`, `on-ink-3`, `accent`, `radius-md`, `ink-card` | Original |
 | Chart card | `.chart-card` | A live chart of the run: peaks for a chromatograph, weights for a balance. | `is-main`, `is-kept`, `is-dropped` | `raised`, `line`, `accent`, `ink`, `ink-2`, `ink-3`, `radius-md`, `motion-draw` | Insight Cards, Beautiful UI (MIT) |
 | Records table | `.records` | One row for each receipt a target sent back, with a status tag. | `is-accepted`, `is-rejected` | `line`, `ink-3`, `ok`, `ok-soft`, `danger`, `danger-soft`, `radius-pill` | Records Table, Beautiful UI (MIT) |
 | Code block | `.code` | A payload with line numbers, coloured JSON and a copy button. | `is-copied` | `raised`, `paper`, `line`, `ok`, `ink-2`, `ink-3`, `radius-sm`, `motion-hold` | Code Block, Beautiful UI (MIT) |
-| Filter chip | `.filter` | Show only the instruments in one state, with a count on each chip. | `is-on` | `line`, `ink`, `on-ink`, `ink-3`, `radius-pill` | Filter Table, Beautiful UI (MIT) |
+| Filter chip | `.filter` | Show only the instruments in one state, with a count on each chip. | `is-on` | `line`, `ink`, `on-ink`, `ink-3`, `radius-pill`, `ink-card` | Filter Table, Beautiful UI (MIT) |
 | Tool chip | `.tool-chip` | One setting of a port, such as a baud rate. | none | `paper`, `line`, `radius-pill` | Tool Chips, Beautiful UI (MIT) |
-| Pane nav | `.pane-nav` | Switch the pane on a narrow window. | `is-on` | `ink`, `on-ink`, `accent`, `touch`, `radius-md` | Original |
+| Pane nav | `.pane-nav` | Switch the pane on a narrow window. | `is-on` | `ink`, `on-ink`, `accent`, `touch`, `radius-md`, `ink-card` | Original |
 | Dock | `.dock` | Holds the pipeline and the pane switch at the bottom of a narrow window. | none | `panel`, `touch` | Original |
+| Theme toggle | `.theme-toggle` | Switch between the light and the dark theme. The choice stays in the browser.. | none | `panel`, `line`, `ink-2`, `accent`, `touch`, `radius-md` | Original |
 | Title block | `.title-block` | A caption on a narrow stage and a boxed corner stamp on a wide one. | none | `panel`, `ink`, `line` | Original |
 

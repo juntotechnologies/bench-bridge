@@ -1,6 +1,7 @@
 /** Cross-file checks that a schema cannot express: unique token names and tokens that components name. */
+import { contrastProblems } from "./contrast"
 import { tokenNames } from "./css"
-import type { Components, Spec } from "./schema"
+import type { Components, Spec, Tokens } from "./schema"
 
 function isRepeat(names: string[], name: string, index: number): boolean {
   return names.indexOf(name) !== index
@@ -22,8 +23,31 @@ function componentTokens(component: Components[number]): string[] {
   return component.tokens
 }
 
+const THEMED_GROUPS = ["color", "shadow"]
+
+function darklessProblem(name: string): string {
+  return `token has no dark value: ${name}`
+}
+
+function darkless(tokens: Tokens): string[] {
+  return THEMED_GROUPS.flatMap(darklessInGroup.bind(null, tokens))
+}
+
+function darklessInGroup(tokens: Tokens, group: string): string[] {
+  const entries = Object.entries(tokens[group] ?? {})
+  return entries.filter(hasNoDark).map(entryName)
+}
+
+function hasNoDark([, token]: [string, Tokens[string][string]]): boolean {
+  return token.dark === undefined
+}
+
+function entryName([name]: [string, unknown]): string {
+  return name
+}
+
 export function specProblems(spec: Spec): string[] {
   const known = tokenNames(spec.tokens)
   const used = spec.components.flatMap(componentTokens)
-  return [...known.filter(isRepeat.bind(null, known)).map(repeatProblem), ...used.filter(isMissing.bind(null, known)).map(unknownProblem)]
+  return [...known.filter(isRepeat.bind(null, known)).map(repeatProblem), ...used.filter(isMissing.bind(null, known)).map(unknownProblem), ...darkless(spec.tokens).map(darklessProblem), ...contrastProblems(spec)]
 }

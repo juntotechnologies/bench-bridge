@@ -1,0 +1,19 @@
+[
+  { "fg": "ink", "bg": "paper", "min": 7, "use": "Body text on the page" },
+  { "fg": "ink", "bg": "panel", "min": 7, "use": "Body text on a card" },
+  { "fg": "ink", "bg": "raised", "min": 7, "use": "Text in a terminal, code box or table" },
+  { "fg": "ink-2", "bg": "paper", "min": 4.5, "use": "Secondary text on the page" },
+  { "fg": "ink-2", "bg": "panel", "min": 4.5, "use": "Secondary text on a card" },
+  { "fg": "ink-2", "bg": "raised", "min": 4.5, "use": "Secondary text in a terminal, code box or table" },
+  { "fg": "ink-3", "bg": "panel", "min": 2.5, "use": "Line numbers, units and disabled items. These carry no needed fact" },
+  { "fg": "on-ink", "bg": "ink-card", "min": 7, "use": "Text on a dark card" },
+  { "fg": "on-ink-2", "bg": "ink-card", "min": 4.5, "use": "Labels on a dark card" },
+  { "fg": "on-ink-3", "bg": "ink-card", "min": 4.5, "use": "Captions on a dark card" },
+  { "fg": "accent", "bg": "panel", "min": 3, "use": "Accent icons, borders and the active tab on a card" },
+  { "fg": "accent", "bg": "ink-card", "min": 4.5, "use": "The amount used on the ledger card" },
+  { "fg": "on-accent", "bg": "accent", "min": 3, "use": "The label on the run button" },
+  { "fg": "ok", "bg": "ok-soft", "min": 4.5, "use": "Accepted receipts and kept rows" },
+  { "fg": "ok", "bg": "raised", "min": 4.5, "use": "String values in a code block" },
+  { "fg": "danger", "bg": "danger-soft", "min": 4.5, "use": "Rejected receipts and dropped rows" },
+  { "fg": "on-status", "bg": "ok", "min": 4.5, "use": "The check mark on a finished step" }
+]

@@ -1,4 +1,4 @@
-/** Turns the tokens into one CSS file of custom properties. */
+/** Turns the tokens into one CSS file of custom properties: the light theme, and the dark theme for an explicit choice and for the system. */
 import type { Token, Tokens } from "./schema"
 
 type TokenEntry = [string, Token]
@@ -10,13 +10,36 @@ function declaration([name, token]: TokenEntry): string {
   return `  --${name}: ${token.value};`
 }
 
+function darkDeclaration([name, token]: TokenEntry): string {
+  return `  --${name}: ${token.dark};`
+}
+
+function hasDark([, token]: TokenEntry): boolean {
+  return token.dark !== undefined
+}
+
 function group([title, tokens]: GroupEntry): string {
   return [`  /* ${title} */`, ...Object.entries(tokens).map(declaration)].join("\n")
 }
 
+function darkLines(tokens: Tokens): string[] {
+  return Object.values(tokens).flatMap(darkOfGroup)
+}
+
+function darkOfGroup(tokens: Tokens[string]): string[] {
+  return Object.entries(tokens).filter(hasDark).map(darkDeclaration)
+}
+
+function indent(line: string): string {
+  return `  ${line}`
+}
+
 export function tokenCss(tokens: Tokens): string {
   const groups = Object.entries(tokens).map(group)
-  return `${BANNER}\n:root {\n${groups.join("\n")}\n}\n`
+  const dark = ["  color-scheme: dark;", ...darkLines(tokens)]
+  const explicit = [':root[data-theme="dark"] {', ...dark, "}"]
+  const system = ["@media (prefers-color-scheme: dark) {", '  :root:not([data-theme="light"]) {', ...dark.map(indent), "  }", "}"]
+  return [BANNER, ":root {", "  color-scheme: light;", groups.join("\n"), "}", ...explicit, ...system, ""].join("\n")
 }
 
 /** Every custom property name the tokens define, without the leading dashes. */
