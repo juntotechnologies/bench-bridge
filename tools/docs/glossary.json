@@ -1,0 +1,17 @@
+{
+  "CDS": { "expansion": "chromatography data system", "meaning": "The software for HPLC and GC systems. It runs the instrument and stores its results" },
+  "CFR": { "expansion": "Code of Federal Regulations", "meaning": "The set of United States federal rules. Title 21 covers food and drugs" },
+  "CS": { "expansion": "controlled-substance", "meaning": "Describes a drug that the DEA regulates. A CS ledger is the running record of each container, as Title 21 of the CFR, Part 1304, requires" },
+  "DB9": { "expansion": "nine-pin D-subminiature", "meaning": "A nine-pin serial connector, common on older instruments" },
+  "DEA": { "expansion": "Drug Enforcement Administration", "meaning": "The United States agency that regulates controlled substances" },
+  "ERP": { "expansion": "Enterprise Resource Planning", "meaning": "The business system for assets, orders and inventory" },
+  "FDA": { "expansion": "Food and Drug Administration", "meaning": "The United States agency that regulates drugs and how they are tested" },
+  "GC": { "expansion": "Gas Chromatography", "meaning": "A method that separates the parts of a vapor sample" },
+  "GC-MS": { "expansion": "Gas Chromatography-Mass Spectrometry", "meaning": "GC that also identifies each part by its mass" },
+  "HPLC": { "expansion": "High-Performance Liquid Chromatography", "meaning": "A method that separates the parts of a liquid sample" },
+  "IQ": { "expansion": "installation qualification", "meaning": "The check that a system is installed as specified" },
+  "LIMS": { "expansion": "Laboratory Information Management System", "meaning": "The system of record for samples and results" },
+  "OQ": { "expansion": "operational qualification", "meaning": "The check that a system works across its operating range" },
+  "PC": { "expansion": "Personal Computer", "meaning": "A desktop or laptop computer" },
+  "PQ": { "expansion": "performance qualification", "meaning": "The check that a system performs as needed in real use" }
+}

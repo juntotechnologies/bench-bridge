@@ -12,5 +12,8 @@
   "docsCheckIgnore": [
     "AGENTS.md",
     "docs/pr-docs/template.md"
+  ],
+  "spellOutDocs": [
+    "docs/video-script.md"
   ]
 }

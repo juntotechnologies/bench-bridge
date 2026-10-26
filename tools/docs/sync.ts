@@ -6,6 +6,7 @@ import pkg from "../../package.json" with { type: "json" }
 import { listDirs, listEntries, listMarkdown } from "../repo-files"
 import { buildFacts } from "./facts"
 import { applyBlocks, type Renderers } from "./markers"
+import { bareInitialisms, glossary, type BareHit } from "./glossary"
 import { notes, staleNotes } from "./notes"
 import { npmScriptRefs, pathRefs, unknownNames } from "./references"
 import { createRenderers, type RenderInputs } from "./renderers"
@@ -64,6 +65,15 @@ function referenceProblems(path: string, text: string): string[] {
   return [...scripts, ...missing]
 }
 
+function spellOutProblems(path: string, text: string): string[] {
+  if (!shape.spellOutDocs.includes(rel(path))) return []
+  return bareInitialisms(glossary, text).map(bareProblem.bind(null, path))
+}
+
+function bareProblem(doc: string, hit: BareHit): string {
+  return `${rel(doc)}:${hit.line}: bare initialism ${hit.key}: use a term block`
+}
+
 function scriptProblem(doc: string, name: string): string {
   return `${rel(doc)}: no npm script "${name}"`
 }
@@ -86,13 +96,13 @@ function syncFile(context: SyncContext, path: string): string[] {
   const stale = applied.text !== text
   if (stale && context.write) writeFileSync(path, applied.text)
   const outOfDate = stale && !context.write ? [`${rel(path)}: out of date, run npm run docs`] : []
-  return [...applied.problems, ...outOfDate, ...referenceProblems(path, applied.text)]
+  return [...applied.problems, ...outOfDate, ...referenceProblems(path, applied.text), ...spellOutProblems(path, applied.text)]
 }
 
 function main(): void {
   const context: SyncContext = { renderers: createRenderers(loadInputs()), write: process.argv.includes("--write") }
   const problems = listMarkdown(ROOT).flatMap(syncFile.bind(null, context))
-  const stale = staleNotes(notes, existsInRoot, SCRIPTS)
+  const stale = staleNotes(notes, existsInRoot, { scripts: SCRIPTS, generators: Object.keys(context.renderers) })
   const all = [...problems, ...stale]
   all.forEach(report)
   process.exitCode = all.length ? 1 : 0

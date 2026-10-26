@@ -158,5 +158,6 @@ discard someone else's uncommitted work without asking.
 
 - Never type a figure, count, file list or command table by hand in a doc. Use a generated block: an HTML comment pair whose opening comment starts with `gen:` and whose closing comment is `/gen`.
 - `npm run docs` rewrites the blocks from the sources. `npm run lint` fails when a block is stale, when a doc names a file or `npm run` script that does not exist, or when a file has no note.
+- Spell out every initialism in the docs that `spellOutDocs` lists in `code-shape.json`, as "expansion (INITIALISM)", on every use, even a repeat. Put each initialism in `tools/docs/glossary.json` once. `npm run lint` fails on a bare one.
 - Add the fact to its source first (registry JSON, code, `tools/docs/notes.json`). Then add a generator in `tools/docs/` if none fits.
 - The demo has no database. The ledger is stateless. A database (SQLite or hosted) comes later and stays behind `server/containers.ts`.

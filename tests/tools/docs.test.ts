@@ -6,7 +6,7 @@ import { staleNotes, type Notes } from "../../tools/docs/notes"
 import { npmScriptRefs, pathRefs, unknownNames } from "../../tools/docs/references"
 import { createRenderers, markdownTable, type RenderInputs } from "../../tools/docs/renderers"
 
-const notes: Notes = { files: { "dir/a.json": "Holds a" }, scripts: { dev: "Starts it" } }
+const notes: Notes = { files: { "dir/a.json": "Holds a" }, scripts: { dev: "Starts it" }, generators: { fact: { arg: "A key", fills: "A value" } } }
 
 function inputs(overrides: Partial<RenderInputs> = {}): RenderInputs {
   return { facts: { "x.y": "42" }, notes, scripts: ["dev"], topDirs: ["dir"], entriesOf: () => ["a.json"], purposeOf: () => "Purpose.", ...overrides }
@@ -83,6 +83,11 @@ describe("references", () => {
 
 describe("staleNotes", () => {
   it("reports notes whose file or script is gone", () => {
-    expect(staleNotes(notes, () => false, [])).toEqual(["note for missing file: dir/a.json", "note for missing script: dev"])
+    const names = { scripts: [], generators: [] }
+    expect(staleNotes(notes, () => false, names)).toEqual([
+      "note for missing file: dir/a.json",
+      "note for missing script: dev",
+      "note for missing generator: fact",
+    ])
   })
 })

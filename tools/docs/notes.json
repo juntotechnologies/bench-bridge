@@ -18,7 +18,9 @@
     "tools/docs/references.ts": "Finds npm scripts and file paths that a doc names",
     "tools/docs/notes.ts": "Schema and stale-note check for notes.json",
     "tools/docs/notes.json": "Descriptions for files and npm scripts, shown in generated tables",
-    "tools/docs/sync.ts": "Script: writes or checks every generated block"
+    "tools/docs/sync.ts": "Script: writes or checks every generated block",
+    "tools/docs/glossary.ts": "Spells initialisms out and finds bare ones in a doc",
+    "tools/docs/glossary.json": "Every initialism: its expansion and its meaning"
   },
   "scripts": {
     "dev": "Starts the app and the API, and prints the one tailnet link",
@@ -30,5 +32,43 @@
     "build": "Typechecks, then builds the client into dist/",
     "proof": "Renders every device drawing to proof/",
     "docs": "Rewrites every generated block from its source"
+  },
+  "generators": {
+    "fact": {
+      "arg": "A fact key, such as `balance.run.used`",
+      "fills": "One value from `facts.ts`"
+    },
+    "spoken": {
+      "arg": "A fact key",
+      "fills": "One value with its initialisms spelled out"
+    },
+    "term": {
+      "arg": "An initialism, then optionally `capitalize`",
+      "fills": "The expansion and the initialism in parentheses"
+    },
+    "glossary": {
+      "arg": "None",
+      "fills": "A table of every initialism and its meaning"
+    },
+    "files": {
+      "arg": "A directory",
+      "fills": "A table of its entries, with notes from `notes.json`"
+    },
+    "dirs": {
+      "arg": "None",
+      "fills": "A table of the top-level directories, from each `AGENTS.md`"
+    },
+    "scripts": {
+      "arg": "None",
+      "fills": "A table of the npm scripts, with notes from `notes.json`"
+    },
+    "catalog": {
+      "arg": "None",
+      "fills": "The instrument catalogue and each status"
+    },
+    "generators": {
+      "arg": "None",
+      "fills": "This table"
+    }
   }
 }
