@@ -1,0 +1,12 @@
+[
+  { "rule": "The page never scrolls. The app fills the window. A panel may scroll inside itself.", "why": "A scrolling page hides the pipeline and breaks on a phone." },
+  { "rule": "Below the compact width, show one pane at a time. Keep the pane switch in a dock at the bottom.", "why": "The thumb reaches the bottom edge. The three panes do not fit side by side." },
+  { "rule": "Make every tap target at least the touch size on a narrow window.", "why": "Small targets cause missed taps with gloves and on a bench." },
+  { "rule": "Use one accent colour. It marks the bridge, the active step and the one primary action.", "why": "One accent tells the reader where to look." },
+  { "rule": "Set labels in the mono face, 10 to 11 px, uppercase, with 0.1 to 0.16 em tracking. Set body text in the sans face at 13 px.", "why": "Mono labels read as instrument markings. Sans text stays easy to read." },
+  { "rule": "Build the page as drafting paper: cream sheet, fine grid and ink lines. Make cards lighter than the sheet.", "why": "The look says engineering, not marketing." },
+  { "rule": "Use motion to explain a change: a line arrives, a step finishes. Use the motion tokens. Stop motion when the user asks for reduced motion.", "why": "Motion that explains is useful. Other motion distracts." },
+  { "rule": "Show a state with a word or an icon as well as a colour.", "why": "Some readers cannot tell the colours apart." },
+  { "rule": "Write no raw colour, radius, shadow or timing in a stylesheet. Use a token.", "why": "One source means one change. A test enforces this." },
+  { "rule": "Run the fit check after every layout change. It opens every window size in the viewports file.", "why": "A layout that fits one size often fails another." }
+]

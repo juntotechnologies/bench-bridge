@@ -1,7 +1,7 @@
-/** Tests that the CSS breakpoints match layout.json and that the pane list matches the copy. */
+/** Tests that the CSS breakpoints match design/layout.json and that the pane list matches the copy. */
 import { readFileSync } from "node:fs"
 import { describe, expect, it } from "vitest"
-import layout from "@client/layout.json"
+import layout from "@design/layout.json"
 import { PANES } from "@client/ui/store"
 import { copy } from "@shared/registry"
 
@@ -23,12 +23,12 @@ function describeMatch(match: RegExpMatchArray): string {
 
 function expectedConditions(): string[] {
   return [
-    `min-width: ${layout.compactBelow}`,
-    `max-width: ${layout.compactBelow - 1}`,
-    `max-width: ${layout.wideFrom - 1}`,
-    `max-width: ${layout.iconsFrom - 1}`,
-    `min-width: ${layout.stampFrom}`,
-    `max-height: ${layout.shortHeight}`,
+    `min-width: ${layout.compactBelow.value}`,
+    `max-width: ${layout.compactBelow.value - 1}`,
+    `max-width: ${layout.wideFrom.value - 1}`,
+    `max-width: ${layout.iconsFrom.value - 1}`,
+    `min-width: ${layout.stampFrom.value}`,
+    `max-height: ${layout.shortHeight.value}`,
   ]
 }
 
@@ -47,8 +47,8 @@ describe("stylesheet breakpoints", () => {
   })
 
   it("keeps the narrow tier below the wide tier", () => {
-    expect(layout.compactBelow).toBeLessThan(layout.iconsFrom)
-    expect(layout.iconsFrom).toBeLessThan(layout.wideFrom)
+    expect(layout.compactBelow.value).toBeLessThan(layout.iconsFrom.value)
+    expect(layout.iconsFrom.value).toBeLessThan(layout.wideFrom.value)
   })
 })
 

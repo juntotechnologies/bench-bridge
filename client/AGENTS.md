@@ -12,7 +12,7 @@ The browser app: the UI, the drawings and the web worker.
 ## Rules
 - Import `shared` as `@shared/*`. Never import `server`. Lint enforces this.
 - Reach the server only through `api.ts`.
-- Keep each breakpoint in `layout.json`. CSS cannot import it, so a test fails when `styles.css` drifts from it.
+- Take every colour, radius, shadow and timing from `../design/tokens.json`. Keep each breakpoint in `../design/layout.json`. CSS cannot import JSON, so a test fails when `styles.css` drifts from it.
 - Run `npm run fit` after any layout change. It fails when the page scrolls or a region is clipped at any listed window size.
 - Use no Node modules in app code. `scripts/` and `vite.config.ts` may use them.
 - Use `crypto.getRandomValues`, never `randomUUID`: the demo runs over plain HTTP.

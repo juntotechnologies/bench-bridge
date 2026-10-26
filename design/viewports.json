@@ -1,0 +1,47 @@
+[
+  {
+    "name": "phone-portrait",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "name": "phone-small",
+    "width": 360,
+    "height": 640
+  },
+  {
+    "name": "phone-landscape",
+    "width": 844,
+    "height": 390
+  },
+  {
+    "name": "tablet-portrait",
+    "width": 768,
+    "height": 1024
+  },
+  {
+    "name": "tablet-landscape",
+    "width": 1024,
+    "height": 768
+  },
+  {
+    "name": "laptop",
+    "width": 1366,
+    "height": 768
+  },
+  {
+    "name": "desktop",
+    "width": 1600,
+    "height": 960
+  },
+  {
+    "name": "desktop-short",
+    "width": 1280,
+    "height": 600
+  },
+  {
+    "name": "ultrawide",
+    "width": 2560,
+    "height": 1080
+  }
+]

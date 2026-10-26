@@ -2,7 +2,7 @@
 import { copy } from "@shared/registry"
 import type { Device } from "@shared/registry/schema"
 import { stampLines } from "@shared/bridge/capture"
-import type { BridgeRun, CapturedLine, Reading } from "@shared/bridge/types"
+import type { BridgeRun, CapturedLine, Normalized, Reading } from "@shared/bridge/types"
 import { h, type Child } from "../dom"
 import type { AppState } from "../store"
 
@@ -32,8 +32,23 @@ function terminalLine(line: CapturedLine, index: number): HTMLElement {
 }
 
 function readingTable(run: BridgeRun, revealed: number): HTMLElement {
-  const rows = run.readings.map(readingRow.bind(null, run, revealed >= 3))
-  return h("table", { class: "readings" }, [h("tbody", {}, rows)])
+  const ruled = revealed >= 3
+  const rows = run.readings.map(readingRow.bind(null, run, ruled))
+  const table = h("table", { class: "readings" }, [h("tbody", {}, rows)])
+  return h("div", { class: "diff" }, [diffHead(), table, ruled ? diffFoot(run) : null])
+}
+
+function diffHead(): HTMLElement {
+  return h("header", { class: "diff-head" }, [h("b", {}, [copy.data.diffTitle]), h("span", {}, [copy.data.diffHint])])
+}
+
+/** The footer line of the diff table: how many readings the rules dropped and how many they kept. */
+export function diffSummary(normalized: Normalized): string {
+  return [`${normalized.dropped.length} ${copy.data.droppedCount}`, `${normalized.stable.length} ${copy.data.keptCount}`].join(" · ")
+}
+
+function diffFoot(run: BridgeRun): HTMLElement {
+  return h("footer", { class: "diff-foot" }, [diffSummary(run.normalized)])
 }
 
 function resultCard(run: BridgeRun): HTMLElement {
@@ -42,9 +57,14 @@ function resultCard(run: BridgeRun): HTMLElement {
   return h("div", { class: "result" }, [h("div", { class: "eyebrow" }, [result.quantity]), h("b", {}, [String(result.value), " ", result.unit])])
 }
 
+function rowClass(ruled: boolean, dropped: boolean): string {
+  if (!ruled) return ""
+  return dropped ? "is-dropped" : "is-kept"
+}
+
 function readingRow(run: BridgeRun, ruled: boolean, reading: Reading): HTMLElement {
   const dropped = ruled && run.normalized.dropped.includes(reading)
-  return h("tr", { class: dropped ? "is-dropped" : "" }, [
+  return h("tr", { class: rowClass(ruled, dropped) }, [
     h("td", {}, [reading.quantity]),
     h("td", { class: "num" }, [h("b", {}, [reading.value.toFixed(4)]), " ", reading.unit]),
     h("td", { class: "dim" }, [reading.takenAt.slice(11, 19)]),

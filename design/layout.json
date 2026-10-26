@@ -1,0 +1,8 @@
+{
+  "compactBelow": { "value": 700, "use": "Below this width the app shows one pane at a time" },
+  "iconsFrom": { "value": 900, "use": "From this width the pipeline steps show their icons" },
+  "stampFrom": { "value": 720, "use": "From this stage width the title block is a boxed corner stamp" },
+  "wideFrom": { "value": 1100, "use": "From this width the app shows three columns" },
+  "shortHeight": { "value": 520, "use": "At or below this height the chrome shrinks, as on a phone on its side" },
+  "compactZoom": { "value": 1.8, "use": "Drawing zoom on a compact window, so the drawing is readable" }
+}

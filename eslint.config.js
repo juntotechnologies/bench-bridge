@@ -30,14 +30,14 @@ const SHAPE_LIMITS = {
 }
 const FUNCTION_LENGTH = ["error", { max: shape.maxFunctionLines, skipBlankLines: true, skipComments: true }]
 
-const TYPED_FILES = ["shared/**/*.ts", "client/**/*.ts", "server/**/*.ts", "site/**/*.ts", "tools/**/*.ts", "tests/**/*.ts", "*.ts"]
+const TYPED_FILES = ["shared/**/*.ts", "client/**/*.ts", "server/**/*.ts", "site/**/*.ts", "tools/**/*.ts", "design/**/*.ts", "tests/**/*.ts", "*.ts"]
 
 const TYPED_BOUNDARIES = {
   "@typescript-eslint/explicit-function-return-type": "error",
   "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
 }
 
-const CODE_FILES = ["shared/**/*.ts", "client/**/*.ts", "server/**/*.ts", "site/**/*.ts", "tools/**/*.{ts,js}", "tests/**/*.ts", "*.{ts,js}"]
+const CODE_FILES = ["shared/**/*.ts", "client/**/*.ts", "server/**/*.ts", "site/**/*.ts", "tools/**/*.{ts,js}", "design/**/*.ts", "tests/**/*.ts", "*.{ts,js}"]
 
 const IMPORT_BOUNDARIES = {
   shared: ["**/client/**", "**/server/**", "@client/*", "@server/*", "node:*", "vite"],

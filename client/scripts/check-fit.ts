@@ -3,6 +3,7 @@ import { mkdirSync } from "node:fs"
 import { join } from "node:path"
 import { chromium, type Browser, type Locator, type Page } from "@playwright/test"
 import { z } from "zod"
+import viewportsJson from "@design/viewports.json" with { type: "json" }
 import fitJson from "./fit.json" with { type: "json" }
 import { serveSite } from "./staticSite"
 
@@ -12,7 +13,6 @@ type Viewport = z.infer<typeof Viewport>
 const Fit = z.object({
   siteConfig: z.string(),
   outDir: z.string(),
-  viewports: z.array(Viewport),
   regions: z.array(z.string()),
   sheetSelector: z.string(),
   contained: z.array(z.tuple([z.string(), z.string()])),
@@ -27,6 +27,7 @@ const Fit = z.object({
 type Fit = z.infer<typeof Fit>
 
 const fit = Fit.parse(fitJson)
+const viewports = z.array(Viewport).parse(viewportsJson)
 const OVERFLOW = "Math.max(document.documentElement.scrollHeight - innerHeight, document.documentElement.scrollWidth - innerWidth)"
 
 interface Box {
@@ -202,11 +203,11 @@ async function main(): Promise<void> {
   const { server, url } = await serveSite(fit.siteConfig)
   const browser = await chromium.launch()
   const problems: string[] = []
-  for (const viewport of fit.viewports) problems.push(...(await walkViewport(browser, url, viewport)))
+  for (const viewport of viewports) problems.push(...(await walkViewport(browser, url, viewport)))
   await browser.close()
   await server.close()
   problems.forEach(report)
-  console.log(problems.length ? `${problems.length} fit problems` : `fit ok at ${fit.viewports.length} sizes`)
+  console.log(problems.length ? `${problems.length} fit problems` : `fit ok at ${viewports.length} sizes`)
   process.exitCode = problems.length ? 1 : 0
 }
 

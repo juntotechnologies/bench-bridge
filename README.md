@@ -19,6 +19,7 @@ Make the pictures again with `npm run media`.
 | Directory | Holds |
 | --------- | ----- |
 | `client/` | The browser app: the UI, the drawings and the web worker. |
+| `design/` | The design spec: one source for the look of the app. Copy this directory to reuse the look in another project. |
 | `docs/` | Documentation for people. |
 | `server/` | The delivery API: mock LIMS and CS ledger endpoints, and the dev server. |
 | `shared/` | Code and data that both client and server use. It holds no UI, no network and no server code. |
@@ -46,6 +47,7 @@ Every directory has an `AGENTS.md` with its domain knowledge and rules.
 | `npm run docs` | Rewrites every generated block from its source |
 | `npm run media` | Builds the static site, records it, and writes the README screenshot and GIF |
 | `npm run fit` | Builds the static site, opens it at nine window sizes, and fails when the page scrolls or a region is clipped |
+| `npm run design` | Writes design/tokens.css, SPEC.md and spec.lock from the JSON sources |
 <!-- /gen -->
 
 ## Instruments

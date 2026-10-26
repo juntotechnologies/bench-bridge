@@ -13,6 +13,7 @@ export default defineConfig({
     alias: [
       { find: "@shared", replacement: `${repo}shared` },
       { find: "@server", replacement: `${repo}server` },
+      { find: "@design", replacement: `${repo}design` },
       { find: LIVE_SEND, replacement: `${repo}site/send.ts` },
     ],
   },

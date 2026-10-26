@@ -11,7 +11,7 @@
     "skipLibCheck": true,
     "noEmit": true,
     "types": ["vite/client", "node"],
-    "paths": { "@shared/*": ["./shared/*"], "@client/*": ["./client/*"], "@server/*": ["./server/*"] }
+    "paths": { "@shared/*": ["./shared/*"], "@client/*": ["./client/*"], "@server/*": ["./server/*"], "@design/*": ["./design/*"] }
   },
-  "include": ["shared", "client", "server", "tests", "tools", "*.ts"]
+  "include": ["shared", "client", "server", "tests", "tools", "design", "*.ts"]
 }
