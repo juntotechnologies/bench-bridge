@@ -17,6 +17,24 @@
     },
     "pipeline": "Pipeline"
   },
+  "panes": [
+    {
+      "id": "devices",
+      "label": "Instruments",
+      "icon": "flask"
+    },
+    {
+      "id": "stage",
+      "label": "Drawing",
+      "icon": "scale"
+    },
+    {
+      "id": "inspector",
+      "label": "Details",
+      "icon": "brackets"
+    }
+  ],
+  "paneNavLabel": "Views",
   "status": {
     "bridged": "Bridged",
     "pilot": "Pilot",

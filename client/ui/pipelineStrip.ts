@@ -17,7 +17,7 @@ export function pipelineStrip(store: Store, deps: RunDeps): HTMLElement {
 function stageCard(stage: Stage, index: number): HTMLElement {
   return h("div", { class: "stage-card", attrs: { title: stage.detail } }, [
     h("span", { class: "stage-icon" }, [svg(icon(stage.icon, 20))]),
-    h("div", {}, [h("div", { class: "stage-label" }, [`${index + 1}. ${stage.label}`]), h("div", { class: "stage-detail" }, [stage.detail])]),
+    h("div", {}, [h("div", { class: "stage-label" }, [h("span", { class: "stage-no" }, [`${index + 1}. `]), stage.label]), h("div", { class: "stage-detail" }, [stage.detail])]),
     h("span", { class: "stage-done" }, [svg(icon("check", 11))]),
   ])
 }

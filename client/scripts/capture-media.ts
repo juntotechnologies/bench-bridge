@@ -4,9 +4,9 @@ import { mkdirSync, mkdtempSync, rmSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { chromium, type BrowserContext, type Page } from "@playwright/test"
-import { preview } from "vite"
 import { z } from "zod"
 import mediaJson from "./media.json" with { type: "json" }
+import { serveSite } from "./staticSite"
 
 const Size = z.object({ width: z.number(), height: z.number() })
 const Media = z.object({
@@ -63,8 +63,8 @@ async function capture(url: string, scratch: string, settings: Media): Promise<s
 async function main(): Promise<void> {
   mkdirSync(media.outDir, { recursive: true })
   const scratch = mkdtempSync(join(tmpdir(), "bench-bridge-media-"))
-  const server = await preview({ configFile: media.siteConfig })
-  const video = await capture(server.resolvedUrls?.local[0] ?? "", scratch, media)
+  const { server, url } = await serveSite(media.siteConfig)
+  const video = await capture(url, scratch, media)
   await server.close()
   execFileSync("ffmpeg", ffmpegArgs(video, join(media.outDir, media.animation), media))
   rmSync(scratch, { recursive: true })

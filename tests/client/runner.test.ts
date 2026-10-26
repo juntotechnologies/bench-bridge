@@ -4,7 +4,7 @@ import type { DeliverResponse } from "@shared/contracts"
 import { startRun, type Schedule } from "@client/ui/runner"
 import { IDLE_RUN, Store, type AppState } from "@client/ui/store"
 
-const INITIAL: AppState = { deviceId: "balance", tab: "overview", explosion: 1, labels: true, zoom: 1, ...IDLE_RUN }
+const INITIAL: AppState = { deviceId: "balance", tab: "overview", pane: "stage", explosion: 1, labels: true, zoom: 1, ...IDLE_RUN }
 const RESPONSE: DeliverResponse = { receipts: [], ledger: null }
 
 interface Collector {
@@ -27,7 +27,7 @@ describe("startRun", () => {
     const { callbacks, schedule } = collector()
     const send = async (): Promise<Response> => new Response(JSON.stringify(RESPONSE))
     startRun(store, { send, schedule })
-    expect(store.get()).toMatchObject({ revealed: 1, tab: "data" })
+    expect(store.get()).toMatchObject({ revealed: 1, tab: "data", pane: "inspector" })
     callbacks.forEach((callback) => callback())
     await settle()
     expect(store.get()).toMatchObject({ revealed: 5, tab: "deliver", failed: false, delivery: RESPONSE })

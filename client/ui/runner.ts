@@ -21,7 +21,7 @@ export interface RunDeps {
 export function startRun(store: Store, deps: RunDeps): void {
   const device = deviceById(store.get().deviceId) as Device
   const run = runBridge(device)
-  store.set({ run, delivery: null, failed: false, revealed: 1, tab: "data" })
+  store.set({ run, delivery: null, failed: false, revealed: 1, tab: "data", pane: "inspector" })
   const pending = postDeliver(deps.send, { deviceId: device.id, records: run.mapped }).catch(logFailure.bind(null, device.id))
   for (let stage = 2; stage <= LAST_LOCAL_STAGE; stage++) deps.schedule(reveal.bind(null, store, run, stage), (stage - 1) * STAGE_MS)
   deps.schedule(finish.bind(null, store, run, pending), LAST_LOCAL_STAGE * STAGE_MS)

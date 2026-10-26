@@ -45,6 +45,7 @@ Every directory has an `AGENTS.md` with its domain knowledge and rules.
 | `npm run check` | Typecheck, lint, test, build and build the static site |
 | `npm run docs` | Rewrites every generated block from its source |
 | `npm run media` | Builds the static site, records it, and writes the README screenshot and GIF |
+| `npm run fit` | Builds the static site, opens it at nine window sizes, and fails when the page scrolls or a region is clipped |
 <!-- /gen -->
 
 ## Instruments

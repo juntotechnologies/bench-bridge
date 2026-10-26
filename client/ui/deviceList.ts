@@ -30,7 +30,7 @@ function fillThumb(thumb: HTMLElement, markup: string): void {
 }
 
 function select(store: Store, deviceId: string): void {
-  if (store.get().deviceId !== deviceId) store.set({ deviceId, ...IDLE_RUN })
+  if (store.get().deviceId !== deviceId) store.set({ deviceId, pane: "stage", ...IDLE_RUN })
 }
 
 function markActive(panel: HTMLElement, state: AppState): void {

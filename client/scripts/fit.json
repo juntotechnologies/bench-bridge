@@ -1,0 +1,105 @@
+{
+  "siteConfig": "site/vite.config.ts",
+  "outDir": "proof/fit",
+  "viewports": [
+    {
+      "name": "phone-portrait",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "name": "phone-small",
+      "width": 360,
+      "height": 640
+    },
+    {
+      "name": "phone-landscape",
+      "width": 844,
+      "height": 390
+    },
+    {
+      "name": "tablet-portrait",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "name": "tablet-landscape",
+      "width": 1024,
+      "height": 768
+    },
+    {
+      "name": "laptop",
+      "width": 1366,
+      "height": 768
+    },
+    {
+      "name": "desktop",
+      "width": 1600,
+      "height": 960
+    },
+    {
+      "name": "desktop-short",
+      "width": 1280,
+      "height": 600
+    },
+    {
+      "name": "ultrawide",
+      "width": 2560,
+      "height": 1080
+    }
+  ],
+  "regions": [
+    ".topbar",
+    ".stage",
+    ".devices",
+    ".inspector",
+    ".pane-nav",
+    ".run",
+    ".stage-card",
+    ".stage-controls"
+  ],
+  "sheetSelector": ".sheet",
+  "contained": [
+    [
+      ".stage-controls",
+      ".stage"
+    ],
+    [
+      ".title-block",
+      ".stage"
+    ],
+    [
+      ".run",
+      ".app"
+    ],
+    [
+      ".stage-label",
+      ".stage-card"
+    ],
+    [
+      ".stage-detail",
+      ".stage-card"
+    ],
+    [
+      ".device-name",
+      ".device"
+    ]
+  ],
+  "truncated": [
+    ".brand-name",
+    ".run",
+    ".pane-nav button",
+    ".tabs button"
+  ],
+  "tabs": [
+    "overview",
+    "port",
+    "data",
+    "deliver"
+  ],
+  "readySelector": ".drawing [data-item=\"bridge\"]",
+  "runSelector": "button.run",
+  "navSelector": ".pane-nav button",
+  "runMs": 5200,
+  "minSheetHeight": 120
+}

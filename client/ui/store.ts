@@ -4,6 +4,10 @@ import type { BridgeRun } from "@shared/bridge/types"
 
 export type TabId = "overview" | "port" | "data" | "deliver"
 
+/** The panes a narrow window shows one at a time. Wide windows show all three. */
+export const PANES = ["devices", "stage", "inspector"] as const
+export type Pane = (typeof PANES)[number]
+
 export interface RunState {
   run: BridgeRun | null
   delivery: DeliverResponse | null
@@ -15,6 +19,7 @@ export interface RunState {
 export interface AppState extends RunState {
   deviceId: string
   tab: TabId
+  pane: Pane
   explosion: number
   labels: boolean
   zoom: number
