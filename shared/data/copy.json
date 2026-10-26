@@ -102,6 +102,18 @@
     "schedule": "Schedule",
     "failed": "Delivery failed. The server did not answer."
   },
+  "chart": {
+    "chromatogram": "Chromatogram",
+    "chromatogramHint": "Peaks by retention time",
+    "trace": "Weight trace",
+    "traceHint": "Weight by capture time",
+    "signal": "Signal",
+    "minutes": "min",
+    "seconds": "s",
+    "main": "main peak",
+    "kept": "kept",
+    "dropped": "dropped"
+  },
   "code": {
     "copy": "Copy",
     "copied": "Copied"

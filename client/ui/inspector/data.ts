@@ -2,10 +2,14 @@
 import { copy } from "@shared/registry"
 import type { Device } from "@shared/registry/schema"
 import { stampLines } from "@shared/bridge/capture"
+import { printed } from "@shared/bridge/numbers"
 import { retentionText } from "@shared/bridge/peaks"
 import type { BridgeRun, CapturedLine, Normalized, Reading } from "@shared/bridge/types"
+import { chartCard } from "../chart/card"
 import { h, type Child } from "../dom"
 import type { AppState } from "../store"
+
+const RULED_STAGE = 3
 
 export function dataTab(device: Device, state: AppState): Child[] {
   const lines = state.run?.captured ?? stampLines(device.capture)
@@ -20,7 +24,8 @@ export function dataTab(device: Device, state: AppState): Child[] {
 function parsedSection(state: AppState): Child[] {
   const { run, revealed } = state
   if (!run || revealed < 2) return [h("p", { class: "empty" }, [copy.data.empty])]
-  return [readingTable(run, revealed), revealed >= 3 ? resultCard(run) : null]
+  const ruled = revealed >= RULED_STAGE
+  return [chartCard(run, ruled), readingTable(run, revealed), ruled ? resultCard(run) : null]
 }
 
 function terminal(lines: CapturedLine[], live: boolean): HTMLElement {
@@ -33,7 +38,7 @@ function terminalLine(line: CapturedLine, index: number): HTMLElement {
 }
 
 function readingTable(run: BridgeRun, revealed: number): HTMLElement {
-  const ruled = revealed >= 3
+  const ruled = revealed >= RULED_STAGE
   const rows = run.readings.map(readingRow.bind(null, run, ruled))
   const table = h("table", { class: "readings" }, [h("tbody", {}, rows)])
   return h("div", { class: "diff" }, [diffHead(), table, ruled ? diffFoot(run) : null])
@@ -58,11 +63,6 @@ function resultCard(run: BridgeRun): HTMLElement {
   return h("div", { class: "result" }, [h("div", { class: "eyebrow" }, [result.quantity]), h("b", {}, [String(result.value), " ", result.unit])])
 }
 
-/** The value with the decimals the instrument prints. */
-export function readingValue(reading: Reading): string {
-  return reading.value.toFixed(reading.places)
-}
-
 /** When a weight was taken, or when a peak came off the column. */
 export function readingDetail(reading: Reading): string {
   const minutes = reading.extras["minutes"]
@@ -83,7 +83,7 @@ function readingRow(run: BridgeRun, ruled: boolean, reading: Reading): HTMLEleme
   const dropped = ruled && run.normalized.dropped.includes(reading)
   return h("tr", { class: rowClass(ruled, dropped) }, [
     h("td", {}, [reading.quantity]),
-    h("td", { class: "num" }, [h("b", {}, [readingValue(reading)]), " ", reading.unit]),
+    h("td", { class: "num" }, [h("b", {}, [printed(reading)]), " ", reading.unit]),
     h("td", { class: "dim" }, [readingDetail(reading)]),
     h("td", {}, [h("span", { class: dropped ? "pill is-muted" : "pill" }, [dropped ? copy.data.dropped : readingTag(reading)])]),
   ])

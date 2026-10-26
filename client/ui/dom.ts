@@ -36,6 +36,18 @@ export function svg(markup: string, className = ""): HTMLSpanElement {
   return holder
 }
 
+const SVG_NS = "http://www.w3.org/2000/svg"
+
+export type SvgAttrs = Record<string, string | number>
+
+/** An SVG element built node by node, for data that is not trusted. Never goes through innerHTML. */
+export function s(tag: string, attrs: SvgAttrs = {}, children: Child[] = []): SVGElement {
+  const element = document.createElementNS(SVG_NS, tag)
+  for (const [name, value] of Object.entries(attrs)) element.setAttribute(name, String(value))
+  element.append(...children.filter(isPresent).map(toNode))
+  return element
+}
+
 export function replace(container: Element, ...children: Child[]): void {
   container.replaceChildren(...children.filter(isPresent).map(toNode))
 }

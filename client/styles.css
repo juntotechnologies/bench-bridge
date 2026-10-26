@@ -175,6 +175,28 @@ td, th { padding: 6px 4px; border-bottom: 1px solid var(--line); }
 .dim { color: var(--ink-3); font-family: var(--font-mono); }
 .pill { font: 500 9.5px var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; padding: 2px 7px; border-radius: var(--radius-pill); background: var(--ok-soft); color: var(--ok); }
 .pill.is-muted { background: var(--paper); color: var(--ink-3); }
+.chart-card { margin: 0; padding: 10px 12px 8px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--raised); }
+.chart-card figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 10px; }
+.chart-card figcaption b { font: 600 11px var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
+.chart-card figcaption span { font: 400 10.5px var(--font-mono); color: var(--ink-3); }
+.chart { display: block; width: 100%; height: auto; margin-top: 6px; }
+.chart-axis, .chart-grid { stroke: var(--line); stroke-width: 1; }
+.chart-axis { stroke: var(--ink-3); }
+.chart-tick, .chart-unit { font: 400 9px var(--font-mono); fill: var(--ink-2); }
+.chart-note { font: 500 9px var(--font-mono); fill: var(--ink); }
+.chart-line { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; stroke-dasharray: 1; animation: draw var(--motion-draw) var(--ease-out); }
+.chart-line.is-main { stroke: var(--accent); }
+.chart-line.is-kept { stroke: var(--ink); }
+.chart-line.is-dropped { stroke: var(--ink-3); }
+.chart-area { fill: var(--accent); opacity: 0.1; }
+.chart-dot { stroke: var(--raised); stroke-width: 2; }
+.chart-dot.is-kept { fill: var(--ink); }
+.chart-dot.is-dropped { fill: var(--raised); stroke: var(--ink-3); }
+.chart-key { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 4px 0 0; padding: 0; list-style: none; font: 500 9.5px var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
+.chart-key li { display: inline-flex; gap: 6px; align-items: center; }
+.chart-key li::before { content: ""; width: 8px; height: 8px; border-radius: var(--radius-pill); background: var(--ink); }
+.chart-key .is-main::before { background: var(--accent); }
+.chart-key .is-dropped::before { background: var(--raised); border: 1px solid var(--ink-3); }
 .diff { overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--raised); }
 .diff-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 10px; padding: 9px 12px; border-bottom: 1px solid var(--line); }
 .diff-head b { font: 600 11px var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
@@ -247,6 +269,7 @@ td, th { padding: 6px 4px; border-bottom: 1px solid var(--line); }
   animation: spin var(--motion-spin) linear infinite;
 }
 @keyframes hold { from { opacity: 1; } to { opacity: 1; } }
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @keyframes spin { to { transform: rotate(360deg); } }
 .run {
   display: flex; gap: 8px; align-items: center; padding: 0 22px; border: 0; border-radius: var(--radius-md);

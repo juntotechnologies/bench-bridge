@@ -6,6 +6,7 @@ These components adapt patterns from Beautiful UI, https://www.beautifului.dev/:
 |---|---|
 | Task Rows | The spinner on the active stage card |
 | Diff Table | The readings table on the Data tab |
+| Insight Cards | The chart above the readings table on the Data tab |
 | Records Table | The receipts on the Deliver tab |
 | Code Block | The payloads on the Deliver tab |
 | Filter Table | The filter chips on the instrument catalogue |
