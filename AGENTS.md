@@ -148,6 +148,7 @@ discard someone else's uncommitted work without asking.
 ## 12. Repo Layout (decided by Shaun)
 
 - The repo root holds three code areas: `shared/`, `client/` and `server/`. Each area holds its code directly. There is no `src/` directory anywhere.
+- `site/` is the GitHub Pages build. It wires `client/` to `server/` and holds no app code. It is the one place that imports both.
 - All tests live in one root directory, `tests/`. It mirrors the areas: `tests/shared/`, `tests/client/`, `tests/server/`. No area has its own test directory.
 - Every directory has an `AGENTS.md`. It states the domain knowledge and the coding rules for that directory. `npm run lint` fails when one is missing.
 - Imports cross areas only through aliases: `@shared/*`, `@client/*`, `@server/*`. `shared/` imports from no other area. `client/` and `server/` import only from `shared/`.

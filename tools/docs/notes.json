@@ -23,15 +23,17 @@
     "tools/docs/glossary.json": "Every initialism: its expansion and its meaning"
   },
   "scripts": {
-    "dev": "Starts the app and the API, and prints the one tailnet link",
-    "health": "Checks that the dev server answers",
-    "check": "Typecheck, lint, test and build",
-    "typecheck": "Typechecks all areas",
-    "lint": "ESLint, the AGENTS.md check and the docs check",
-    "test": "Runs all tests in tests/",
     "build": "Typechecks, then builds the client into dist/",
+    "build:pages": "Builds the static site for GitHub Pages, with the delivery API in the browser",
+    "check": "Typecheck, lint, test, build and build the static site",
+    "dev": "Starts the app and the API, and prints the one tailnet link",
+    "docs": "Rewrites every generated block from its source",
+    "health": "Checks that the dev server answers",
+    "lint": "ESLint, the AGENTS.md check and the docs check",
+    "media": "Builds the static site, records it, and writes the README screenshot and GIF",
     "proof": "Renders every device drawing to proof/",
-    "docs": "Rewrites every generated block from its source"
+    "test": "Runs all tests in tests/",
+    "typecheck": "Typechecks all areas"
   },
   "generators": {
     "fact": {

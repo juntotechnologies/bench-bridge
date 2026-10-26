@@ -4,6 +4,15 @@ Demo that connects older lab instruments to a LIMS and a controlled-substance (C
 Live today: the <!-- gen:fact balance.name -->Analytical balance<!-- /gen -->. <!-- gen:fact catalog.planned -->10<!-- /gen --> more instruments are planned.
 The demo has no database. The ledger is stateless: every run starts from the same opening balance.
 
+Live demo: <!-- gen:fact site.url -->https://juntotechnologies.github.io/bench-bridge/<!-- /gen -->
+The live demo runs the delivery API in the browser. The ledger resets on each page load.
+
+![Bench Bridge after a run: the balance drawing, the LIMS receipt and the ledger line](docs/media/screenshot.png)
+
+![Bench Bridge run: capture, parse, normalize, map, deliver](docs/media/demo.gif)
+
+Make the pictures again with `npm run media`.
+
 ## Layout
 
 <!-- gen:dirs -->
@@ -13,6 +22,7 @@ The demo has no database. The ledger is stateless: every run starts from the sam
 | `docs/` | Documentation for people. |
 | `server/` | The delivery API: mock LIMS and CS ledger endpoints, and the dev server. |
 | `shared/` | Code and data that both client and server use. It holds no UI, no network and no server code. |
+| `site/` | The GitHub Pages build: the client app with its delivery API running inside the browser. |
 | `tests/` | All tests live here. The directory mirrors the code areas. |
 | `tools/` | Repo tooling that enforces the rules. |
 <!-- /gen -->
@@ -26,13 +36,15 @@ Every directory has an `AGENTS.md` with its domain knowledge and rules.
 | ------- | ---- |
 | `npm run dev` | Starts the app and the API, and prints the one tailnet link |
 | `npm run build` | Typechecks, then builds the client into dist/ |
+| `npm run build:pages` | Builds the static site for GitHub Pages, with the delivery API in the browser |
 | `npm run typecheck` | Typechecks all areas |
 | `npm run lint` | ESLint, the AGENTS.md check and the docs check |
 | `npm run test` | Runs all tests in tests/ |
 | `npm run proof` | Renders every device drawing to proof/ |
 | `npm run health` | Checks that the dev server answers |
-| `npm run check` | Typecheck, lint, test and build |
+| `npm run check` | Typecheck, lint, test, build and build the static site |
 | `npm run docs` | Rewrites every generated block from its source |
+| `npm run media` | Builds the static site, records it, and writes the README screenshot and GIF |
 <!-- /gen -->
 
 ## Instruments

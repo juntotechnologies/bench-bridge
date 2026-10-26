@@ -1,0 +1,23 @@
+{
+  "siteConfig": "site/vite.config.ts",
+  "outDir": "docs/media",
+  "screenshot": "screenshot.png",
+  "animation": "demo.gif",
+  "viewport": {
+    "width": 1600,
+    "height": 960
+  },
+  "video": {
+    "width": 1280,
+    "height": 768
+  },
+  "gif": {
+    "fps": 8,
+    "width": 800
+  },
+  "readySelector": ".drawing [data-item=\"bridge\"]",
+  "runSelector": "button.run",
+  "settleMs": 1500,
+  "runMs": 5200,
+  "holdMs": 2000
+}

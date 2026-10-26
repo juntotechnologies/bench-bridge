@@ -1,4 +1,4 @@
-/** Demo facts for the docs, computed by running the real pipeline and server handler, never typed by hand. */
+/** Facts for the docs: demo figures from the real pipeline and server handler, and the site link. Never typed by hand. */
 import { runBridge } from "@shared/bridge/pipeline"
 import type { BridgeRun, Reading } from "@shared/bridge/types"
 import { DeliverResponse } from "@shared/contracts"
@@ -6,13 +6,18 @@ import { catalog, devices, isLive } from "@shared/registry"
 import type { Device } from "@shared/registry/schema"
 import { handleDeliver } from "@server/handler"
 import { createDeps } from "@server/refs"
+import pkg from "../../package.json" with { type: "json" }
 
 export interface Facts {
   [key: string]: string
 }
 
 export function buildFacts(): Facts {
-  return Object.assign({}, catalogFacts(), ...devices.map(deviceFacts))
+  return Object.assign({}, catalogFacts(), siteFacts(), ...devices.map(deviceFacts))
+}
+
+function siteFacts(): Facts {
+  return { "site.url": pkg.homepage }
 }
 
 function catalogFacts(): Facts {

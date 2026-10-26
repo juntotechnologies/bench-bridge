@@ -7,6 +7,7 @@ import "./styles.css"
 import { devices } from "@shared/registry"
 import { DrawingClient } from "./drawings/client"
 import DrawWorker from "./drawings/worker?worker"
+import { send } from "./liveSend"
 import { h } from "./ui/dom"
 import { clockText, header } from "./ui/header"
 import { deviceList } from "./ui/deviceList"
@@ -32,7 +33,7 @@ function mount(root: HTMLElement): void {
   const clock = h("div", { class: "clock" })
   tick(clock)
   setInterval(tick.bind(null, clock), 1000)
-  const deps: RunDeps = { send: fetch.bind(globalThis), schedule }
+  const deps: RunDeps = { send, schedule }
   const drawings = new DrawingClient(new DrawWorker())
   root.replaceChildren(header(clock), deviceList(store, drawings), stage(store, drawings), inspector(store), pipelineStrip(store, deps))
 }
