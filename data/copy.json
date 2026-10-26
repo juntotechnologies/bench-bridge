@@ -7,7 +7,7 @@
   ],
   "fleetLabel": "Bridged",
   "panels": {
-    "devices": "Instruments",
+    "devices": "Instrument catalogue",
     "parts": "Parts",
     "tabs": {
       "overview": "Overview",
@@ -17,14 +17,11 @@
     },
     "pipeline": "Pipeline"
   },
-  "domains": {
-    "chemistry": "Chemistry",
-    "biology": "Biology"
-  },
   "status": {
     "bridged": "Bridged",
     "pilot": "Pilot",
-    "retrofit": "Retrofit"
+    "retrofit": "Retrofit",
+    "planned": "Planned"
   },
   "stage": {
     "exploded": "Exploded",
@@ -56,7 +53,6 @@
     "parsed": "Readings",
     "replay": "Replay capture",
     "dropped": "dropped by rules",
-    "alarm": "Alarm",
     "empty": "Run the bridge to see readings."
   },
   "deliver": {
@@ -65,7 +61,10 @@
     "payload": "Payload",
     "rejected": "Rejected",
     "missing": "Missing fields",
-    "more": "more"
+    "more": "more",
+    "opening": "Opening balance",
+    "closing": "Closing balance",
+    "schedule": "Schedule"
   },
   "run": {
     "start": "Run bridge",

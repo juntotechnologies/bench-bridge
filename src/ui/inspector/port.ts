@@ -1,12 +1,12 @@
 import { copy } from "../../registry"
 import type { Device } from "../../registry/schema"
-import { h, svg } from "../dom"
+import { h, svg, type Child } from "../dom"
 
 type Diagram = (used: Set<string>) => string
 
 const DIAGRAMS: Record<string, Diagram> = { "RS-232": db9 }
 
-export function portTab(device: Device): HTMLElement[] {
+export function portTab(device: Device): Child[] {
   const used = new Set(device.port.pins.map(pinNumber))
   const diagram = DIAGRAMS[device.port.kind]
   return [

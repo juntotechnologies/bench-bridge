@@ -1,21 +1,17 @@
 import { copy } from "../../registry"
-import type { Device, ParserConfig } from "../../registry/schema"
+import type { Device } from "../../registry/schema"
 import { stampLines } from "../../bridge/capture"
 import type { BridgeRun, CapturedLine, Reading } from "../../bridge/types"
-import { h } from "../dom"
+import { h, type Child } from "../dom"
 
-type ReadingView = (run: BridgeRun) => HTMLElement
-
-const READING_VIEWS: Partial<Record<ParserConfig["kind"], ReadingView>> = { "plate-matrix": plateGrid }
-
-export function dataTab(device: Device, run: BridgeRun | null, revealed: number): HTMLElement[] {
+export function dataTab(device: Device, run: BridgeRun | null, revealed: number): Child[] {
   const lines = run?.captured ?? stampLines(device.capture)
-  const view = READING_VIEWS[device.parser.kind] ?? readingTable
   return [
     h("div", { class: "eyebrow" }, [copy.data.raw, h("span", { class: "port-tag" }, [device.port.kind])]),
     terminal(lines, revealed >= 1),
     h("div", { class: "eyebrow" }, [copy.data.parsed]),
-    run && revealed >= 2 ? view(run) : h("p", { class: "empty" }, [copy.data.empty]),
+    run && revealed >= 2 ? readingTable(run, revealed) : null,
+    run && revealed >= 3 ? resultCard(run) : h("p", { class: "empty" }, [copy.data.empty]),
   ]
 }
 
@@ -28,52 +24,23 @@ function terminalLine(line: CapturedLine, index: number): HTMLElement {
   return h("li", { attrs: { style } }, [h("time", {}, [line.at.slice(11, 19)]), h("code", {}, [line.text])])
 }
 
-interface Outcome {
-  raw: Reading
-  kept: Reading | null
+function readingTable(run: BridgeRun, revealed: number): HTMLElement {
+  const rows = run.readings.map(readingRow.bind(null, run, revealed >= 3))
+  return h("table", { class: "readings" }, [h("tbody", {}, rows)])
 }
 
-function readingTable(run: BridgeRun): HTMLElement {
-  return h("table", { class: "readings" }, [h("tbody", {}, outcomes(run).map(readingRow))])
+function resultCard(run: BridgeRun): HTMLElement {
+  const result = run.normalized.kept[0]
+  if (!result) return h("p", { class: "empty" }, [copy.data.empty])
+  return h("div", { class: "result" }, [h("div", { class: "eyebrow" }, [result.quantity]), h("b", {}, [String(result.value), " ", result.unit])])
 }
 
-/** Pair each raw reading with its normalized form; rules keep order, so kept readings line up. */
-function outcomes(run: BridgeRun): Outcome[] {
-  const queue = [...run.normalized.kept]
-  return run.readings.map(pairOutcome.bind(null, run.normalized.dropped, queue))
-}
-
-function pairOutcome(dropped: Reading[], queue: Reading[], raw: Reading): Outcome {
-  return { raw, kept: dropped.includes(raw) ? null : (queue.shift() ?? null) }
-}
-
-function readingRow({ raw, kept }: Outcome): HTMLElement {
-  const shown = kept ?? raw
-  const tone = !kept ? "is-dropped" : shown.alarm ? "is-alarm" : ""
-  return h("tr", { class: tone }, [
-    h("td", {}, [shown.quantity]),
-    h("td", { class: "num" }, [h("b", {}, [String(shown.value)]), " ", shown.unit]),
-    h("td", { class: "dim" }, [shown.takenAt.slice(11, 19)]),
-    h("td", {}, [statusChip(shown, kept !== null)]),
+function readingRow(run: BridgeRun, ruled: boolean, reading: Reading): HTMLElement {
+  const dropped = ruled && run.normalized.dropped.includes(reading)
+  return h("tr", { class: dropped ? "is-dropped" : "" }, [
+    h("td", {}, [reading.quantity]),
+    h("td", { class: "num" }, [h("b", {}, [reading.value.toFixed(4)]), " ", reading.unit]),
+    h("td", { class: "dim" }, [reading.takenAt.slice(11, 19)]),
+    h("td", {}, [h("span", { class: dropped ? "pill is-muted" : "pill" }, [dropped ? copy.data.dropped : reading.status])]),
   ])
-}
-
-function statusChip(reading: Reading, kept: boolean): HTMLElement {
-  if (!kept) return h("span", { class: "pill is-muted" }, [copy.data.dropped])
-  if (reading.alarm) return h("span", { class: "pill is-alarm" }, [copy.data.alarm])
-  return h("span", { class: "pill" }, [reading.status])
-}
-
-function plateGrid(run: BridgeRun): HTMLElement {
-  const max = Math.max(...run.normalized.kept.map(valueOf))
-  return h("div", { class: "plate" }, run.normalized.kept.map(wellCell.bind(null, max)))
-}
-
-function wellCell(max: number, reading: Reading): HTMLElement {
-  const title = `${reading.extras["well"]} · ${reading.value} ${reading.unit}`
-  return h("span", { attrs: { title, style: `--v:${(reading.value / max).toFixed(3)}` } })
-}
-
-function valueOf(reading: Reading): number {
-  return reading.value
 }

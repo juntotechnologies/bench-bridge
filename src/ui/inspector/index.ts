@@ -1,14 +1,14 @@
 import { copy, deviceById } from "../../registry"
 import type { Device } from "../../registry/schema"
 import type { BridgeRun } from "../../bridge/types"
-import { h, replace } from "../dom"
+import { h, replace, type Child } from "../dom"
 import type { AppState, Store, TabId } from "../store"
 import { dataTab } from "./data"
 import { deliverTab } from "./deliver"
 import { overviewTab } from "./overview"
 import { portTab } from "./port"
 
-type TabView = (device: Device, run: BridgeRun | null, revealed: number) => HTMLElement[]
+type TabView = (device: Device, run: BridgeRun | null, revealed: number) => Child[]
 
 const TABS: Record<TabId, TabView> = { overview: overviewTab, port: portTab, data: dataTab, deliver: deliverTab }
 

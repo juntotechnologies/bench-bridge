@@ -1,13 +1,31 @@
-import { copy, targets } from "../../registry"
+import { containerByRef, copy, targets } from "../../registry"
 import type { Device, TargetId } from "../../registry/schema"
 import type { BridgeRun, MappedRecord, Receipt } from "../../bridge/types"
-import { h, svg } from "../dom"
+import { ledgerLine } from "../../bridge/ledger"
+import { h, svg, type Child } from "../dom"
 import { icon } from "../icons"
 
 const SHOWN_REFS = 4
 
-export function deliverTab(device: Device, run: BridgeRun | null, revealed: number): HTMLElement[] {
-  return device.deliveries.map(targetCard.bind(null, run, revealed))
+export function deliverTab(device: Device, run: BridgeRun | null, revealed: number): Child[] {
+  return [ledgerCard(device, run, revealed), ...device.deliveries.map(targetCard.bind(null, run, revealed))]
+}
+
+/** The DEA-facing view: the container's running balance before and after this use. */
+function ledgerCard(device: Device, run: BridgeRun | null, revealed: number): HTMLElement | null {
+  const container = containerByRef(device.capture.containerRef)
+  if (!container) return null
+  const used = revealed >= 5 ? (run?.normalized.kept[0]?.value ?? 0) : 0
+  const line = ledgerLine(container, used)
+  return h("section", { class: "ledger" }, [
+    h("div", { class: "eyebrow" }, [`${container.ref} · ${copy.deliver.schedule} ${container.schedule}`]),
+    h("b", { class: "ledger-substance" }, [container.substance]),
+    h("div", { class: "ledger-row" }, [
+      h("div", {}, [h("span", {}, [copy.deliver.opening]), h("b", {}, [`${line.opening.toFixed(4)} ${line.unit}`])]),
+      h("div", { class: used ? "is-used" : "" }, [h("span", {}, ["−"]), h("b", {}, [`${line.used.toFixed(4)}`])]),
+      h("div", {}, [h("span", {}, [copy.deliver.closing]), h("b", {}, [`${line.closing.toFixed(4)} ${line.unit}`])]),
+    ]),
+  ])
 }
 
 function targetCard(run: BridgeRun | null, revealed: number, delivery: Device["deliveries"][number]): HTMLElement {

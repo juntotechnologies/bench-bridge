@@ -14,13 +14,15 @@ export interface Reading {
   takenAt: string
   sampleId: string
   status: "stable" | "unstable"
-  alarm: boolean
   extras: Record<string, Extra>
 }
 
 export interface Normalized {
-  kept: Reading[]
+  /** Readings that passed the stability rule, before any derived reading. */
+  stable: Reading[]
   dropped: Reading[]
+  /** What the bridge maps and delivers. */
+  kept: Reading[]
 }
 
 export type FieldValue = string | number | boolean

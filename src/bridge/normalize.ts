@@ -2,24 +2,22 @@ import type { NormalizeRules } from "../registry/schema"
 import type { Normalized, Reading } from "./types"
 import { round } from "./numbers"
 
-type Scale = NonNullable<NormalizeRules["scale"]>
+const MASS_PLACES = 4
 
-/** Apply the device's rules in order: stability filter, unit scale, alarm flag. */
+/** Apply the device's rules in order: drop unstable readings, then weigh by difference. */
 export function normalize(rules: NormalizeRules, readings: Reading[]): Normalized {
-  const unstable = rules.dropUnstable ? readings.filter(isUnstable) : []
-  const kept = readings.filter(isKept.bind(null, unstable)).map(applyRules.bind(null, rules))
-  return { kept, dropped: unstable }
+  const dropped = rules.dropUnstable ? readings.filter(isUnstable) : []
+  const stable = readings.filter(isKept.bind(null, dropped))
+  const kept = rules.byDifference ? byDifference(rules.byDifference.quantity, stable) : stable
+  return { stable, dropped, kept }
 }
 
-function applyRules(rules: NormalizeRules, reading: Reading): Reading {
-  const scaled = rules.scale ? scaleReading(rules.scale, reading) : reading
-  return { ...scaled, alarm: rules.alarmAbove !== undefined && scaled.value > rules.alarmAbove }
-}
-
-function scaleReading(scale: Scale, reading: Reading): Reading {
-  const fraction = (reading.value - scale.fromMin) / (scale.fromMax - scale.fromMin)
-  const value = round(scale.toMin + fraction * (scale.toMax - scale.toMin), 2)
-  return { ...reading, value, unit: scale.unit }
+/** Container weighed before and after: the amount used is the first weight less the last. */
+function byDifference(quantity: string, readings: Reading[]): Reading[] {
+  const first = readings[0]
+  const last = readings[readings.length - 1]
+  if (!first || !last || first === last) return []
+  return [{ ...last, quantity, value: round(first.value - last.value, MASS_PLACES) }]
 }
 
 function isUnstable(reading: Reading): boolean {

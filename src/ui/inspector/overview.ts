@@ -1,9 +1,9 @@
 import { copy } from "../../registry"
 import type { Device } from "../../registry/schema"
-import { h, svg } from "../dom"
+import { h, svg, type Child } from "../dom"
 import { icon } from "../icons"
 
-export function overviewTab(device: Device): HTMLElement[] {
+export function overviewTab(device: Device): Child[] {
   return [
     h("h2", { class: "inspector-title" }, [device.name]),
     h("p", { class: "lede" }, [device.summary]),
