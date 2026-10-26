@@ -1,18 +1,21 @@
 /** Parser table: one parser per protocol kind in the registry. */
 import type { ParserConfig } from "../../registry/schema"
 import type { CapturedLine, Reading } from "../types"
+import { parsePeakTable } from "./peakTable"
 import { parseSicsLines } from "./sicsLine"
 
-type Parser<K extends ParserConfig["kind"]> = (
-  config: Extract<ParserConfig, { kind: K }>,
-  lines: CapturedLine[],
-  sampleId: string,
-) => Reading[]
+type Kind = ParserConfig["kind"]
+type Parser<K extends Kind> = (config: Extract<ParserConfig, { kind: K }>, lines: CapturedLine[], sampleId: string) => Reading[]
 
-const PARSERS: { [K in ParserConfig["kind"]]: Parser<K> } = {
+const PARSERS: { [K in Kind]: Parser<K> } = {
   "sics-line": parseSicsLines,
+  "peak-table": parsePeakTable,
 }
 
 export function parseCapture(config: ParserConfig, lines: CapturedLine[], sampleId: string): Reading[] {
-  return PARSERS[config.kind](config, lines, sampleId)
+  return runParser(config.kind, config, lines, sampleId)
+}
+
+function runParser<K extends Kind>(kind: K, config: Extract<ParserConfig, { kind: K }>, lines: CapturedLine[], sampleId: string): Reading[] {
+  return PARSERS[kind](config, lines, sampleId)
 }

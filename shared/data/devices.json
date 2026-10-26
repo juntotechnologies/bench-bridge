@@ -30,5 +30,42 @@
       { "target": "lims", "fields": { "sample_ref": "reading.sampleId", "instrument_id": "device.assetId", "analyte": { "const": "Sample weight" }, "result_value": "reading.value", "unit": "reading.unit", "measured_at": "reading.takenAt" } },
       { "target": "ledger", "fields": { "container_ref": "device.capture.containerRef", "quantity_used": "reading.value", "unit": "reading.unit", "used_at": "reading.takenAt", "instrument_id": "device.assetId", "sample_ref": "reading.sampleId" } }
     ]
+  },
+  {
+    "id": "hplc",
+    "name": "HPLC system",
+    "model": "LC-210",
+    "era": 2004,
+    "status": "bridged",
+    "assetId": "EQ-0518",
+    "summary": "A liquid chromatograph run by a legacy chromatography data system. The system prints a peak report. Analysts copy each purity result by hand.",
+    "today": ["The analyst prints the peak report on paper.", "The analyst types the purity result into the LIMS.", "A software or Windows update can break the old instrument driver."],
+    "bridged": ["The tap reads the peak report that the system prints over the network.", "The bridge drops the solvent front and works out purity.", "One result goes to the LIMS with its sample and instrument."],
+    "kit": "Network tap with RJ45 pass-through",
+    "specs": [["Detector", "UV, 254 nm"], ["Pump", "Quaternary, 5 mL/min"], ["Output", "Peak report to a network printer"]],
+    "port": {
+      "kind": "LAN",
+      "connector": "RJ45 (Ethernet)",
+      "settings": "100 Mbit · raw print, TCP port 9100",
+      "pins": [["1", "TX+", "Data to the network"], ["2", "TX-", "Data to the network"], ["3", "RX+", "Data from the network"], ["6", "RX-", "Data from the network"]]
+    },
+    "parser": { "kind": "peak-table", "analyte": "Codeine phosphate" },
+    "normalize": { "dropBeforeMinutes": 2, "purity": { "quantity": "Purity (area %)" } },
+    "capture": {
+      "startedAt": "2026-10-26T14:05:00Z",
+      "cadenceMs": 800,
+      "sampleId": "S-2026-0415",
+      "lines": [
+        "Sample: S-2026-0415   Method: ASSAY-12",
+        "Peak   RT(min)   Area      Area%   Name",
+        "  1      1.82      1204     0.41   Solvent front",
+        "  2      4.37    287650    98.10   Codeine phosphate",
+        "  3      5.90      3120     1.06   Impurity A",
+        "  4      7.24      1250     0.43   Impurity B"
+      ]
+    },
+    "deliveries": [
+      { "target": "lims", "fields": { "sample_ref": "reading.sampleId", "instrument_id": "device.assetId", "analyte": "reading.quantity", "result_value": "reading.value", "unit": "reading.unit", "measured_at": "reading.takenAt" } }
+    ]
   }
 ]

@@ -8,9 +8,10 @@ import { deviceById } from "@shared/registry"
 import type { Device } from "@shared/registry/schema"
 
 const balance = deviceById("balance") as Device
+const hplc = deviceById("hplc") as Device
 
 function weight(value: number, status: Reading["status"] = "stable"): Reading {
-  return { quantity: "Mass", value, unit: "g", takenAt: "2026-10-26T14:02:10.000Z", sampleId: "S-1", status, extras: {} }
+  return { quantity: "Mass", value, unit: "g", places: 4, takenAt: "2026-10-26T14:02:10.000Z", sampleId: "S-1", status, extras: {} }
 }
 
 describe("normalize", () => {
@@ -30,6 +31,35 @@ describe("normalize", () => {
   })
 })
 
+function peak(name: string, minutes: number, area: number, role = "impurity"): Reading {
+  return { quantity: name, value: 0, unit: "%", places: 2, takenAt: "2026-10-26T14:05:00.000Z", sampleId: "S-1", status: "stable", extras: { minutes, area, role } }
+}
+
+describe("normalize: chromatography rules", () => {
+  const peaks = [peak("Solvent front", 1.82, 1000), peak("Drug", 4.37, 9000, "main peak"), peak("Impurity A", 5.9, 1000)]
+
+  it("drops peaks that elute before the limit", () => {
+    const { dropped, stable } = normalize({ dropBeforeMinutes: 2 }, peaks)
+    expect(dropped.map((r) => r.quantity)).toEqual(["Solvent front"])
+    expect(stable.map((r) => r.quantity)).toEqual(["Drug", "Impurity A"])
+  })
+
+  it("works out purity as the main peak's share of the kept area", () => {
+    const { kept } = normalize({ dropBeforeMinutes: 2, purity: { quantity: "Purity" } }, peaks)
+    expect(kept).toHaveLength(1)
+    expect(kept[0]).toMatchObject({ quantity: "Purity", value: 90, unit: "%", places: 2 })
+  })
+
+  it("gives no purity when there is no main peak", () => {
+    expect(normalize({ purity: { quantity: "Purity" } }, [peak("A", 3, 10)]).kept).toEqual([])
+  })
+
+  it("rounds purity to two places", () => {
+    const { kept } = normalize({ purity: { quantity: "Purity" } }, [peak("Drug", 4, 2, "main peak"), peak("B", 5, 1)])
+    expect(kept[0]?.value).toBe(66.67)
+  })
+})
+
 describe("mapRecords", () => {
   it("fills fields from reading paths, device paths and constants", () => {
     const [lims, ledger] = mapRecords(balance, [weight(0.1204)])
@@ -40,6 +70,20 @@ describe("mapRecords", () => {
   it("leaves out fields whose path has no value", () => {
     const device = { ...balance, deliveries: [{ target: "lims" as const, fields: { well: "reading.extras.well" } }] }
     expect(mapRecords(device, [weight(1)])[0]?.fields).toEqual({})
+  })
+})
+
+describe("runBridge: HPLC", () => {
+  it("turns the peak report into one purity record for the LIMS only", () => {
+    const run = runBridge(hplc)
+    expect(run.normalized.dropped.map((r) => r.quantity)).toEqual(["Solvent front"])
+    expect(run.normalized.kept.map((r) => r.value)).toEqual([98.5])
+    expect(run.mapped.map((r) => r.target)).toEqual(["lims"])
+  })
+
+  it("names the sample, instrument, analyte and unit in the LIMS record", () => {
+    const [lims] = runBridge(hplc).mapped
+    expect(lims?.fields).toMatchObject({ sample_ref: "S-2026-0415", instrument_id: "EQ-0518", analyte: "Purity (area %)", result_value: 98.5, unit: "%" })
   })
 })
 

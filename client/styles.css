@@ -173,6 +173,7 @@ td, th { padding: 6px 4px; border-bottom: 1px solid var(--line); }
 .diff-head b { font: 600 11px var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
 .diff-head span { font: 400 10.5px var(--font-mono); color: var(--ink-3); }
 .diff td { padding: 7px 4px; }
+.diff td.num, .diff td.dim, .diff .pill { white-space: nowrap; }
 .diff td:first-child { padding-left: 12px; }
 .diff td:last-child { padding-right: 12px; }
 .diff tr:last-child td { border-bottom: 0; }

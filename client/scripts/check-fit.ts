@@ -5,6 +5,7 @@ import { chromium, type Browser, type Locator, type Page } from "@playwright/tes
 import { z } from "zod"
 import viewportsJson from "@design/viewports.json" with { type: "json" }
 import fitJson from "./fit.json" with { type: "json" }
+import { devices } from "@shared/registry"
 import { serveSite } from "./staticSite"
 
 const Viewport = z.object({ name: z.string(), width: z.number(), height: z.number() })
@@ -21,6 +22,9 @@ const Fit = z.object({
   readySelector: z.string(),
   runSelector: z.string(),
   navSelector: z.string(),
+  devicesPane: z.string(),
+  stagePane: z.string(),
+  deviceAttribute: z.string(),
   runMs: z.number(),
   minSheetHeight: z.number(),
 })
@@ -182,14 +186,38 @@ function labelled(viewport: Viewport, problem: string): string {
   return `${viewport.name} ${viewport.width}x${viewport.height} ${problem}`
 }
 
+/** Shows a pane when the window shows one pane at a time; a wide window shows them all. */
+async function showPane(page: Page, pane: string): Promise<void> {
+  const nav = page.locator(`${fit.navSelector}[data-pane="${pane}"]`)
+  if (await nav.isVisible()) await nav.click()
+}
+
+async function selectDevice(page: Page, id: string): Promise<void> {
+  await showPane(page, fit.devicesPane)
+  await page.click(`[${fit.deviceAttribute}="${id}"]`)
+  await showPane(page, fit.stagePane)
+  await page.waitForSelector(fit.readySelector)
+}
+
+function prefixed(id: string, problem: string): string {
+  return `${id} ${problem}`
+}
+
+async function walkDevice(page: Page, viewport: Viewport, id: string): Promise<string[]> {
+  await selectDevice(page, id)
+  const loaded = await check(page, viewport, "load")
+  await page.screenshot({ path: join(fit.outDir, `${viewport.name}-${id}-load.png`) })
+  const problems = [...loaded, ...(await walkPanes(page, viewport)), ...(await walkRun(page, viewport))]
+  await page.screenshot({ path: join(fit.outDir, `${viewport.name}-${id}-run.png`) })
+  return problems.map(prefixed.bind(null, id))
+}
+
 async function walkViewport(browser: Browser, url: string, viewport: Viewport): Promise<string[]> {
   const page = await browser.newPage({ viewport })
   await page.goto(url)
   await page.waitForSelector(fit.readySelector)
-  const loaded = await check(page, viewport, "load")
-  await page.screenshot({ path: join(fit.outDir, `${viewport.name}-load.png`) })
-  const problems = [...loaded, ...(await walkPanes(page, viewport)), ...(await walkRun(page, viewport))]
-  await page.screenshot({ path: join(fit.outDir, `${viewport.name}-run.png`) })
+  const problems: string[] = []
+  for (const device of devices) problems.push(...(await walkDevice(page, viewport, device.id)))
   await page.close()
   return problems.map(labelled.bind(null, viewport))
 }
@@ -207,7 +235,7 @@ async function main(): Promise<void> {
   await browser.close()
   await server.close()
   problems.forEach(report)
-  console.log(problems.length ? `${problems.length} fit problems` : `fit ok at ${viewports.length} sizes`)
+  console.log(problems.length ? `${problems.length} fit problems` : `fit ok at ${viewports.length} sizes, ${devices.length} devices`)
   process.exitCode = problems.length ? 1 : 0
 }
 

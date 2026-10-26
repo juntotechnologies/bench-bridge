@@ -11,3 +11,8 @@ export function leadingNumberOrText(value: string): number | string {
   const first = value.trim().split(/\s+/)[0] ?? ""
   return NUMBER.test(first) ? Number(first) : value.trim()
 }
+
+/** Digits after the decimal point in a printed number. */
+export function decimalPlaces(text: string): number {
+  return text.split(".")[1]?.length ?? 0
+}

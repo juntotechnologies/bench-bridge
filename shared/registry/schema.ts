@@ -14,18 +14,23 @@ const Delivery = z.object({
 })
 
 /** One entry per protocol; a new instrument family adds a member and a parser. */
-export const ParserConfig = z.discriminatedUnion("kind", [z.object({ kind: z.literal("sics-line"), quantity: z.string() })])
+export const ParserConfig = z.discriminatedUnion("kind", [
+  z.object({ kind: z.literal("sics-line"), quantity: z.string() }),
+  z.object({ kind: z.literal("peak-table"), analyte: z.string() }),
+])
 
 export const NormalizeRules = z.object({
   dropUnstable: z.boolean().optional(),
+  dropBeforeMinutes: z.number().positive().optional(),
   byDifference: z.object({ quantity: z.string() }).optional(),
+  purity: z.object({ quantity: z.string() }).optional(),
 })
 
 export const Capture = z.object({
   startedAt: z.iso.datetime(),
   cadenceMs: z.number().positive(),
   sampleId: z.string(),
-  containerRef: z.string(),
+  containerRef: z.string().optional(),
   lines: z.array(z.string()).min(1),
 })
 

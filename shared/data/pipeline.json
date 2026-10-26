@@ -1,7 +1,7 @@
 [
   { "id": "capture", "label": "Capture", "icon": "plug", "detail": "The tap reads the port and stamps each line with a time." },
   { "id": "parse", "label": "Parse", "icon": "brackets", "detail": "A protocol parser turns raw text into typed readings." },
-  { "id": "normalize", "label": "Normalize", "icon": "scale", "detail": "Rules drop unstable weights and work out the amount used." },
+  { "id": "normalize", "label": "Normalize", "icon": "scale", "detail": "Rules drop the readings that do not count and work out the result." },
   { "id": "map", "label": "Map", "icon": "route", "detail": "A field map turns each reading into the target record." },
   { "id": "deliver", "label": "Deliver", "icon": "send", "detail": "The bridge sends each record and keeps the receipt." }
 ]

@@ -2,6 +2,7 @@
 import { copy } from "@shared/registry"
 import type { Device } from "@shared/registry/schema"
 import { stampLines } from "@shared/bridge/capture"
+import { retentionText } from "@shared/bridge/peaks"
 import type { BridgeRun, CapturedLine, Normalized, Reading } from "@shared/bridge/types"
 import { h, type Child } from "../dom"
 import type { AppState } from "../store"
@@ -57,6 +58,22 @@ function resultCard(run: BridgeRun): HTMLElement {
   return h("div", { class: "result" }, [h("div", { class: "eyebrow" }, [result.quantity]), h("b", {}, [String(result.value), " ", result.unit])])
 }
 
+/** The value with the decimals the instrument prints. */
+export function readingValue(reading: Reading): string {
+  return reading.value.toFixed(reading.places)
+}
+
+/** When a weight was taken, or when a peak came off the column. */
+export function readingDetail(reading: Reading): string {
+  const minutes = reading.extras["minutes"]
+  return minutes === undefined ? reading.takenAt.slice(11, 19) : `${retentionText(Number(minutes))} ${copy.data.minutes}`
+}
+
+/** The stability flag of a weight, or the role of a peak. */
+export function readingTag(reading: Reading): string {
+  return String(reading.extras["role"] ?? reading.status)
+}
+
 function rowClass(ruled: boolean, dropped: boolean): string {
   if (!ruled) return ""
   return dropped ? "is-dropped" : "is-kept"
@@ -66,8 +83,8 @@ function readingRow(run: BridgeRun, ruled: boolean, reading: Reading): HTMLEleme
   const dropped = ruled && run.normalized.dropped.includes(reading)
   return h("tr", { class: rowClass(ruled, dropped) }, [
     h("td", {}, [reading.quantity]),
-    h("td", { class: "num" }, [h("b", {}, [reading.value.toFixed(4)]), " ", reading.unit]),
-    h("td", { class: "dim" }, [reading.takenAt.slice(11, 19)]),
-    h("td", {}, [h("span", { class: dropped ? "pill is-muted" : "pill" }, [dropped ? copy.data.dropped : reading.status])]),
+    h("td", { class: "num" }, [h("b", {}, [readingValue(reading)]), " ", reading.unit]),
+    h("td", { class: "dim" }, [readingDetail(reading)]),
+    h("td", {}, [h("span", { class: dropped ? "pill is-muted" : "pill" }, [dropped ? copy.data.dropped : readingTag(reading)])]),
   ])
 }

@@ -14,6 +14,8 @@ export interface Reading {
   quantity: string
   value: number
   unit: string
+  /** Decimal places the instrument prints. */
+  places: number
   takenAt: string
   sampleId: string
   status: "stable" | "unstable"
@@ -21,7 +23,7 @@ export interface Reading {
 }
 
 export interface Normalized {
-  /** Readings that passed the stability rule, before any derived reading. */
+  /** Readings that passed every drop rule, before any derived reading. */
   stable: Reading[]
   dropped: Reading[]
   /** What the bridge maps and delivers. */

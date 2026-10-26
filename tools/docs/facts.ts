@@ -3,10 +3,12 @@ import { runBridge } from "@shared/bridge/pipeline"
 import type { BridgeRun, Reading } from "@shared/bridge/types"
 import { DeliverResponse } from "@shared/contracts"
 import { catalog, devices, isLive } from "@shared/registry"
-import type { Device } from "@shared/registry/schema"
+import type { CatalogEntry, Device } from "@shared/registry/schema"
 import { handleDeliver } from "@server/handler"
 import { createDeps } from "@server/refs"
 import pkg from "../../package.json" with { type: "json" }
+
+const LIST = new Intl.ListFormat("en", { style: "long", type: "conjunction" })
 
 export interface Facts {
   [key: string]: string
@@ -21,8 +23,17 @@ function siteFacts(): Facts {
 }
 
 function catalogFacts(): Facts {
-  const live = catalog.filter(isLive).length
-  return { "catalog.count": String(catalog.length), "catalog.live": String(live), "catalog.planned": String(catalog.length - live) }
+  const live = catalog.filter(isLive)
+  return {
+    "catalog.count": String(catalog.length),
+    "catalog.live": String(live.length),
+    "catalog.planned": String(catalog.length - live.length),
+    "catalog.liveNames": LIST.format(live.map(entryName)),
+  }
+}
+
+function entryName(entry: CatalogEntry): string {
+  return entry.name
 }
 
 function deviceFacts(device: Device): Facts {

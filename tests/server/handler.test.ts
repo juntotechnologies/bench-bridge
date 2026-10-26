@@ -11,6 +11,7 @@ import { ledgerLine } from "@server/ledger"
 import { createDeps } from "@server/refs"
 
 const balance = deviceById("balance") as Device
+const hplc = deviceById("hplc") as Device
 const fixedDeps: DeliveryDeps = { now: () => "2026-10-26T15:00:00.000Z", nextRef: (prefix: string) => `${prefix}-0001` }
 
 describe("deliver", () => {
@@ -41,6 +42,15 @@ describe("ledgerLine", () => {
   })
 })
 
+describe("handleDeliver: HPLC", () => {
+  it("delivers the purity record to the LIMS and returns no ledger line", () => {
+    const result = handleDeliver(fixedDeps, { deviceId: "hplc", records: runBridge(hplc).mapped })
+    const response = DeliverResponse.parse(result.body)
+    expect(response.receipts.map((r) => [r.target, r.accepted])).toEqual([["lims", true]])
+    expect(response.ledger).toBeNull()
+  })
+})
+
 describe("handleDeliver", () => {
   it("delivers the balance run and returns the ledger line", () => {
     const result = handleDeliver(fixedDeps, { deviceId: "balance", records: runBridge(balance).mapped })
@@ -62,7 +72,9 @@ describe("handleDeliver", () => {
 })
 
 describe("ledger drift check", () => {
-  it.each(devices.map((d) => [d.id, d] as const))("%s captures against a container in the ledger", (_id, device) => {
-    expect(containerByRef(device.capture.containerRef)).toBeDefined()
+  const ledgered = devices.filter((d) => d.deliveries.some((delivery) => delivery.target === "ledger"))
+
+  it.each(ledgered.map((d) => [d.id, d] as const))("%s captures against a container in the ledger", (_id, device) => {
+    expect(containerByRef(device.capture.containerRef ?? "")).toBeDefined()
   })
 })

@@ -64,6 +64,17 @@ describe("facts", () => {
     expect(facts["balance.receipt.lims"]).toBe("RES-000001")
   })
 
+  it("computes the HPLC figures by running the real pipeline", () => {
+    expect(facts["hplc.run.used"]).toBe("98.5")
+    expect(facts["hplc.run.unit"]).toBe("%")
+    expect(facts["hplc.receipt.lims"]).toBe("RES-000001")
+    expect(facts["hplc.receipt.ledger"]).toBeUndefined()
+  })
+
+  it("names the live instruments", () => {
+    expect(facts["catalog.liveNames"]).toBe("Analytical balance and HPLC system")
+  })
+
   it("counts the catalogue", () => {
     expect(Number(facts["catalog.live"]) + Number(facts["catalog.planned"])).toBe(Number(facts["catalog.count"]))
   })

@@ -1,5 +1,6 @@
 /** Parser for balance weight lines in the S S or S D print format. */
 import type { CapturedLine, Reading } from "../types"
+import { decimalPlaces } from "../numbers"
 import { makeReading } from "./reading"
 
 export interface SicsConfig {
@@ -17,5 +18,6 @@ function parseSicsLine(quantity: string, sampleId: string, line: CapturedLine): 
   const match = WEIGHT.exec(line.text.trim())
   if (!match) return []
   const [, flag, value, unit] = match as unknown as [string, string, string, string]
-  return [makeReading({ quantity, value: Number(value), unit, takenAt: line.at, sampleId }, {}, flag === "S")]
+  const core = { quantity, value: Number(value), unit, places: decimalPlaces(value), takenAt: line.at, sampleId }
+  return [makeReading(core, {}, flag === "S")]
 }

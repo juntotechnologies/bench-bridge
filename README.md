@@ -1,7 +1,7 @@
 # Bench Bridge
 
 Demo that connects older lab instruments to a LIMS and a controlled-substance (CS) ledger.
-Live today: the <!-- gen:fact balance.name -->Analytical balance<!-- /gen -->. <!-- gen:fact catalog.planned -->10<!-- /gen --> more instruments are planned.
+Live today: <!-- gen:fact catalog.liveNames -->Analytical balance and HPLC system<!-- /gen -->. <!-- gen:fact catalog.planned -->9<!-- /gen --> more instruments are planned.
 The demo has no database. The ledger is stateless: every run starts from the same opening balance.
 
 Live demo: <!-- gen:fact site.url -->https://bench-bridge.juntotechnologies.com/<!-- /gen -->
@@ -56,7 +56,7 @@ Every directory has an `AGENTS.md` with its domain knowledge and rules.
 | # | Instrument | Interface | Era | Status | Why it matters |
 | --- | ---------- | --------- | --- | ------ | -------------- |
 | 1 | Analytical balance | RS-232 print | 1990s | Bridged | Every controlled-substance weigh-out must match the CS ledger. |
-| 2 | HPLC system | LAN / GPIB, legacy CDS | 2000s | Planned | Assay and purity results. CDS and OS updates drop old instrument drivers. |
+| 2 | HPLC system | LAN / GPIB, legacy CDS | 2000s | Bridged | Assay and purity results. CDS and OS updates drop old instrument drivers. |
 | 3 | LC-MS/MS | LAN, vendor export files | 2000s | Planned | Potency and trace results sit in vendor files the LIMS cannot read. |
 | 4 | GC-MS | GPIB, legacy CDS | 1990s | Planned | Identity tests for controlled substances. |
 | 5 | Headspace GC | GPIB / RS-232 | 1990s | Planned | Residual solvent results for release testing. |

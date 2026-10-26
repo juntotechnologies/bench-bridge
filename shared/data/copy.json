@@ -72,9 +72,10 @@
     "replay": "Replay capture",
     "dropped": "dropped by rules",
     "diffTitle": "Rules applied",
-    "diffHint": "Unstable readings drop out",
+    "diffHint": "Dropped readings are struck out",
     "droppedCount": "dropped",
     "keptCount": "kept",
+    "minutes": "min",
     "empty": "Run the bridge to see readings."
   },
   "deliver": {

@@ -5,14 +5,19 @@ import { h, svg, type Child } from "../dom"
 
 type Diagram = (used: Set<string>) => string
 
-const DIAGRAMS: Record<string, Diagram> = { "RS-232": db9 }
+const DIAGRAMS: Record<string, Diagram> = { "RS-232": db9, LAN: rj45 }
+
+/** The connector drawing for a port kind, with the used pins filled. */
+export function portDiagram(kind: string, used: Set<string>): string | undefined {
+  return DIAGRAMS[kind]?.(used)
+}
 
 export function portTab(device: Device): Child[] {
   const used = new Set(device.port.pins.map(pinNumber))
-  const diagram = DIAGRAMS[device.port.kind]
+  const diagram = portDiagram(device.port.kind, used)
   return [
     h("h2", { class: "inspector-title" }, [device.port.kind, h("small", {}, [device.port.connector])]),
-    diagram ? svg(diagram(used), "port-diagram") : null,
+    diagram ? svg(diagram, "port-diagram") : null,
     h("div", { class: "setting" }, [h("div", { class: "eyebrow" }, [copy.port.settings]), h("code", {}, [device.port.settings])]),
     h("div", { class: "eyebrow" }, [copy.port.pins]),
     h("table", { class: "pins" }, [
@@ -34,6 +39,18 @@ function pinRow([pin, signal, use]: [string, string, string]): HTMLElement {
 function db9(used: Set<string>): string {
   const pins = [1, 2, 3, 4, 5, 6, 7, 8, 9].map(db9Pin.bind(null, used)).join("")
   return `<svg viewBox="0 0 220 110"><path d="M20 20h180l-18 70H38z" class="shell"/>${pins}</svg>`
+}
+
+/** An RJ45 jack seen from the front: eight contacts in a row. Used contacts are filled. */
+function rj45(used: Set<string>): string {
+  const contacts = [1, 2, 3, 4, 5, 6, 7, 8].map(rj45Contact.bind(null, used)).join("")
+  return `<svg viewBox="0 0 220 110"><path d="M40 22h140v58h-24v14H64V80H40z" class="shell"/>${contacts}</svg>`
+}
+
+function rj45Contact(used: Set<string>, pin: number): string {
+  const x = 50 + (pin - 1) * 15
+  const on = used.has(String(pin)) ? " is-used" : ""
+  return `<rect x="${x}" y="32" width="9" height="28" rx="2" class="pin${on}"/><text x="${x + 4.5}" y="74">${pin}</text>`
 }
 
 function db9Pin(used: Set<string>, pin: number): string {
