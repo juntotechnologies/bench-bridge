@@ -40,6 +40,7 @@
   --motion-enter: 0.3s;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --motion-stagger: 140ms;
+  --motion-hold: 1.6s;
   --motion-spin: 0.9s;
   --motion-none: 0.01ms;
   /* size */

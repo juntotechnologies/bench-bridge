@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest"
 import { animateTo, annotates, cancelMotion, stopsNearest, type Motion, type MotionDeps, type Painter } from "@client/ui/motion"
 import { IDLE_RUN, Store, type AppState } from "@client/ui/store"
 
-const INITIAL: AppState = { deviceId: "hplc", tab: "overview", pane: "stage", explosion: 1, labels: true, zoom: 1, ...IDLE_RUN }
+const INITIAL: AppState = { deviceId: "hplc", tab: "overview", pane: "stage", explosion: 1, labels: true, zoom: 1, catalogFilter: "all", ...IDLE_RUN }
 
 interface Call {
   explosion: number

@@ -78,6 +78,7 @@ The design spec: one source for the look of every screen. Copy this directory to
 | `--motion-enter` | `0.3s` | A new element arrives. |
 | `--ease-out` | `cubic-bezier(0.23, 1, 0.32, 1)` | Strong ease-out for every entrance. |
 | `--motion-stagger` | `140ms` | Delay between lines that arrive one after another. |
+| `--motion-hold` | `1.6s` | How long a confirmation, such as Copied, stays on screen. |
 | `--motion-spin` | `0.9s` | One turn of a spinner. |
 | `--motion-none` | `0.01ms` | Stands in for no motion when the user asks for reduced motion. |
 
@@ -131,7 +132,10 @@ The fit check opens each size.
 | Diff table | `.diff` | Show what a rule kept and what it dropped, with a count in the footer. | `is-kept`, `is-dropped` | `raised`, `line`, `ok`, `ok-soft`, `danger`, `danger-soft`, `radius-md` | Diff Table, Beautiful UI (MIT) |
 | Result card | `.result` | The one number the run produced. | none | `accent`, `accent-soft`, `radius-md`, `motion-enter` | Original |
 | Ledger card | `.ledger` | A dark card for a balance that moves from one value to another. | `is-used` | `ink`, `on-ink`, `on-ink-2`, `on-ink-3`, `accent`, `radius-md` | Original |
-| Receipt | `.receipt` | The answer from a target system. | `is-rejected` | `ok`, `ok-soft`, `danger`, `danger-soft`, `radius-pill` | Original |
+| Records table | `.records` | One row for each receipt a target sent back, with a status tag. | `is-accepted`, `is-rejected` | `line`, `ink-3`, `ok`, `ok-soft`, `danger`, `danger-soft`, `radius-pill` | Records Table, Beautiful UI (MIT) |
+| Code block | `.code` | A payload with line numbers, coloured JSON and a copy button. | `is-copied` | `raised`, `paper`, `line`, `ok`, `ink-2`, `ink-3`, `radius-sm`, `motion-hold` | Code Block, Beautiful UI (MIT) |
+| Filter chip | `.filter` | Show only the instruments in one state, with a count on each chip. | `is-on` | `line`, `ink`, `on-ink`, `ink-3`, `radius-pill` | Filter Table, Beautiful UI (MIT) |
+| Tool chip | `.tool-chip` | One setting of a port, such as a baud rate. | none | `paper`, `line`, `radius-pill` | Tool Chips, Beautiful UI (MIT) |
 | Pane nav | `.pane-nav` | Switch the pane on a narrow window. | `is-on` | `ink`, `on-ink`, `accent`, `touch`, `radius-md` | Original |
 | Dock | `.dock` | Holds the pipeline and the pane switch at the bottom of a narrow window. | none | `panel`, `touch` | Original |
 | Title block | `.title-block` | A caption on a narrow stage and a boxed corner stamp on a wide one. | none | `panel`, `ink`, `line` | Original |

@@ -1,6 +1,16 @@
 # Third-party notices
 
-The stage card's spinner and the diff table adapt patterns from Beautiful UI, https://www.beautifului.dev/ (Task Rows, Diff Table).
+These components adapt patterns from Beautiful UI, https://www.beautifului.dev/:
+
+| Pattern | Where it appears |
+|---|---|
+| Task Rows | The spinner on the active stage card |
+| Diff Table | The readings table on the Data tab |
+| Records Table | The receipts on the Deliver tab |
+| Code Block | The payloads on the Deliver tab |
+| Filter Table | The filter chips on the instrument catalogue |
+| Tool Chips | The port settings on the Port tab |
+
 The strong ease-out curve in `tokens.json` also comes from it.
 
 MIT License

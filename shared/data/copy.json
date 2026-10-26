@@ -6,6 +6,11 @@
     "Deliver"
   ],
   "fleetLabel": "Bridged",
+  "filters": [
+    { "id": "all", "label": "All" },
+    { "id": "bridged", "label": "Bridged" },
+    { "id": "planned", "label": "Planned" }
+  ],
   "panels": {
     "devices": "Instrument catalogue",
     "parts": "Parts",
@@ -82,13 +87,24 @@
     "send": "Send to targets",
     "sent": "Receipts",
     "payload": "Payload",
+    "payloadFile": "payload.json",
     "rejected": "Rejected",
+    "accepted": "Accepted",
+    "record": "Record",
+    "reference": "Reference",
+    "received": "Received (UTC)",
+    "status": "Status",
+    "none": "none",
     "missing": "Missing fields",
     "more": "more",
     "opening": "Opening balance",
     "closing": "Closing balance",
     "schedule": "Schedule",
     "failed": "Delivery failed. The server did not answer."
+  },
+  "code": {
+    "copy": "Copy",
+    "copied": "Copied"
   },
   "run": {
     "start": "Run bridge",

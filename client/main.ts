@@ -25,7 +25,7 @@ const COMPACT = `(max-width: ${layout.compactBelow.value - 1}px)`
 /** On a narrow screen the labels are too small to read, so they start off and the drawing starts zoomed in. */
 function initialState(compact: boolean): AppState {
   const deviceId = devices[0]?.id ?? ""
-  return { deviceId, tab: "overview", pane: "stage", explosion: 1, labels: !compact, zoom: compact ? layout.compactZoom.value : 1, ...IDLE_RUN }
+  return { deviceId, tab: "overview", pane: "stage", explosion: 1, labels: !compact, zoom: compact ? layout.compactZoom.value : 1, catalogFilter: "all", ...IDLE_RUN }
 }
 
 function tick(clock: HTMLElement): void {

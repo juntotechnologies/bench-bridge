@@ -9,6 +9,7 @@ import { lockText } from "@design/lock"
 import { specMarkdown } from "@design/spec"
 
 const DIR = "design"
+const BEAUTIFUL_UI = ", Beautiful UI (MIT)"
 const STYLESHEET = readFileSync("client/styles.css", "utf8")
 const spec = readSpec(DIR)
 
@@ -98,4 +99,17 @@ function selectorOf(component: Components[number]): string {
 
 function isUnstyled(selector: string): boolean {
   return !STYLESHEET.includes(selector)
+}
+
+describe("third-party notice", () => {
+  const notice = readFileSync(`${DIR}/THIRD_PARTY.md`, "utf8")
+
+  it("names every Beautiful UI pattern that a component adapts", () => {
+    const adapted = spec.components.map(patternOf).filter((pattern) => pattern !== "")
+    expect(adapted.filter((pattern) => !notice.includes(pattern))).toEqual([])
+  })
+})
+
+function patternOf(component: Components[number]): string {
+  return component.origin.endsWith(BEAUTIFUL_UI) ? component.origin.slice(0, -BEAUTIFUL_UI.length) : ""
 }

@@ -3,6 +3,8 @@ import { copy } from "@shared/registry"
 import type { Device } from "@shared/registry/schema"
 import { h, svg, type Child } from "../dom"
 
+const SETTING_SEPARATOR = " · "
+
 type Diagram = (used: Set<string>) => string
 
 const DIAGRAMS: Record<string, Diagram> = { "RS-232": db9, LAN: rj45 }
@@ -12,13 +14,22 @@ export function portDiagram(kind: string, used: Set<string>): string | undefined
   return DIAGRAMS[kind]?.(used)
 }
 
+/** The parts of a settings line, split at each middle dot. */
+export function settingParts(settings: string): string[] {
+  return settings.split(SETTING_SEPARATOR)
+}
+
+function settingChip(part: string): HTMLElement {
+  return h("code", { class: "tool-chip" }, [part])
+}
+
 export function portTab(device: Device): Child[] {
   const used = new Set(device.port.pins.map(pinNumber))
   const diagram = portDiagram(device.port.kind, used)
   return [
     h("h2", { class: "inspector-title" }, [device.port.kind, h("small", {}, [device.port.connector])]),
     diagram ? svg(diagram, "port-diagram") : null,
-    h("div", { class: "setting" }, [h("div", { class: "eyebrow" }, [copy.port.settings]), h("code", {}, [device.port.settings])]),
+    h("div", { class: "setting" }, [h("div", { class: "eyebrow" }, [copy.port.settings]), h("div", { class: "tool-chips" }, settingParts(device.port.settings).map(settingChip))]),
     h("div", { class: "eyebrow" }, [copy.port.pins]),
     h("table", { class: "pins" }, [
       h("thead", {}, [h("tr", {}, [h("th", {}, [copy.port.pin]), h("th", {}, [copy.port.signal]), h("th", {}, [copy.port.use])])]),

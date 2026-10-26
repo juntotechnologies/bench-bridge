@@ -8,6 +8,10 @@ export type TabId = "overview" | "port" | "data" | "deliver"
 export const PANES = ["devices", "stage", "inspector"] as const
 export type Pane = (typeof PANES)[number]
 
+/** The catalogue filter chips, in order. */
+export const CATALOG_FILTERS = ["all", "bridged", "planned"] as const
+export type CatalogFilter = (typeof CATALOG_FILTERS)[number]
+
 export interface RunState {
   run: BridgeRun | null
   delivery: DeliverResponse | null
@@ -23,6 +27,7 @@ export interface AppState extends RunState {
   explosion: number
   labels: boolean
   zoom: number
+  catalogFilter: CatalogFilter
 }
 
 export type Listener = (state: AppState, previous: AppState) => void

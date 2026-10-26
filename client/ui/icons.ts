@@ -13,6 +13,7 @@ const PATHS: Record<string, string> = {
   reset: "M4 12a8 8 0 1 0 3-6.2M4 4v4h4",
   tag: "M3 12V4h8l10 10-8 8z M8 8h.01",
   bridge: "M2 16h20M4 16V10a8 8 0 0 1 16 0v6M8 16v-4M12 16v-6M16 16v-4",
+  copy: "M9 9h11v11H9zM5 15V4h11",
   flask: "M9 3h6M10 3v6L4 19a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2L14 9V3M7 15h10",
   dna: "M7 3c0 6 10 6 10 12s-10 6-10 6M17 3c0 6-10 6-10 12M8 7h8M8 17h8",
 }

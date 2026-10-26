@@ -67,6 +67,12 @@ code, pre { font-family: var(--font-mono); }
 .device:hover:not(:disabled) { background: var(--raised); border-color: var(--line); }
 .device.is-active { background: var(--raised); border-color: var(--ink); box-shadow: var(--ring-accent); }
 .device.is-planned { cursor: default; opacity: 0.55; }
+.device[hidden] { display: none; }
+.filters { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 10px 8px; }
+.filter { display: inline-flex; gap: 6px; align-items: center; border: 1px solid var(--line); border-radius: var(--radius-pill); background: transparent; padding: 4px 10px; font: 500 10.5px var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); transition: background var(--motion-fast), color var(--motion-fast); }
+.filter b { font-weight: 500; color: var(--ink-3); }
+.filter.is-on { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.filter.is-on b { color: var(--on-ink-2); }
 .thumb { display: grid; place-items: center; width: 52px; height: 40px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper); font: 500 10px var(--font-mono); color: var(--ink-3); overflow: hidden; }
 .thumb svg { width: 100%; height: 100%; }
 .thumb path { fill: none; stroke: var(--ink); stroke-width: 1.1; }
@@ -149,7 +155,8 @@ code, pre { font-family: var(--font-mono); }
 .port-diagram .pin { fill: var(--raised); stroke: var(--ink); stroke-width: 1.2; }
 .port-diagram .pin.is-used { fill: var(--accent); stroke: var(--accent); }
 .port-diagram text { font: 500 9px var(--font-mono); text-anchor: middle; fill: var(--ink-2); }
-.setting code { display: block; margin-top: 6px; padding: 8px 10px; background: var(--paper); border-radius: var(--radius-sm); }
+.tool-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.tool-chip { display: inline-flex; padding: 4px 10px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-pill); font: 500 11px var(--font-mono); color: var(--ink); }
 table { width: 100%; border-collapse: collapse; font-size: 12px; }
 th { text-align: left; font: 500 10px var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); }
 td, th { padding: 6px 4px; border-bottom: 1px solid var(--line); }
@@ -189,15 +196,36 @@ td, th { padding: 6px 4px; border-bottom: 1px solid var(--line); }
 .ledger-row span { display: block; font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--on-ink-3); }
 .ledger-row b { font-size: 14px; }
 .ledger-row .is-used b { color: var(--accent); }
-.target { border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; }
+.target { min-width: 0; border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; }
 .target > header { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; padding: 10px 12px; background: var(--paper); }
 .target > header code { width: 100%; font-size: 10.5px; color: var(--ink-2); }
-.fields, .receipts, .payload { padding: 10px 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+.fields, .payload { padding: 10px 12px; display: flex; flex-wrap: wrap; gap: 6px; }
 .fields code { font-size: 10.5px; padding: 2px 6px; border: 1px dashed var(--ink-3); border-radius: var(--radius-xs); color: var(--ink-2); }
-.payload { flex-direction: column; }
-.payload pre { margin: 0; padding: 10px; background: var(--raised); border: 1px solid var(--line); border-radius: var(--radius-sm); font-size: 11px; overflow: auto; }
-.receipt { display: inline-flex; gap: 5px; align-items: center; font: 500 10.5px var(--font-mono); padding: 3px 8px; border-radius: var(--radius-pill); background: var(--ok-soft); color: var(--ok); animation: line-in var(--motion-enter) var(--ease-out); }
-.receipt.is-rejected { background: var(--danger-soft); color: var(--danger); }
+.payload { flex-direction: column; flex-wrap: nowrap; min-width: 0; }
+.code { min-width: 0; margin: 0; background: var(--raised); border: 1px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; font-family: var(--font-mono); font-size: 11px; }
+.code figcaption { display: flex; justify-content: space-between; align-items: center; padding: 4px 4px 4px 10px; border-bottom: 1px solid var(--line); background: var(--paper); color: var(--ink-2); }
+.code ol { margin: 0; padding: 8px 0; list-style: none; overflow: auto; counter-reset: code; }
+.code li { display: flex; gap: 12px; padding: 0 10px; counter-increment: code; }
+.code-text { white-space: pre; }
+.code li::before { content: counter(code); min-width: 2ch; text-align: right; color: var(--ink-3); user-select: none; }
+.tok-key { color: var(--ink-2); }
+.tok-string { color: var(--ok); }
+.tok-number, .tok-literal { color: var(--ink); font-weight: 600; }
+.tok-punct { color: var(--ink-3); }
+.code-copy { display: inline-flex; gap: 5px; align-items: center; border: 0; background: transparent; padding: 5px 8px; border-radius: var(--radius-xs); font: 500 10.5px var(--font-mono); color: var(--ink-2); transition: background var(--motion-fast), color var(--motion-fast); }
+.code-copy:hover { background: var(--line); color: var(--ink); }
+.code-copy .copy-done, .code-copy.is-copied .copy-idle { display: none; }
+.code-copy.is-copied .copy-done { display: inline; }
+.code-copy.is-copied { color: var(--ok); animation: hold var(--motion-hold) linear; }
+.offscreen { position: fixed; left: -9999px; top: 0; }
+.records { padding: 4px 12px 10px; }
+.records table { width: 100%; border-collapse: collapse; }
+.records th { padding: 6px 8px 6px 0; text-align: left; font: 500 9.5px var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+.records td { padding: 7px 8px 7px 0; border-top: 1px solid var(--line); vertical-align: top; font-size: 11px; animation: line-in var(--motion-enter) var(--ease-out); }
+.records footer { padding-top: 6px; font: 500 10.5px var(--font-mono); color: var(--ink-2); }
+.tag-stack { display: grid; gap: 4px; justify-items: start; }
+.pill { display: inline-flex; gap: 4px; align-items: center; }
+.pill.is-danger { background: var(--danger-soft); color: var(--danger); }
 
 /* Pipeline */
 .pipeline { grid-area: pipe; display: flex; gap: 10px; align-items: stretch; }
@@ -218,6 +246,7 @@ td, th { padding: 6px 4px; border-bottom: 1px solid var(--line); }
   content: ""; position: absolute; inset: -5px; border: 2px solid transparent; border-top-color: var(--accent); border-radius: 50%;
   animation: spin var(--motion-spin) linear infinite;
 }
+@keyframes hold { from { opacity: 1; } to { opacity: 1; } }
 @keyframes spin { to { transform: rotate(360deg); } }
 .run {
   display: flex; gap: 8px; align-items: center; padding: 0 22px; border: 0; border-radius: var(--radius-md);
@@ -229,6 +258,8 @@ td, th { padding: 6px 4px; border-bottom: 1px solid var(--line); }
 /* A user who asks for reduced motion gets none. */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after { animation-duration: var(--motion-none) !important; animation-iteration-count: 1 !important; transition-duration: var(--motion-none) !important; }
+  /* The Copied label only holds an opacity, so it keeps its time. */
+  .code-copy.is-copied { animation-duration: var(--motion-hold) !important; }
 }
 
 /* The dock holds the pipeline strip and the pane switch. Wide windows lay them out as plain grid items. */
@@ -257,6 +288,7 @@ td, th { padding: 6px 4px; border-bottom: 1px solid var(--line); }
   .stage-label { white-space: nowrap; font-size: 10px; letter-spacing: 0.06em; }
   .run { padding: 0 18px; }
   .segmented button, .chip { padding: 9px 12px; }
+  .filter { padding: 9px 12px; }
 }
 
 @media (min-width: 700px) and (max-width: 1099px) {
@@ -308,6 +340,7 @@ td, th { padding: 6px 4px; border-bottom: 1px solid var(--line); }
   .inspector-body { padding: 12px; }
   .devices { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 6px; padding: 0 10px 12px; }
   .devices .panel-title { width: 100%; padding: 14px 4px 6px; }
+  .filters { width: 100%; padding: 0 0 4px; }
   .device { width: auto; margin: 0; }
   .device:not(.is-planned) { width: 100%; }
   .device.is-planned { grid-template-columns: auto; padding: 6px 12px; border: 1px dashed var(--ink-3); }

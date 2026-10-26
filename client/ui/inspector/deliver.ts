@@ -2,11 +2,11 @@
 import { copy, targets } from "@shared/registry"
 import type { Device, TargetId } from "@shared/registry/schema"
 import type { LedgerLine, MappedRecord, Receipt } from "@shared/contracts"
-import { h, svg, type Child } from "../dom"
-import { icon } from "../icons"
+import { h, type Child } from "../dom"
+import { codeBlock } from "../codeBlock"
 import type { AppState } from "../store"
+import { recordsTable } from "./receipts"
 
-const SHOWN_REFS = 4
 const PAYLOAD_STAGE = 4
 const RECEIPT_STAGE = 5
 
@@ -42,7 +42,7 @@ function targetCard(state: AppState, delivery: Device["deliveries"][number]): HT
   return h("section", { class: "target" }, [
     h("header", {}, [h("b", {}, [target.label]), h("span", {}, [target.record]), h("code", {}, [target.endpoint])]),
     state.revealed >= PAYLOAD_STAGE ? payload(recordsFor(state, delivery.target)) : fieldList(Object.keys(delivery.fields)),
-    state.revealed >= RECEIPT_STAGE ? receiptList(receiptsFor(state, delivery.target)) : null,
+    state.revealed >= RECEIPT_STAGE ? recordsTable(receiptsFor(state, delivery.target)) : null,
   ])
 }
 
@@ -71,33 +71,7 @@ function payload(records: MappedRecord[]): HTMLElement {
   const more = records.length > 1 ? h("div", { class: "dim" }, [`+ ${records.length - 1} ${copy.deliver.more}`]) : null
   return h("div", { class: "payload" }, [
     h("div", { class: "eyebrow" }, [copy.deliver.payload, h("span", {}, [`${records.length}`])]),
-    h("pre", {}, [JSON.stringify(first, null, 2)]),
+    codeBlock({ label: copy.deliver.payloadFile, text: JSON.stringify(first, null, 2) }),
     more,
   ])
-}
-
-function receiptList(receipts: Receipt[]): HTMLElement {
-  const accepted = receipts.filter(isAccepted)
-  const extra = accepted.length - SHOWN_REFS
-  return h("div", { class: "receipts" }, [
-    ...accepted.slice(0, SHOWN_REFS).map(acceptedChip),
-    extra > 0 ? h("span", { class: "dim" }, [`+ ${extra}`]) : null,
-    ...receipts.filter(isRejected).map(rejectedChip),
-  ])
-}
-
-function acceptedChip(receipt: Receipt): HTMLElement {
-  return h("span", { class: "receipt" }, [svg(icon("check", 12)), receipt.ref ?? ""])
-}
-
-function rejectedChip(receipt: Receipt): HTMLElement {
-  return h("span", { class: "receipt is-rejected" }, [svg(icon("cross", 12)), `${copy.deliver.missing}: ${receipt.missing.join(", ")}`])
-}
-
-function isAccepted(receipt: Receipt): boolean {
-  return receipt.accepted
-}
-
-function isRejected(receipt: Receipt): boolean {
-  return !receipt.accepted
 }
