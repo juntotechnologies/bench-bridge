@@ -42,7 +42,7 @@ function mount(root: HTMLElement): void {
   const clock = h("div", { class: "clock" })
   tick(clock)
   setInterval(tick.bind(null, clock), 1000)
-  const deps: RunDeps = { send, schedule }
+  const deps: RunDeps = { send, schedule, now: Date.now }
   const drawings = new DrawingClient(new DrawWorker())
   const dock = h("div", { class: "dock" }, [pipelineStrip(store, deps), paneNav(store)])
   bindPane(root, store)

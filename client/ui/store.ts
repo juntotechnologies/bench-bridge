@@ -18,6 +18,8 @@ export interface RunState {
   failed: boolean
   /** How many pipeline stages the current run has revealed, 0 to 5. */
   revealed: number
+  /** The clock time when the run began, or null when none is going. */
+  startedAt: number | null
 }
 
 export interface AppState extends RunState {
@@ -32,7 +34,7 @@ export interface AppState extends RunState {
 
 export type Listener = (state: AppState, previous: AppState) => void
 
-export const IDLE_RUN: RunState = { run: null, delivery: null, failed: false, revealed: 0 }
+export const IDLE_RUN: RunState = { run: null, delivery: null, failed: false, revealed: 0, startedAt: null }
 
 export class Store {
   private state: AppState

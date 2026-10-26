@@ -277,6 +277,7 @@ td, th { padding: 6px 4px; border-bottom: 1px solid var(--line); }
   box-shadow: var(--shadow-cta);
 }
 .run:disabled { opacity: 0.6; cursor: progress; }
+.run-elapsed { font-variant-numeric: tabular-nums; }
 
 /* A user who asks for reduced motion gets none. */
 @media (prefers-reduced-motion: reduce) {

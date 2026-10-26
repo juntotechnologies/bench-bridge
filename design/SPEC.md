@@ -128,7 +128,7 @@ The fit check opens each size.
 | Device card | `.device` | One instrument in the catalogue. | `is-active`, `is-planned` | `raised`, `line`, `ink`, `ring-accent`, `radius-md` | Original |
 | Status pill | `.status` | The state of an instrument. | `is-planned` | `ink`, `on-ink`, `ink-2`, `ink-3`, `radius-pill` | Original |
 | Stage card | `.stage-card` | One pipeline step. The running step shows a spinning ring.. | `is-active`, `is-done` | `panel`, `accent`, `ring-accent`, `ok`, `ok-soft`, `motion-base` | Task Rows, Beautiful UI (MIT) |
-| Run button | `.run` | The one primary action. | `:disabled` | `accent`, `on-accent`, `shadow-cta`, `radius-md` | Original |
+| Run button | `.run` | The one primary action. While a run goes on, it shows the elapsed seconds.. | `:disabled` | `accent`, `on-accent`, `shadow-cta`, `radius-md` | Loading State, Beautiful UI (MIT) |
 | Terminal | `.terminal` | Raw lines with numbers and times. Live lines arrive one by one.. | `is-live` | `raised`, `line`, `ink-3`, `accent-soft`, `motion-enter`, `ease-out` | Original |
 | Diff table | `.diff` | Show what a rule kept and what it dropped, with a count in the footer. | `is-kept`, `is-dropped` | `raised`, `line`, `ok`, `ok-soft`, `danger`, `danger-soft`, `radius-md` | Diff Table, Beautiful UI (MIT) |
 | Result card | `.result` | The one number the run produced. | none | `accent`, `accent-soft`, `radius-md`, `motion-enter` | Original |

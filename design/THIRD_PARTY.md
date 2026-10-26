@@ -4,6 +4,7 @@ These components adapt patterns from Beautiful UI, https://www.beautifului.dev/:
 
 | Pattern | Where it appears |
 |---|---|
+| Loading State | The elapsed-time readout on the Run button |
 | Task Rows | The spinner on the active stage card |
 | Diff Table | The readings table on the Data tab |
 | Insight Cards | The chart above the readings table on the Data tab |
