@@ -1,3 +1,4 @@
+/** Tests for line stamping and the balance line parser. */
 import { describe, expect, it } from "vitest"
 import { stampLines } from "@shared/bridge/capture"
 import { parseCapture } from "@shared/bridge/parsers"

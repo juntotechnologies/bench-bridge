@@ -1,6 +1,10 @@
+/** Main-thread client for the drawing worker: sends requests and caches each drawing. */
 import type { DrawReply, DrawRequest } from "./protocol"
 
-type Pending = { resolve: (markup: string) => void; reject: (error: Error) => void }
+interface Pending {
+  resolve: (markup: string) => void
+  reject: (error: Error) => void
+}
 
 /** Sends draw requests to the worker and caches each drawing by device, spacing and labels. */
 export class DrawingClient {

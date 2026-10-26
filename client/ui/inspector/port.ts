@@ -1,3 +1,4 @@
+/** The Port tab: connector diagram, line settings and pin table. */
 import { copy } from "@shared/registry"
 import type { Device } from "@shared/registry/schema"
 import { h, svg, type Child } from "../dom"

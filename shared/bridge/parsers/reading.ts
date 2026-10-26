@@ -1,3 +1,4 @@
+/** Builds a typed reading from parsed values. */
 import type { Extra, Reading } from "../types"
 
 type ReadingCore = Pick<Reading, "quantity" | "value" | "unit" | "takenAt" | "sampleId">

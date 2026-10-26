@@ -1,16 +1,17 @@
+/** Drawing model of the analytical balance: its parts, explosion paths and camera. */
 import { G, type Part } from "../engine"
 import { portAndTap, type Labels } from "../bridgeKit"
 import { block, frontRect, turned } from "../shapes"
 import { DEFAULT_CAMERA, type DrawingModel } from "./types"
 
 function housing(): Part {
-  const p = block("housing", "Base housing", [[-100, -150, 0], [100, 160, 78]], [0, 0, 0], 10)
+  const p = block({ id: "housing", name: "Base housing", corners: [[-100, -150, 0], [100, 160, 78]], explosion: [0, 0, 0], radius: 10 })
   G.circle(p, [0, 20, 78.05], 56, [0, 0, 1], { role: "detail" })
   return p
 }
 
 function display(): Part {
-  const p = block("display", "Display and keys", [[-82, -166, 18], [82, -152, 66]], [0, -80, 0], 4)
+  const p = block({ id: "display", name: "Display and keys", corners: [[-82, -166, 18], [82, -152, 66]], explosion: [0, -80, 0], radius: 4 })
   frontRect(p, -166.05, [-70, 40], [10, 58])
   frontRect(p, -166.05, [24, 30], [40, 40])
   frontRect(p, -166.05, [50, 30], [66, 40])
@@ -18,21 +19,23 @@ function display(): Part {
 }
 
 function pan(): Part {
-  return turned("pan", "Weighing pan", [[0, 0], [0, 46], [2.5, 46], [2.5, 0]], [0, 20, 92], [0, 0, 90])
+  const profile: [number, number][] = [[0, 0], [0, 46], [2.5, 46], [2.5, 0]]
+  return turned({ id: "pan", name: "Weighing pan", profile, at: [0, 20, 92], explosion: [0, 0, 90] })
 }
 
 function spider(): Part {
-  return turned("spider", "Pan support", [[0, 0], [0, 9], [12, 9], [12, 0]], [0, 20, 79], [0, 0, 45])
+  const profile: [number, number][] = [[0, 0], [0, 9], [12, 9], [12, 0]]
+  return turned({ id: "spider", name: "Pan support", profile, at: [0, 20, 79], explosion: [0, 0, 45] })
 }
 
 function shield(): Part {
-  const p = block("shield", "Draft shield glass", [[-86, -96, 82], [86, 146, 220]], [0, 0, 150], 4)
+  const p = block({ id: "shield", name: "Draft shield glass", corners: [[-86, -96, 82], [86, 146, 220]], explosion: [0, 0, 150], radius: 4 })
   p.transparent = true
   return p
 }
 
 function shieldFrame(): Part {
-  const p = block("frame", "Shield top frame", [[-90, -100, 221], [90, 150, 230]], [0, 0, 240], 6)
+  const p = block({ id: "frame", name: "Shield top frame", corners: [[-90, -100, 221], [90, 150, 230]], explosion: [0, 0, 240], radius: 6 })
   G.box(p, [-6, -110, 200], [6, -100, 221])
   return p
 }

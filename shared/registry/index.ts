@@ -1,3 +1,4 @@
+/** Loads and validates the JSON registries once, and exports them as typed values. */
 import { z } from "zod"
 import devicesJson from "../data/devices.json"
 import targetsJson from "../data/targets.json"

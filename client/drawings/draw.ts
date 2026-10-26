@@ -1,3 +1,4 @@
+/** Draws one device: looks up its model, builds the parts and projects them to SVG. */
 import type { Device } from "@shared/registry/schema"
 import { P, type RenderOptions, type RenderResult } from "./engine"
 import { MODELS } from "./models"

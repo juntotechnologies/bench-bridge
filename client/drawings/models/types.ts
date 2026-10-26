@@ -1,3 +1,4 @@
+/** The shape every drawing model must have, and the shared default camera. */
 import type { Camera, Part } from "../engine"
 import type { Labels } from "../bridgeKit"
 

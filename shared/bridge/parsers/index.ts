@@ -1,3 +1,4 @@
+/** Parser table: one parser per protocol kind in the registry. */
 import type { ParserConfig } from "../../registry/schema"
 import type { CapturedLine, Reading } from "../types"
 import { parseSicsLines } from "./sicsLine"

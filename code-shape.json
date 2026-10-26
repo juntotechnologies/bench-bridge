@@ -2,5 +2,6 @@
   "maxFunctionLines": 15,
   "maxComplexity": 5,
   "maxDepth": 1,
-  "maxParams": 4
+  "maxParams": 4,
+  "agentsMdIgnore": ["node_modules", "dist", "proof", "archive"]
 }

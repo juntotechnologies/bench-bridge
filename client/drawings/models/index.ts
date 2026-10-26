@@ -1,3 +1,4 @@
+/** Registry of drawing models, keyed by device ID. */
 import type { DrawingModel } from "./types"
 import { balance } from "./balance"
 

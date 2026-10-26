@@ -1,30 +1,53 @@
+/** Small part builders shared by every drawing model. */
 import { G, type Part, type Vec2, type Vec3 } from "./engine"
 
 export const BRIDGE_ID = "bridge"
 
-/** Points on a circle, for extrude holes and outlines. */
-export function disc(center: Vec2, radius: number, segments = 48): Vec2[] {
-  return Array.from({ length: segments }, discPoint.bind(null, center, radius, segments))
+interface Disc {
+  center: Vec2
+  radius: number
+  segments: number
 }
 
-function discPoint(center: Vec2, radius: number, segments: number, _: unknown, i: number): Vec2 {
-  const angle = (i * 2 * Math.PI) / segments
-  return [center[0] + radius * Math.cos(angle), center[1] + radius * Math.sin(angle)]
+/** Points on a circle, for extrude holes and outlines. */
+export function disc(center: Vec2, radius: number, segments = 48): Vec2[] {
+  return Array.from({ length: segments }, discPoint.bind(null, { center, radius, segments }))
+}
+
+function discPoint(shape: Disc, _: unknown, i: number): Vec2 {
+  const angle = (i * 2 * Math.PI) / shape.segments
+  return [shape.center[0] + shape.radius * Math.cos(angle), shape.center[1] + shape.radius * Math.sin(angle)]
+}
+
+interface PartSpec {
+  id: string
+  name: string
+  explosion: Vec3
+}
+
+export interface BlockSpec extends PartSpec {
+  corners: [Vec3, Vec3]
+  radius?: number
+}
+
+export interface TurnedSpec extends PartSpec {
+  profile: Vec2[]
+  at: Vec3
 }
 
 /** A part built from one block, given its world explosion. */
-export function block(id: string, name: string, corners: [Vec3, Vec3], explosion: Vec3, radius = 0): Part {
-  const p = G.part(id, name)
-  G.box(p, corners[0], corners[1], { radius })
-  p.explosion = explosion
+export function block(spec: BlockSpec): Part {
+  const p = G.part(spec.id, spec.name)
+  G.box(p, spec.corners[0], spec.corners[1], { radius: spec.radius ?? 0 })
+  p.explosion = spec.explosion
   return p
 }
 
 /** A turned part on a vertical axis through a base point. */
-export function turned(id: string, name: string, profile: Vec2[], at: Vec3, explosion: Vec3): Part {
-  const p = G.part(id, name)
-  G.lathe(p, profile, { axis: "z", at, creaseAngle: 20 })
-  p.explosion = explosion
+export function turned(spec: TurnedSpec): Part {
+  const p = G.part(spec.id, spec.name)
+  G.lathe(p, spec.profile, { axis: "z", at: spec.at, creaseAngle: 20 })
+  p.explosion = spec.explosion
   return p
 }
 

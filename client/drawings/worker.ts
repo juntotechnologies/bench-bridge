@@ -1,3 +1,4 @@
+/** Web worker that renders drawings off the main thread. */
 import { deviceById } from "@shared/registry"
 import { drawDevice } from "./draw"
 import type { DrawReply, DrawRequest } from "./protocol"

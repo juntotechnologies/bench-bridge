@@ -1,3 +1,4 @@
+/** Proof script: renders every device drawing to SVG and PNG, and fails when a model is missing. */
 import { mkdirSync, writeFileSync } from "node:fs"
 import { join } from "node:path"
 import { chromium, type Page } from "@playwright/test"

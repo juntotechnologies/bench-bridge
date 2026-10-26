@@ -1,3 +1,4 @@
+/** The top bar: brand, bridged count and the clock. */
 import { copy, devices } from "@shared/registry"
 import type { Device } from "@shared/registry/schema"
 import { h, svg } from "./dom"

@@ -7,7 +7,12 @@ import { IDLE_RUN, Store, type AppState } from "@client/ui/store"
 const INITIAL: AppState = { deviceId: "balance", tab: "overview", explosion: 1, labels: true, zoom: 1, ...IDLE_RUN }
 const RESPONSE: DeliverResponse = { receipts: [], ledger: null }
 
-function collector(): { callbacks: Array<() => void>; schedule: Schedule } {
+interface Collector {
+  callbacks: Array<() => void>
+  schedule: Schedule
+}
+
+function collector(): Collector {
   const callbacks: Array<() => void> = []
   return { callbacks, schedule: (callback: () => void) => void callbacks.push(callback) }
 }

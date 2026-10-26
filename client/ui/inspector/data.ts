@@ -1,3 +1,4 @@
+/** The Data tab: raw capture lines, parsed readings and the result card. */
 import { copy } from "@shared/registry"
 import type { Device } from "@shared/registry/schema"
 import { stampLines } from "@shared/bridge/capture"
@@ -6,15 +7,19 @@ import { h, type Child } from "../dom"
 import type { AppState } from "../store"
 
 export function dataTab(device: Device, state: AppState): Child[] {
-  const { run, revealed } = state
-  const lines = run?.captured ?? stampLines(device.capture)
+  const lines = state.run?.captured ?? stampLines(device.capture)
   return [
     h("div", { class: "eyebrow" }, [copy.data.raw, h("span", { class: "port-tag" }, [device.port.kind])]),
-    terminal(lines, revealed >= 1),
+    terminal(lines, state.revealed >= 1),
     h("div", { class: "eyebrow" }, [copy.data.parsed]),
-    run && revealed >= 2 ? readingTable(run, revealed) : null,
-    run && revealed >= 3 ? resultCard(run) : h("p", { class: "empty" }, [copy.data.empty]),
+    ...parsedSection(state),
   ]
+}
+
+function parsedSection(state: AppState): Child[] {
+  const { run, revealed } = state
+  if (!run || revealed < 2) return [h("p", { class: "empty" }, [copy.data.empty])]
+  return [readingTable(run, revealed), revealed >= 3 ? resultCard(run) : null]
 }
 
 function terminal(lines: CapturedLine[], live: boolean): HTMLElement {

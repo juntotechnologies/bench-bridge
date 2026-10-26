@@ -1,3 +1,4 @@
+/** Stamps each captured line with a time from the start time and cadence. */
 import type { Capture } from "../registry/schema"
 import type { CapturedLine } from "./types"
 

@@ -1,3 +1,4 @@
+/** Zod schemas for the registries: devices, targets, catalogue and pipeline stages. */
 import { z } from "zod"
 
 const Pair = z.tuple([z.string(), z.string()])

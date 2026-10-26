@@ -1,3 +1,4 @@
+/** The bridge tap and its mating port, drawn the same way for every instrument. */
 import { G, type Part, type Vec3 } from "./engine"
 import { BRIDGE_ID, disc } from "./shapes"
 

@@ -1,3 +1,4 @@
+/** The instrument catalogue panel: live devices are selectable, planned ones are dimmed. */
 import { catalog, copy, isLive } from "@shared/registry"
 import type { CatalogEntry } from "@shared/registry/schema"
 import type { DrawingClient } from "../drawings/client"

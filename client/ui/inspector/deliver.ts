@@ -39,13 +39,19 @@ function failure(): HTMLElement {
 
 function targetCard(state: AppState, delivery: Device["deliveries"][number]): HTMLElement {
   const target = targets[delivery.target]
-  const records = state.run?.mapped.filter(forTarget.bind(null, delivery.target)) ?? []
-  const receipts = state.delivery?.receipts.filter(forTarget.bind(null, delivery.target)) ?? []
   return h("section", { class: "target" }, [
     h("header", {}, [h("b", {}, [target.label]), h("span", {}, [target.record]), h("code", {}, [target.endpoint])]),
-    state.revealed >= PAYLOAD_STAGE ? payload(records) : fieldList(Object.keys(delivery.fields)),
-    state.revealed >= RECEIPT_STAGE ? receiptList(receipts) : null,
+    state.revealed >= PAYLOAD_STAGE ? payload(recordsFor(state, delivery.target)) : fieldList(Object.keys(delivery.fields)),
+    state.revealed >= RECEIPT_STAGE ? receiptList(receiptsFor(state, delivery.target)) : null,
   ])
+}
+
+function recordsFor(state: AppState, target: TargetId): MappedRecord[] {
+  return (state.run?.mapped ?? []).filter(forTarget.bind(null, target))
+}
+
+function receiptsFor(state: AppState, target: TargetId): Receipt[] {
+  return (state.delivery?.receipts ?? []).filter(forTarget.bind(null, target))
 }
 
 function forTarget(target: TargetId, item: MappedRecord | Receipt): boolean {

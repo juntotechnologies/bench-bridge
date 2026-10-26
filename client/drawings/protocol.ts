@@ -1,3 +1,4 @@
+/** Message shapes between the page and the drawing worker. */
 export interface DrawRequest {
   requestId: number
   deviceId: string

@@ -1,3 +1,4 @@
+/** Typed bridge to the vendored teardown geometry and projection engine. */
 import "../../.agents/skills/teardown/assets/geometry.js"
 import "../../.agents/skills/teardown/assets/sheet.js"
 import "../../.agents/skills/teardown/assets/projection.js"

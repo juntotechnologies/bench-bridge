@@ -1,3 +1,4 @@
+/** Inline SVG icon paths used across the UI. */
 const PATHS: Record<string, string> = {
   plug: "M9 2v4M15 2v4M6 6h12v4a6 6 0 0 1-12 0zM12 16v6",
   brackets: "M8 4H5v16h3M16 4h3v16h-3M9 12h6",

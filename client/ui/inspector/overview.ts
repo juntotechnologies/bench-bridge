@@ -1,3 +1,4 @@
+/** The Overview tab: before and after, the bridge kit and the specs. */
 import { copy } from "@shared/registry"
 import type { Device } from "@shared/registry/schema"
 import { h, svg, type Child } from "../dom"

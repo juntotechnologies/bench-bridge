@@ -1,3 +1,4 @@
+/** Maps normalized readings to target records using each device's field map. */
 import type { Device, FieldSource } from "../registry/schema"
 import type { FieldValue, MappedRecord, Reading } from "./types"
 

@@ -1,3 +1,4 @@
+/** The inspector panel: tab bar and the view for the selected tab. */
 import { copy, deviceById } from "@shared/registry"
 import type { Device } from "@shared/registry/schema"
 import { h, replace, type Child } from "../dom"

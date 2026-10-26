@@ -1,3 +1,4 @@
+/** Structured log line: a stable event name, correlating IDs and a severity. */
 export type Severity = "info" | "warn" | "error"
 
 export type LogFields = Record<string, string | number | boolean>

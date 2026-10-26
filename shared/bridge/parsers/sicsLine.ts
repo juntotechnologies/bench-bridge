@@ -1,3 +1,4 @@
+/** Parser for balance weight lines in the S S or S D print format. */
 import type { CapturedLine, Reading } from "../types"
 import { makeReading } from "./reading"
 

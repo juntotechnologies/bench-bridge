@@ -1,3 +1,4 @@
+/** Applies the device's rules: drop unstable weights, then weigh by difference. */
 import type { NormalizeRules } from "../registry/schema"
 import type { Normalized, Reading } from "./types"
 import { round } from "./numbers"

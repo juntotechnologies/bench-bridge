@@ -1,3 +1,4 @@
+/** Tiny typed DOM helpers: element builder, inline SVG and child replacement. */
 export type Child = Node | string | number | null | false | undefined
 
 export interface Props {
@@ -8,11 +9,23 @@ export interface Props {
 
 export function h<K extends keyof HTMLElementTagNameMap>(tag: K, props: Props = {}, children: Child[] = []): HTMLElementTagNameMap[K] {
   const element = document.createElement(tag)
-  if (props.class) element.className = props.class
-  for (const [name, value] of Object.entries(props.attrs ?? {})) setAttr(element, name, value)
-  for (const [name, listener] of Object.entries(props.on ?? {})) element.addEventListener(name, listener)
+  applyProps(element, props)
   element.append(...children.filter(isPresent).map(toNode))
   return element
+}
+
+function applyProps(element: HTMLElement, props: Props): void {
+  if (props.class) element.className = props.class
+  applyAttrs(element, props.attrs ?? {})
+  applyListeners(element, props.on ?? {})
+}
+
+function applyAttrs(element: HTMLElement, attrs: NonNullable<Props["attrs"]>): void {
+  for (const [name, value] of Object.entries(attrs)) setAttr(element, name, value)
+}
+
+function applyListeners(element: HTMLElement, listeners: NonNullable<Props["on"]>): void {
+  for (const [name, listener] of Object.entries(listeners)) element.addEventListener(name, listener)
 }
 
 /** Inline SVG from trusted generator output: our own icons and drawings. */

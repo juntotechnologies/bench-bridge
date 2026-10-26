@@ -1,3 +1,4 @@
+/** The drawing stage: the sheet, title block and the view, spacing, label and zoom controls. */
 import { copy, deviceById, devices } from "@shared/registry"
 import type { Device } from "@shared/registry/schema"
 import type { DrawingClient } from "../drawings/client"
@@ -18,6 +19,12 @@ interface StageParts {
   controls: ControlRefs
 }
 
+interface StageContext {
+  store: Store
+  drawings: DrawingClient
+  parts: StageParts
+}
+
 export function stage(store: Store, drawings: DrawingClient): HTMLElement {
   const parts: StageParts = {
     sheet: h("div", { class: "sheet", attrs: { "aria-busy": "true" } }),
@@ -25,15 +32,17 @@ export function stage(store: Store, drawings: DrawingClient): HTMLElement {
     status: h("div", { class: "render-status", attrs: { "aria-live": "polite" } }),
     controls: controlRefs(store),
   }
-  store.subscribe(update.bind(null, store, drawings, parts))
-  update(store, drawings, parts, store.get(), null)
+  const context: StageContext = { store, drawings, parts }
+  store.subscribe(update.bind(null, context))
+  update(context, store.get(), null)
   const bar = h("div", { class: "stage-controls" }, controlBar(store, parts.controls))
   return h("main", { class: "stage" }, [parts.sheet, parts.status, parts.titleBlock, bar])
 }
 
-function update(store: Store, drawings: DrawingClient, parts: StageParts, state: AppState, previous: AppState | null): void {
+function update(context: StageContext, state: AppState, previous: AppState | null): void {
+  const { drawings, parts } = context
   const device = deviceById(state.deviceId) as Device
-  if (needsDrawing(state, previous)) void paint(store, drawings, parts, state)
+  if (needsDrawing(state, previous)) void paint(context, state)
   if (previous?.deviceId !== state.deviceId) prewarm(drawings, device.id)
   parts.sheet.style.setProperty("--zoom", String(state.zoom))
   replace(parts.titleBlock, ...titleRows(device))
@@ -45,13 +54,18 @@ function needsDrawing(state: AppState, previous: AppState | null): boolean {
   return state.deviceId !== previous.deviceId || state.explosion !== previous.explosion || state.labels !== previous.labels
 }
 
-async function paint(store: Store, drawings: DrawingClient, parts: StageParts, state: AppState): Promise<void> {
-  parts.status.textContent = copy.stage.rendering
+async function paint(context: StageContext, state: AppState): Promise<void> {
+  context.parts.status.textContent = copy.stage.rendering
+  const markup = await drawOrLog(context.drawings, state)
+  if (markup !== null && isCurrent(context.store.get(), state)) showDrawing(context.parts, markup)
+}
+
+async function drawOrLog(drawings: DrawingClient, state: AppState): Promise<string | null> {
   try {
-    const markup = await drawings.draw(state.deviceId, state.explosion, state.labels && isSettled(state.explosion))
-    if (isCurrent(store.get(), state)) showDrawing(parts, markup)
+    return await drawings.draw(state.deviceId, state.explosion, state.labels && isSettled(state.explosion))
   } catch (error) {
     logEvent("drawing.failed", { deviceId: state.deviceId, message: String(error) }, "error")
+    return null
   }
 }
 

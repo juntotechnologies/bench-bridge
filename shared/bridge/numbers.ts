@@ -1,3 +1,4 @@
+/** Pure number helpers: rounding and leading-number parsing. */
 const NUMBER = /^[-+]?\d+(\.\d+)?$/
 
 export function round(value: number, places: number): number {
