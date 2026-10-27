@@ -111,3 +111,17 @@ describe("runBridge", () => {
     expect(run.mapped.map((r) => r.target)).toEqual(["lims", "ledger"])
   })
 })
+
+describe("the GC run", () => {
+  const gc = runBridge(deviceById("gc") as Device)
+
+  it("drops the air peak and delivers one record for each solvent", () => {
+    expect(gc.normalized.dropped.map((r) => r.quantity)).toEqual(["Air"])
+    expect(gc.normalized.kept.map((r) => r.quantity)).toEqual(["Methanol", "Ethanol", "Acetone"])
+    expect(gc.mapped).toHaveLength(3)
+  })
+
+  it("maps the solvent name to the analyte of each record", () => {
+    expect(gc.mapped.map((record) => record.fields["analyte"])).toEqual(["Methanol", "Ethanol", "Acetone"])
+  })
+})

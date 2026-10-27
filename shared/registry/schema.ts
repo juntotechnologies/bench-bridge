@@ -16,7 +16,7 @@ const Delivery = z.object({
 /** One entry per protocol; a new instrument family adds a member and a parser. */
 export const ParserConfig = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("sics-line"), quantity: z.string() }),
-  z.object({ kind: z.literal("peak-table"), analyte: z.string() }),
+  z.object({ kind: z.literal("peak-table"), unit: z.string(), analyte: z.string().optional(), role: z.string().optional() }),
   z.object({ kind: z.literal("ph-line"), quantity: z.string(), unit: z.string() }),
   z.object({ kind: z.literal("labelled-lines"), labels: z.array(z.string()).min(1) }),
 ])

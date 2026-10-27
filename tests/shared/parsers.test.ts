@@ -105,3 +105,17 @@ describe("labelled-lines parser", () => {
     expect(parseCapture(titrator.parser, lines, "S-1").map((r) => r.quantity)).toEqual(["Water"])
   })
 })
+
+describe("peak-table parser for a solvent screen", () => {
+  const gc = deviceById("gc") as Device
+
+  it("reads the unit from the config and names every peak a solvent when the method has no analyte", () => {
+    const readings = parseCapture(gc.parser, stampLines(gc.capture), "S-1")
+    expect(readings.map((r) => [r.quantity, r.value, r.unit, r.extras["role"]])).toEqual([
+      ["Air", 0, "ppm", "solvent"],
+      ["Methanol", 412.5, "ppm", "solvent"],
+      ["Ethanol", 198.3, "ppm", "solvent"],
+      ["Acetone", 41.7, "ppm", "solvent"],
+    ])
+  })
+})

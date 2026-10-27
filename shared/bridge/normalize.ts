@@ -36,7 +36,7 @@ function dropsUnstable(rules: NormalizeRules, reading: Reading): boolean {
   return rules.dropUnstable === true && reading.status === "unstable"
 }
 
-/** The solvent front: a peak that comes off the column before the limit. */
+/** The unretained peak, such as the solvent front or the air: a peak that comes off the column before the limit. */
 function elutesTooEarly(rules: NormalizeRules, reading: Reading): boolean {
   const minutes = reading.extras["minutes"]
   return rules.dropBeforeMinutes !== undefined && typeof minutes === "number" && minutes < rules.dropBeforeMinutes

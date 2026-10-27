@@ -51,7 +51,7 @@
       "settings": "100 Mbit · raw print, TCP port 9100",
       "pins": [["1", "TX+", "Data to the network"], ["2", "TX-", "Data to the network"], ["3", "RX+", "Data from the network"], ["6", "RX-", "Data from the network"]]
     },
-    "parser": { "kind": "peak-table", "analyte": "Codeine phosphate" },
+    "parser": { "kind": "peak-table", "unit": "%", "analyte": "Codeine phosphate" },
     "normalize": { "dropBeforeMinutes": 2, "purity": { "quantity": "Purity (area %)" } },
     "capture": {
       "startedAt": "2026-10-26T14:05:00Z",
@@ -64,6 +64,44 @@
         "  2      4.37    287650    98.10   Codeine phosphate",
         "  3      5.90      3120     1.06   Impurity A",
         "  4      7.24      1250     0.43   Impurity B"
+      ]
+    },
+    "deliveries": [
+      { "target": "lims", "fields": { "sample_ref": "reading.sampleId", "instrument_id": "device.assetId", "analyte": "reading.quantity", "result_value": "reading.value", "unit": "reading.unit", "measured_at": "reading.takenAt" } }
+    ]
+  },
+  {
+    "id": "gc",
+    "name": "GC system",
+    "model": "GC-6",
+    "era": 2005,
+    "status": "bridged",
+    "assetId": "EQ-0530",
+    "summary": "A gas chromatograph that tests a drug substance for residual solvents. The data system prints a peak report. Analysts copy each solvent result by hand.",
+    "today": ["The analyst prints the peak report on paper.", "The analyst types each solvent result into the LIMS.", "A software or Windows update can break the old instrument driver."],
+    "bridged": ["The tap reads the peak report that the data system prints over the network.", "The bridge drops the air peak and keeps each solvent result.", "One result for each solvent goes to the LIMS with its sample and instrument."],
+    "kit": "network-tap",
+    "specs": [["Detector", "Flame ionization"], ["Inlet", "Split or splitless"], ["Output", "Peak report to a network printer"]],
+    "connection": [["Where", "The network cable between the data system and its printer"], ["Today", "The chromatography data system prints the peak report to a network printer"], ["Trigger", "One report for each sample run"], ["Format", "A text peak table with one row for each peak. The value column is a concentration in parts per million"], ["On the instrument", "No change. The printer stays in the line"]],
+    "port": {
+      "kind": "LAN",
+      "connector": "RJ45 (Ethernet)",
+      "settings": "100 Mbit · raw print, TCP port 9100",
+      "pins": [["1", "TX+", "Data to the network"], ["2", "TX-", "Data to the network"], ["3", "RX+", "Data from the network"], ["6", "RX-", "Data from the network"]]
+    },
+    "parser": { "kind": "peak-table", "unit": "ppm", "role": "solvent" },
+    "normalize": { "dropBeforeMinutes": 1.5 },
+    "capture": {
+      "startedAt": "2026-10-26T14:15:00Z",
+      "cadenceMs": 800,
+      "sampleId": "S-2026-0427",
+      "lines": [
+        "Sample: S-2026-0427   Method: RESID-01",
+        "Peak   RT(min)   Area      ppm     Name",
+        "  1      0.92      8120      0.00   Air",
+        "  2      2.31     15420    412.50   Methanol",
+        "  3      3.05      9870    198.30   Ethanol",
+        "  4      4.48      2210     41.70   Acetone"
       ]
     },
     "deliveries": [

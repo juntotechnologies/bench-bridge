@@ -13,6 +13,9 @@ const HEADROOM = 1.25
 const TAIL = SPREAD * SIGMA
 const TICK_COUNT = 4
 const NOTE_LIFT = -6
+const NAME_LIFT = -17
+/** A label whose peak is past this share of the axis hangs to the left of the peak, so it stays inside the chart. */
+const RIGHT_EDGE = 0.88
 
 interface Peak {
   reading: Reading
@@ -50,7 +53,7 @@ export function chromatogram(run: BridgeRun, ruled: boolean): Chart {
     y: { domain: [0, HEADROOM], ticks: [], label: copy.chart.signal },
     lines: peaks.map(peakLine),
     dots: [],
-    notes: peaks.map(peakNote),
+    notes: peaks.flatMap(peakNotes.bind(null, { named: !run.readings.some(isMainPeak), end })),
     key: keyOf(peaks),
   }
 }
@@ -86,14 +89,23 @@ function stateOfPeak(peak: Peak): LineState {
   return peak.state
 }
 
-function peakNote(peak: Peak): Note {
-  return { at: { x: peak.minutes, y: peak.height }, text: noteText(peak), anchor: "middle", lift: NOTE_LIFT }
+interface NoteContext {
+  /** True for a run with no analyte peak, such as a solvent screen: every peak has a name. */
+  named: boolean
+  end: number
 }
 
-function noteText(peak: Peak): string {
-  if (peak.state === "dropped") return copy.chart.dropped
+/** A run with no analyte peak names every peak on its own line above its value. A run with one names only that peak. */
+function peakNotes(context: NoteContext, peak: Peak): Note[] {
   const share = shareOf(peak.reading)
-  return peak.state === "main" ? `${peak.reading.quantity} ${share}` : share
+  if (peak.state === "dropped") return [noteAt(context, peak, copy.chart.dropped, NOTE_LIFT)]
+  if (context.named) return [noteAt(context, peak, peak.reading.quantity, NAME_LIFT), noteAt(context, peak, share, NOTE_LIFT)]
+  return [noteAt(context, peak, peak.state === "main" ? `${peak.reading.quantity} ${share}` : share, NOTE_LIFT)]
+}
+
+function noteAt(context: NoteContext, peak: Peak, text: string, lift: number): Note {
+  const anchor = peak.minutes > context.end * RIGHT_EDGE ? "end" : "middle"
+  return { at: { x: peak.minutes, y: peak.height }, text, anchor, lift }
 }
 
 function isPresent(present: Set<LineState>, item: KeyItem): boolean {

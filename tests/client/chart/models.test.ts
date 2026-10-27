@@ -11,6 +11,7 @@ const hplc = runBridge(deviceById("hplc") as Device)
 const balance = runBridge(deviceById("balance") as Device)
 const meter = runBridge(deviceById("ph-meter") as Device)
 const titrator = runBridge(deviceById("kf-titrator") as Device)
+const solvents = runBridge(deviceById("gc") as Device)
 
 describe("chartKind", () => {
   it("draws a chromatogram for peaks and a trace for weights", () => {
@@ -97,5 +98,16 @@ describe("a strip of single values", () => {
   it("has no chart, because no quantity repeats and no peak has a retention time", () => {
     expect(chartKind(titrator.readings)).toBeNull()
     expect(chartFor(titrator, true)).toBeNull()
+  })
+})
+
+describe("chromatogram of a run with no analyte peak", () => {
+  it("names every peak, and marks the air peak dropped", () => {
+    const texts = chromatogram(solvents, true).notes.map((note) => note.text)
+    expect(texts).toEqual(["dropped", "Methanol", "412.50 ppm", "Ethanol", "198.30 ppm", "Acetone", "41.70 ppm"])
+  })
+
+  it("draws no main peak", () => {
+    expect(chromatogram(solvents, true).lines.map((line) => line.state)).toEqual(["dropped", "kept", "kept", "kept"])
   })
 })

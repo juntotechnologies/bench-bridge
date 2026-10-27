@@ -86,6 +86,13 @@ describe("facts", () => {
     expect(facts["kf-titrator.receipt.lims"]).toBe("RES-000001")
   })
 
+  it("computes the GC figures by running the real pipeline", () => {
+    expect(facts["gc.run.used"]).toBe("412.5")
+    expect(facts["gc.run.unit"]).toBe("ppm")
+    expect(facts["gc.run.unstable"]).toBe("1")
+    expect(facts["gc.receipt.ledger"]).toBeUndefined()
+  })
+
   it("names the live instruments", () => {
     for (const entry of catalog.filter(isLive)) expect(facts["catalog.liveNames"]).toContain(entry.name)
   })

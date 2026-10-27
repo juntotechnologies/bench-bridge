@@ -6,8 +6,14 @@ export const IMPURITY = "impurity"
 export const PERCENT_UNIT = "%"
 const RETENTION_PLACES = 2
 
-export function roleOf(analyte: string, name: string): string {
-  return name === analyte ? MAIN_PEAK : IMPURITY
+/** How a report names its peaks: one analyte peak, if the method has one, and a role for every other peak. */
+export interface PeakRoles {
+  analyte?: string | undefined
+  role?: string | undefined
+}
+
+export function roleOf(roles: PeakRoles, name: string): string {
+  return name === roles.analyte ? MAIN_PEAK : (roles.role ?? IMPURITY)
 }
 
 export function isMainPeak(reading: Reading): boolean {
