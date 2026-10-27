@@ -6,6 +6,7 @@
     "Deliver"
   ],
   "fleetLabel": "Bridged",
+  "hub": { "label": "Junto Technologies", "href": "https://juntotechnologies.com/#bench-bridge", "back": "Back to" },
   "theme": {
     "toLight": "Switch to light theme",
     "toDark": "Switch to dark theme"

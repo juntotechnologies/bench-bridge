@@ -52,6 +52,9 @@ code, pre { font-family: var(--font-mono); }
 .topbar-end { display: flex; gap: 10px; align-items: stretch; }
 .theme-toggle { display: grid; place-items: center; width: 40px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--panel); color: var(--ink-2); }
 .theme-toggle:hover { color: var(--accent); }
+.hub-link { display: flex; align-items: center; gap: 8px; min-height: var(--touch); padding: 0 14px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--panel); color: var(--ink-2); font: 500 11px var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; }
+.hub-link:hover { color: var(--accent); }
+@media (max-width: 699px) { .hub-link-text { display: none; } }
 .fleet { display: flex; gap: 10px; align-items: stretch; }
 .fleet > * { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 8px 14px; }
 .fleet-count { display: flex; align-items: center; gap: 12px; }

@@ -1,11 +1,21 @@
-/** The top bar: brand, bridged count and the clock. */
+/** The top bar: brand, link back to the Junto Technologies hub, bridged count and the clock. */
 import { copy, devices } from "@shared/registry"
 import type { Device } from "@shared/registry/schema"
 import { h, svg } from "./dom"
 import { icon } from "./icons"
 
 export function header(clock: HTMLElement, toggle: HTMLElement): HTMLElement {
-  return h("header", { class: "topbar" }, [brand(), h("div", { class: "topbar-end" }, [fleetCard(clock), toggle])])
+  return h("header", { class: "topbar" }, [brand(), h("div", { class: "topbar-end" }, [hubLink(), fleetCard(clock), toggle])])
+}
+
+/** The attributes of the link back to the hub. It opens in the same tab, so it sets no target. */
+export function hubAttrs(hub: typeof copy.hub): Record<string, string> {
+  return { href: hub.href, "aria-label": `${hub.back} ${hub.label}` }
+}
+
+function hubLink(): HTMLElement {
+  const text = h("span", { class: "hub-link-text" }, [copy.hub.label])
+  return h("a", { class: "hub-link", attrs: hubAttrs(copy.hub) }, [svg(icon("back"), "hub-link-icon"), text])
 }
 
 function brand(): HTMLElement {
