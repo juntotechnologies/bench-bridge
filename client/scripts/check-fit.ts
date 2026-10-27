@@ -1,4 +1,4 @@
-/** Fit check: opens the built site at many window sizes and fails when the page scrolls or a region is clipped. */
+/** Fit check: opens the built site at many window sizes and fails when the page scrolls, a region is clipped or the layout budget breaks. */
 import { mkdirSync } from "node:fs"
 import { join } from "node:path"
 import { chromium, type Browser, type Locator, type Page } from "@playwright/test"
@@ -6,6 +6,8 @@ import { z } from "zod"
 import viewportsJson from "@design/viewports.json" with { type: "json" }
 import fitJson from "./fit.json" with { type: "json" }
 import { devices } from "@shared/registry"
+import { LayoutConfig, layoutProblems } from "./layoutProbe"
+import { walkLight } from "./lightWalk"
 import { serveSite } from "./staticSite"
 
 const Viewport = z.object({ name: z.string(), width: z.number(), height: z.number() })
@@ -38,6 +40,8 @@ const Fit = z.object({
   deviceAttribute: z.string(),
   runMs: z.number(),
   minSheetHeight: z.number(),
+  layout: LayoutConfig,
+  lightSelector: z.string(),
 })
 type Fit = z.infer<typeof Fit>
 
@@ -124,12 +128,17 @@ async function cutOffText(page: Page): Promise<string[]> {
   return fit.truncated.filter(isFlagged.bind(null, flags))
 }
 
-/** Page script: true when the middle of the element is scrolled out of its scrolling ancestor. The user scrolls to such a control, so it is not covered. */
-const SCROLLED_OUT = `function scrolledOut(x, y, e) {
+/** Page script: true when the middle of the element is scrolled out of its scrolling ancestor. The sticky head and the fade at the foot of a panel count as scrolled out, because the user scrolls to such a control. */
+const SCROLLED_OUT = `function bandOf(p, c) {
+  const fade = parseFloat(getComputedStyle(p, "::after").height) || 0
+  const head = [...p.children].filter((k) => getComputedStyle(k).position === "sticky").reduce((sum, k) => sum + k.getBoundingClientRect().height, 0)
+  return { top: c.top + head, bottom: c.bottom - fade }
+}
+function scrolledOut(x, y, e) {
   for (let p = e.parentElement; p; p = p.parentElement) {
     if (!/auto|scroll/.test(getComputedStyle(p).overflowY)) continue
-    const c = p.getBoundingClientRect()
-    return y < c.top || y > c.bottom || x < c.left || x > c.right
+    const c = p.getBoundingClientRect(), band = bandOf(p, c)
+    return y < band.top || y > band.bottom || x < c.left || x > c.right
   }
   return false
 }`
@@ -190,9 +199,14 @@ function problemsOf(step: string, found: Measure): string[] {
   return [overflowProblem(step, found), clipProblem(step, found), escapeProblem(step, found), cutProblem(step, found), coverProblem(step, found), sheetProblem(step, found)].filter(isString)
 }
 
+function stepped(step: string, problem: string): string {
+  return `${step}: ${problem}`
+}
+
 async function check(page: Page, viewport: Viewport, step: string): Promise<string[]> {
   await page.waitForTimeout(150)
-  return problemsOf(step, await measure(page, viewport))
+  const layout = await layoutProblems(page, fit.layout, fit.tappable, viewport.width)
+  return [...problemsOf(step, await measure(page, viewport)), ...layout.map(stepped.bind(null, step))]
 }
 
 async function paneIfVisible(button: Locator): Promise<string | null> {
@@ -310,6 +324,7 @@ async function walkViewport(browser: Browser, url: string, viewport: Viewport): 
   await page.goto(url)
   await page.waitForSelector(fit.readySelector)
   const problems: string[] = []
+  problems.push(...(await walkLight(page, fit.lightSelector)))
   for (const device of devices) problems.push(...(await walkDevice(page, viewport, device.id)))
   await page.close()
   return problems.map(labelled.bind(null, viewport))

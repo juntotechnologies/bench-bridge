@@ -36,6 +36,22 @@
     [
       ".device-name",
       ".device"
+    ],
+    [
+      ".brand",
+      ".topbar"
+    ],
+    [
+      ".hub-link",
+      ".topbar"
+    ],
+    [
+      ".fleet",
+      ".topbar"
+    ],
+    [
+      ".theme-toggle",
+      ".topbar"
     ]
   ],
   "truncated": [
@@ -74,7 +90,12 @@
     ".run",
     ".stage-switch",
     ".part-row",
-    ".kit-open"
+    ".kit-open",
+    ".filter",
+    ".hub-link",
+    ".theme-toggle",
+    ".device:not(.is-planned)",
+    ".code-copy"
   ],
   "sliderSelector": ".slider input",
   "motionMs": 3000,
@@ -87,5 +108,30 @@
       "button": ".segmented button:nth-child(2)",
       "value": "1"
     }
-  ]
+  ],
+  "layout": {
+    "rows": [
+      ".pane-nav button",
+      ".stage-card"
+    ],
+    "frames": [
+      ".topbar",
+      ".pipeline",
+      ".dock"
+    ],
+    "compactFrames": [
+      ".devices",
+      ".stage",
+      ".inspector"
+    ],
+    "headings": [
+      ".brand-name",
+      ".inspector-title",
+      ".device-name",
+      ".ledger-substance"
+    ],
+    "headingLines": 2,
+    "tolerance": 1
+  },
+  "lightSelector": ".stage"
 }
