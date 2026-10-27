@@ -77,7 +77,7 @@ code, pre { font-family: var(--font-mono); }
 .device.is-planned { cursor: default; opacity: 0.55; }
 .device[hidden] { display: none; }
 .filters { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 10px 8px; }
-.filter { display: inline-flex; gap: 6px; align-items: center; border: 1px solid var(--line); border-radius: var(--radius-pill); background: transparent; padding: 4px 10px; font: 500 10.5px var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); transition: background var(--motion-fast), color var(--motion-fast); }
+.filter { display: inline-flex; gap: 6px; align-items: center; border: 1px solid var(--line); border-radius: var(--radius-pill); background: transparent; padding: 4px 10px; font: 500 10.5px var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); transition: transform var(--motion-fast) var(--ease-out), background var(--motion-fast), color var(--motion-fast); }
 .filter b { font-weight: 500; color: var(--ink-3); }
 .filter.is-on { background: var(--ink-card); border-color: var(--ink); color: var(--on-ink); }
 .filter.is-on b { color: var(--on-ink-2); }
@@ -118,7 +118,10 @@ code, pre { font-family: var(--font-mono); }
   font: 500 10.5px var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase;
 }
 .stage-switch > span { display: grid; color: var(--accent); }
-.render-status { position: absolute; top: 14px; left: 16px; font: 500 10px var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+/* The sample tag sits top left and the stage switch top right. The tag row wraps before it reaches the switch. */
+.stage-tags { position: absolute; top: 12px; left: 14px; z-index: 1; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; min-height: 34px; max-width: calc(100% - 172px); }
+.sample-tag { padding: 4px 10px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--panel); font: 500 10px var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); }
+.render-status { font: 500 10px var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
 /* The title block is a one-line caption in a narrow stage and a boxed corner stamp in a wide one. */
 .title-block {
   display: flex; flex-wrap: wrap; justify-content: center; gap: 0 14px; padding: 0 12px;
@@ -398,16 +401,22 @@ td, th { padding: 6px 4px; border-bottom: 1px solid var(--line); }
   .app:not([data-pane="inspector"]) .inspector { display: none; }
   .brand-tagline { display: none; }
   .brand-mark { width: 36px; height: 36px; }
-  .brand-name { font-size: 15px; }
-  .fleet > * { padding: 5px 10px; }
-  .meter { width: 56px; }
+  .brand { gap: 8px; }
+  .brand-name { font-size: 15px; letter-spacing: 0.16em; }
+  .topbar-end { gap: 6px; }
+  .fleet > * { padding: 5px 8px; }
+  .fleet-count { gap: 8px; }
+  .meter { width: 40px; }
   .dock { display: grid; grid-area: dock; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
   .pipeline { display: contents; }
   .stage-card { flex-direction: column; justify-content: center; gap: 3px; padding: 6px 2px; text-align: center; }
   .stage-label { font-size: 8.5px; letter-spacing: 0.04em; }
   .stage-no { display: none; }
   .pane-nav { grid-column: 1 / 4; }
-  .pane-nav button { flex-direction: column; gap: 2px; padding: 4px 2px; font-size: 8.5px; letter-spacing: 0.04em; }
+  .pane-nav button { flex-direction: column; gap: 2px; min-width: 0; padding: 4px 2px; font-size: 8.5px; letter-spacing: 0.04em; }
+  /* Every control reaches the touch size. The copy button keeps its row height with a negative margin. */
+  .filter, .segmented button, .tabs button, .kit-open, .stage-switch, .part-row, .slider input, .code-copy { min-height: var(--touch); }
+  .code-copy { margin: -6px 0; }
   .run { grid-column: 4 / 6; min-height: var(--touch); padding: 0 8px; justify-content: center; letter-spacing: 0.1em; }
   .zoom, .stage-controls .chip { display: none; }
   .slider input { width: 80px; }
@@ -431,4 +440,52 @@ td, th { padding: 6px 4px; border-bottom: 1px solid var(--line); }
   .stage-icon { width: 24px; height: 24px; }
   .stage-controls { margin: 4px 0 6px; padding: 4px; }
   .segmented button, .chip { padding: 6px 10px; }
+}
+
+/*
+  Alive kit. Each rule is a cue: light follows the pointer, a control answers a touch, one tap pulses.
+  The rules sit last so they win ties. Reduced motion turns the moving ones off.
+*/
+@property --glow-on { syntax: "<number>"; initial-value: 0; inherits: false; }
+@property --sheen-angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+@keyframes arrive { from { opacity: 0; } }
+@keyframes tap-pulse { 50% { opacity: 0.4; } }
+@keyframes sheen { to { --sheen-angle: 360deg; } }
+
+.topbar, .stage-card, .run, .pane-nav { animation: arrive var(--motion-reveal) var(--ease-out) backwards; }
+.devices, .stage, .inspector, .ledger { animation: arrive var(--motion-enter) var(--ease-out) backwards; }
+
+:is(.run, .hub-link, .theme-toggle, .kit-open, .stage-switch, .pane-nav button, .chip, .segmented button, .zoom button) {
+  transition: transform var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast), background var(--motion-fast), color var(--motion-fast), border-color var(--motion-fast);
+}
+:is(.run, .hub-link, .theme-toggle, .kit-open, .stage-switch, .pane-nav button, .filter, .chip, .segmented button, .zoom button):active:not(:disabled) { transform: scale(var(--press-scale)); }
+
+.run { position: relative; }
+.run::before {
+  content: ""; position: absolute; inset: 0; padding: 1.5px; border-radius: var(--radius-md); pointer-events: none;
+  background: conic-gradient(from var(--sheen-angle), transparent 0 60%, var(--sheen) 80%, transparent 100%);
+  -webkit-mask: linear-gradient(var(--ink) 0 0) content-box, linear-gradient(var(--ink) 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(var(--ink) 0 0) content-box exclude, linear-gradient(var(--ink) 0 0);
+  animation: sheen var(--motion-sheen) linear infinite;
+}
+.run:disabled::before { display: none; }
+
+/* The bridge tap breathes on the instrument view, so the one orange part invites a tap. */
+.sheet:not(.is-kit) .drawing [data-item="bridge"] { animation: tap-pulse var(--motion-ping) ease-in-out infinite; }
+
+@media (hover: hover) and (pointer: fine) {
+  :is(.run, .hub-link, .theme-toggle, .kit-open, .stage-switch):hover:not(:disabled) { transform: translateY(var(--lift)); }
+  :is(.hub-link, .theme-toggle, .stage-switch):hover { box-shadow: var(--shadow-lift); }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  [data-glow] {
+    background-image: radial-gradient(var(--glow-size) circle at var(--glow-x, 50%) var(--glow-y, 50%), color-mix(in srgb, var(--glow-tint) calc(var(--glow-on) * 100%), transparent), transparent);
+    transition: transform var(--motion-fast) var(--ease-out), border-color var(--motion-base), box-shadow var(--motion-base), color var(--motion-fast), --glow-on var(--motion-glow);
+  }
+  [data-glow]:hover { --glow-on: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .run::before { display: none; }
 }

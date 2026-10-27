@@ -6,6 +6,7 @@
     "Deliver"
   ],
   "fleetLabel": "Bridged",
+  "sample": "Sample data",
   "hub": { "label": "Junto Technologies", "href": "https://juntotechnologies.com/#bench-bridge", "back": "Back to" },
   "theme": {
     "toLight": "Switch to light theme",
@@ -125,6 +126,7 @@
     "opening": "Opening balance",
     "closing": "Closing balance",
     "schedule": "Schedule",
+    "mock": "Mock LIMS and mock ledger. Every value is sample data.",
     "failed": "Delivery failed. The server did not answer."
   },
   "chart": {

@@ -50,7 +50,12 @@ export function stage(store: Store, drawings: DrawingClient, schedule: Schedule)
   store.subscribe(update.bind(null, context))
   update(context, store.get(), null)
   const bar = h("div", { class: "stage-controls" }, controlBar(store, parts.controls))
-  return h("main", { class: "stage" }, [parts.sheet, parts.status, parts.titleBlock, parts.controls.view, bar])
+  return h("main", { class: "stage", attrs: { "data-glow": true } }, [parts.sheet, stageTags(parts.status), parts.titleBlock, parts.controls.view, bar])
+}
+
+/** The tag that marks every figure as sample data, with the render status beside it. */
+function stageTags(status: HTMLElement): HTMLElement {
+  return h("div", { class: "stage-tags" }, [h("span", { class: "sample-tag" }, [copy.sample]), status])
 }
 
 function update(context: StageContext, state: AppState, previous: AppState | null): void {

@@ -13,7 +13,7 @@ const RECEIPT_STAGE = 5
 export function deliverTab(device: Device, state: AppState): Child[] {
   const cards = device.deliveries.map(targetCard.bind(null, state))
   const ledger = state.delivery?.ledger
-  return [ledger ? ledgerCard(ledger) : null, state.failed ? failure() : null, ...cards]
+  return [h("p", { class: "hint" }, [copy.deliver.mock]), ledger ? ledgerCard(ledger) : null, state.failed ? failure() : null, ...cards]
 }
 
 /** The DEA-facing view: the container's running balance before and after this use. */

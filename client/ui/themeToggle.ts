@@ -22,7 +22,7 @@ function resync(env: ThemeEnv, store: Store, button: HTMLElement): void {
 }
 
 export function themeToggle(env: ThemeEnv, store: Store): HTMLElement {
-  const button = h("button", { class: "theme-toggle", attrs: { type: "button" }, on: { click: flip.bind(null, env, store) } })
+  const button = h("button", { class: "theme-toggle", attrs: { type: "button", "data-glow": true }, on: { click: flip.bind(null, env, store) } })
   store.subscribe(sync.bind(null, env, button))
   env.media.addEventListener("change", resync.bind(null, env, store, button))
   sync(env, button, store.get())
