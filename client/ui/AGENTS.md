@@ -8,3 +8,4 @@ The DOM UI: five regions, one store.
 - Build a control once and update it in place. Do not rebuild it on each state change.
 - UI text comes from `copy` in the registry. Do not write it inline.
 - Pass dependencies in (`RunDeps`). Do not reach for globals.
+- A card that glows carries the attribute `data-glow`. `pointerLight.ts` writes the pointer position onto it. Add no second pointer listener.

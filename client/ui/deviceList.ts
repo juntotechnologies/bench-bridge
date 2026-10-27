@@ -11,7 +11,7 @@ type FilterEntry = (typeof copy.filters)[number]
 export function deviceList(store: Store, drawings: DrawingClient): HTMLElement {
   const cards = catalog.map(card.bind(null, store, drawings))
   const title = h("div", { class: "panel-title" }, [copy.panels.devices])
-  const panel = h("aside", { class: "panel devices" }, [title, filterBar(store), ...cards])
+  const panel = h("aside", { class: "panel devices", attrs: { "data-glow": true } }, [title, filterBar(store), ...cards])
   store.subscribe(markActive.bind(null, panel))
   markActive(panel, store.get())
   return panel

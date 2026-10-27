@@ -16,6 +16,7 @@ import { deviceList } from "./ui/deviceList"
 import { stage } from "./ui/stage"
 import { inspector } from "./ui/inspector"
 import { bindPane, paneNav } from "./ui/paneNav"
+import { bindPointerLight, LIGHT_QUERY } from "./ui/pointerLight"
 import { bindTheme, browserStorage, readTheme, type Theme, type ThemeEnv, type ThemeStorage } from "./ui/theme"
 import { themeToggle } from "./ui/themeToggle"
 import { pipelineStrip } from "./ui/pipelineStrip"
@@ -56,6 +57,7 @@ function mount(root: HTMLElement): void {
   bindTheme(env, store)
   const dock = h("div", { class: "dock" }, [pipelineStrip(store, deps), paneNav(store)])
   bindPane(root, store)
+  bindPointerLight(document.body, window.matchMedia(LIGHT_QUERY))
   root.replaceChildren(header(clock, themeToggle(env, store)), deviceList(store, drawings), stage(store, drawings, schedule), inspector(store), dock)
 }
 

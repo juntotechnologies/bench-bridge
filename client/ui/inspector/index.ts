@@ -28,7 +28,7 @@ export function inspector(store: Store): HTMLElement {
   const panel: Panel = { store, tabs, body }
   store.subscribe(render.bind(null, panel))
   render(panel, store.get(), null)
-  return h("aside", { class: "panel inspector" }, [tabs, body])
+  return h("aside", { class: "panel inspector", attrs: { "data-glow": true } }, [tabs, body])
 }
 
 function tabButton(store: Store, tab: TabId): HTMLElement {

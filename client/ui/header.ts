@@ -15,7 +15,7 @@ export function hubAttrs(hub: typeof copy.hub): Record<string, string> {
 
 function hubLink(): HTMLElement {
   const text = h("span", { class: "hub-link-text" }, [copy.hub.label])
-  return h("a", { class: "hub-link", attrs: hubAttrs(copy.hub) }, [svg(icon("back"), "hub-link-icon"), text])
+  return h("a", { class: "hub-link", attrs: { ...hubAttrs(copy.hub), "data-glow": true } }, [svg(icon("back"), "hub-link-icon"), text])
 }
 
 function brand(): HTMLElement {
@@ -35,7 +35,7 @@ function fleetCard(clock: HTMLElement): HTMLElement {
   const bridged = devices.filter(isBridged).length
   const meter = h("div", { class: "meter" }, [h("span", { attrs: { style: `width:${(bridged / devices.length) * 100}%` } })])
   return h("div", { class: "fleet" }, [
-    h("div", { class: "fleet-count" }, [
+    h("div", { class: "fleet-count", attrs: { "data-glow": true } }, [
       svg(icon("tag"), "fleet-icon"),
       h("div", {}, [h("div", { class: "eyebrow" }, [copy.fleetLabel]), meter]),
       h("b", {}, [`${bridged}/${devices.length}`]),
