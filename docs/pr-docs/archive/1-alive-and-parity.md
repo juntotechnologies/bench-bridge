@@ -1,6 +1,6 @@
 # PR 1: Alive kit and parity for Bench Bridge
 
-Status: in-scope work complete
+Status: done (merged 2026-10-27)
 
 Branch: `feature/alive-and-parity`
 
@@ -106,7 +106,7 @@ Run on the built site at the preview address, with a desktop pointer and with to
   - Each control is at least 44 px tall.
   - The page does not scroll.
 
-Evidence: walks in Chromium on the built site (`vite preview` of `dist-pages`) at 1440, 820, 360, 390 and 430 px in light and dark, with pointer, touch and reduced-motion contexts. The built site is the commit `69df280`. The live site gets the same walk after the merge.
+Evidence: walks in Chromium on the built site (`vite preview` of `dist-pages`) at 1440, 820, 360, 390 and 430 px in light and dark, with pointer, touch and reduced-motion contexts. The built site has the code of `bf6cc0c` on main. Live walk after the merge at 360 px: Sample data tag shows, the Deliver line shows, the theme button ends at 350 px and the page does not scroll.
 
 ### Automated checks
 
@@ -146,4 +146,4 @@ A fresh review agent was not run: this worker cannot start an agent. The whole d
 
 ## Related Docs
 
-- [Design spec](../../design/SPEC.md)
+- [Design spec](../../../design/SPEC.md)

@@ -4,10 +4,10 @@ One doc per pull request. Each doc holds the goal, the checklist, the smoke test
 
 ## Active
 
-| PR | Doc | Status |
-| --- | --- | --- |
-| 1 | [Alive kit and parity](1-alive-and-parity.md) | in-scope work complete |
+None.
 
 ## Archive
 
-None yet.
+| PR | Doc | Status |
+| --- | --- | --- |
+| 1 | [Alive kit and parity](archive/1-alive-and-parity.md) | done (merged 2026-10-27) |
