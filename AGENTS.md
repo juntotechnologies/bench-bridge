@@ -7,6 +7,7 @@ When working on coding with me, follow this workflow.
 - Show no prices anywhere in the demo. Name a vendor only as a labelled example part, and say it is not an endorsement.
 - Commit early and often, directly on `main`, and push after each commit.
 - Do not write PR docs or open PRs until Shaun ends demo mode.
+- Exception, 2026-10-27: Shaun asked for a PR on `feature/alive-and-parity` and gave full authority to merge it. Write a PR doc for it. Merge it yourself after the checks pass.
 
 ## 1. Discuss First
 
@@ -158,6 +159,7 @@ discard someone else's uncommitted work without asking.
 - Every code file starts with a one-line `/** ... */` docstring. Lint enforces it.
 - Every function takes and returns named types. Data shapes are `interface`s or schema-inferred types, never inline object types.
 - `design/` holds the design spec. Take every colour, radius, shadow and timing from `design/tokens.json`. Copy `design/` to a new project to reuse the look.
+- `design/SPEC.md` is this app's taste, generated from `design/`. The shared `site-taste` skill in `agent-skills` holds the rules that every Junto site shares. Change the look in `design/`. Change a shared rule in the skill.
 
 ## 13. Docs Derive From Sources (decided by Shaun)
 

@@ -92,7 +92,7 @@
     "dev": "Starts the app and the API, and prints the one tailnet link",
     "docs": "Rewrites every generated block from its source",
     "drawings": "Draws every instrument and kit under Node, and fails when a part or a builder is missing",
-    "fit": "Builds the static site, opens it at nine window sizes, and fails when the page scrolls or a region is clipped",
+    "fit": "Builds the static site, opens it at nine window sizes, and fails when the page scrolls, a region is clipped, a control is too small to tap, or the layout budget breaks",
     "health": "Checks that the dev server answers",
     "lint": "ESLint, the AGENTS.md check and the docs check",
     "media": "Builds the static site, records it, and writes the README screenshot and GIF",

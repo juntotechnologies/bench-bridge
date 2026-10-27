@@ -6,8 +6,8 @@
   "title": "Bench Bridge demo: older lab instruments feed a LIMS",
   "tagline": "Demo with sample data",
   "headline": "Older lab instruments feed the LIMS and the ledger",
-  "description": "Demo with sample data. It shows how older lab instruments can feed a laboratory information management system (LIMS) and controlled-substance ledgers.",
-  "summary": "Bench Bridge is a demo with sample data. It shows how older lab instruments can feed a laboratory information management system (LIMS) and controlled-substance ledgers.",
+  "description": "Demo with sample data. It shows how older lab instruments feed a laboratory information management system (LIMS) and a controlled-substance ledger.",
+  "summary": "Bench Bridge is a demo with sample data. It shows how older lab instruments feed a laboratory information management system (LIMS) and a controlled-substance ledger.",
   "needsScript": "This demo needs JavaScript to run.",
   "shows": [
     "Each demo instrument has a concept drawing, a port, a bridge kit, sample readings and a delivery step.",
@@ -29,7 +29,7 @@
   "links": [
     { "kind": "demo", "label": "Live demo", "note": "The demo app. It runs in the browser." },
     { "kind": "maker", "label": "Junto Technologies", "note": "The maker of Bench Bridge." },
-    { "kind": "source", "label": "Source code", "note": "The code of the demo.", "url": "https://github.com/juntotechnologies/bench-bridge" },
+    { "kind": "source", "label": "Source on GitHub", "note": "The code of the demo.", "url": "https://github.com/juntotechnologies/bench-bridge" },
     { "kind": "booking", "label": "Book a call", "note": "Talk to the maker.", "url": "https://cal.com/shaun-porwal-junto/30min" }
   ],
   "pages": [
