@@ -18,6 +18,12 @@ The design spec: one source for the look of every screen. Copy this directory to
 10. Give every colour and shadow a dark value. Never branch on the theme in a stylesheet. Keep each colour pair in the contrast file. Why: Both themes then come from one source, and a test finds a faint pair.
 11. Write no raw colour, radius, shadow or timing in a stylesheet. Use a token. Why: One source means one change. A test enforces this.
 12. Run the fit check after every layout change. It opens every window size in the viewports file. Why: A layout that fits one size often fails another.
+13. Make a control answer the touch: it sinks when pressed, and it rises on hover where a pointer can hover. Why: A control that answers shows that the tap landed. Touch screens have no hover, so hover never carries a fact.
+14. Let a soft light follow the pointer over a card. Show it only for a pointer that can hover, and never under reduced motion. Why: The light shows which card the pointer is on. It is decoration, so it must not trouble touch or motion-sensitive readers.
+15. Give the one main action one ambient cue, and give the one tappable part of the drawing one. Stop each cue when the user acts. Why: One quiet cue shows where to start. Many cues compete, and the page then looks busy.
+16. Mark sample data on screen wherever a result, a record or a ledger line shows. Why: A demo that looks like a real record must say that it is not one.
+17. Use no gradient blob, no glow text and no coloured icon chip. Animate opacity, scale, translate and a registered colour or angle only. Why: These effects read as generated. A change of layout during motion makes the page jump.
+18. Check tap size, equal-width rows, equal side margins and heading lines in the fit check, at every window size. Why: A reader on a phone sees these faults first, and a test finds them before the reader does.
 
 ## Tokens
 
@@ -46,6 +52,8 @@ The design spec: one source for the look of every screen. Copy this directory to
 | `--ok-soft` | `#e5f1ea` | Success tint: kept rows, receipts and done steps. |
 | `--danger` | `#b3261e` | Error text and icons. |
 | `--danger-soft` | `#fbe3e1` | Error tint: rejected receipts and dropped rows. |
+| `--glow-tint` | `rgba(232, 89, 12, 0.1)` | The light that follows the pointer over a card. |
+| `--sheen` | `rgba(255, 255, 255, 0.85)` | The edge light that circles the Run button. |
 
 ### font
 
@@ -70,6 +78,7 @@ The design spec: one source for the look of every screen. Copy this directory to
 | --- | --- | --- |
 | `--shadow-panel` | `0 1px 0 rgba(255, 255, 255, 0.8) inset, 0 8px 24px -16px rgba(28, 27, 25, 0.25)` | Panel: a light top edge and a soft drop. |
 | `--shadow-float` | `0 6px 18px -10px rgba(0, 0, 0, 0.3)` | A bar that floats over the drawing. |
+| `--shadow-lift` | `0 8px 20px -12px rgba(28, 27, 25, 0.35)` | A control that rises on hover. |
 | `--shadow-cta` | `0 8px 20px -10px var(--accent)` | The primary button glow. |
 | `--ring-accent` | `0 0 0 3px var(--accent-soft)` | Focus and active ring. |
 
@@ -85,6 +94,11 @@ The design spec: one source for the look of every screen. Copy this directory to
 | `--motion-draw` | `0.8s` | A chart line draws itself in. |
 | `--motion-hold` | `1.6s` | How long a confirmation, such as Copied, stays on screen. |
 | `--motion-spin` | `0.9s` | One turn of a spinner. |
+| `--motion-glow` | `0.4s` | The pointer light fades in and out. |
+| `--motion-reveal` | `0.55s` | A region fades in when the app loads. |
+| `--motion-ping` | `3.2s` | One breath of the pulse on the bridge tap. |
+| `--motion-sheen` | `6s` | One turn of the edge light on the Run button. |
+| `--press-scale` | `0.97` | The size of a control while it is pressed. |
 | `--motion-none` | `0.01ms` | Stands in for no motion when the user asks for reduced motion. |
 
 ### size
@@ -92,6 +106,8 @@ The design spec: one source for the look of every screen. Copy this directory to
 | Token | Value | Use |
 | --- | --- | --- |
 | `--touch` | `44px` | Smallest tap target on a narrow window. |
+| `--glow-size` | `220px` | Radius of the pointer light. |
+| `--lift` | `-1px` | How far a control rises on hover. |
 | `--fade` | `28px` | Height of the fade at the foot of a panel that scrolls. |
 
 ## Contrast
@@ -174,4 +190,10 @@ The fit check opens each size.
 | Part row | `.part` | One part of a bridge kit. A pick opens its job, its reason and its example parts. A click on the drawing picks the same part.. | `is-picked` | `raised`, `line`, `accent`, `ring-accent`, `radius-md`, `ink-2` | Original |
 | Step list | `.steps` | Numbered steps for the data flow and the install. Plain items for the checks and the safeguards.. | none | `ink-card`, `on-ink`, `ink-2`, `line`, `radius-pill` | Original |
 | Title block | `.title-block` | A caption on a narrow stage and a boxed corner stamp on a wide one. | none | `panel`, `ink`, `line` | Original |
+| Pointer light | `[data-glow]` | A soft light that follows the pointer over a card. It shows only where a pointer can hover, and never under reduced motion.. | `:hover` | `glow-tint`, `glow-size`, `motion-glow` | Original |
+| Press feedback | `:active:not(:disabled)` | A control sinks when pressed. Where a pointer can hover, the main controls also rise.. | `:active`, `:hover` | `press-scale`, `lift`, `shadow-lift`, `motion-fast`, `ease-out` | Original |
+| Edge light | `.run::before` | A light that circles the edge of the Run button while the bridge is idle. Reduced motion hides it.. | `:disabled` | `sheen`, `motion-sheen` | Original |
+| Tap pulse | `[data-item="bridge"]` | The bridge tap fades in and out on the instrument view, so the one orange part invites a tap.. | none | `motion-ping` | Original |
+| Arrival | `@keyframes arrive` | A region fades in when the app loads and a card fades in when it appears. Opacity only, so no layout moves.. | none | `motion-reveal`, `motion-enter`, `ease-out` | Original |
+| Sample tag | `.sample-tag` | Marks every figure on the stage as sample data. | none | `panel`, `line`, `ink-2`, `radius-pill`, `font-mono` | Original |
 

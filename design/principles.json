@@ -10,5 +10,11 @@
   { "rule": "Let nothing run past an edge. Wrap code lines. Fade the foot of a panel that scrolls, so cut content reads as more below.", "why": "Content cut at an edge with no cue looks like a fault, and the reader cannot tell what is missing." },
   { "rule": "Give every colour and shadow a dark value. Never branch on the theme in a stylesheet. Keep each colour pair in the contrast file.", "why": "Both themes then come from one source, and a test finds a faint pair." },
   { "rule": "Write no raw colour, radius, shadow or timing in a stylesheet. Use a token.", "why": "One source means one change. A test enforces this." },
-  { "rule": "Run the fit check after every layout change. It opens every window size in the viewports file.", "why": "A layout that fits one size often fails another." }
+  { "rule": "Run the fit check after every layout change. It opens every window size in the viewports file.", "why": "A layout that fits one size often fails another." },
+  { "rule": "Make a control answer the touch: it sinks when pressed, and it rises on hover where a pointer can hover.", "why": "A control that answers shows that the tap landed. Touch screens have no hover, so hover never carries a fact." },
+  { "rule": "Let a soft light follow the pointer over a card. Show it only for a pointer that can hover, and never under reduced motion.", "why": "The light shows which card the pointer is on. It is decoration, so it must not trouble touch or motion-sensitive readers." },
+  { "rule": "Give the one main action one ambient cue, and give the one tappable part of the drawing one. Stop each cue when the user acts.", "why": "One quiet cue shows where to start. Many cues compete, and the page then looks busy." },
+  { "rule": "Mark sample data on screen wherever a result, a record or a ledger line shows.", "why": "A demo that looks like a real record must say that it is not one." },
+  { "rule": "Use no gradient blob, no glow text and no coloured icon chip. Animate opacity, scale, translate and a registered colour or angle only.", "why": "These effects read as generated. A change of layout during motion makes the page jump." },
+  { "rule": "Check tap size, equal-width rows, equal side margins and heading lines in the fit check, at every window size.", "why": "A reader on a phone sees these faults first, and a test finds them before the reader does." }
 ]
