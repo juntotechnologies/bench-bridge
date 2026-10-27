@@ -17,6 +17,7 @@ const Delivery = z.object({
 export const ParserConfig = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("sics-line"), quantity: z.string() }),
   z.object({ kind: z.literal("peak-table"), analyte: z.string() }),
+  z.object({ kind: z.literal("ph-line"), quantity: z.string(), unit: z.string() }),
 ])
 
 export const NormalizeRules = z.object({
@@ -24,6 +25,7 @@ export const NormalizeRules = z.object({
   dropBeforeMinutes: z.number().positive().optional(),
   byDifference: z.object({ quantity: z.string() }).optional(),
   purity: z.object({ quantity: z.string() }).optional(),
+  keepLast: z.boolean().optional(),
 })
 
 export const Capture = z.object({

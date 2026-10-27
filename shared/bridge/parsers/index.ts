@@ -2,6 +2,7 @@
 import type { ParserConfig } from "../../registry/schema"
 import type { CapturedLine, Reading } from "../types"
 import { parsePeakTable } from "./peakTable"
+import { parsePhLines } from "./phLine"
 import { parseSicsLines } from "./sicsLine"
 
 type Kind = ParserConfig["kind"]
@@ -10,6 +11,7 @@ type Parser<K extends Kind> = (config: Extract<ParserConfig, { kind: K }>, lines
 const PARSERS: { [K in Kind]: Parser<K> } = {
   "sics-line": parseSicsLines,
   "peak-table": parsePeakTable,
+  "ph-line": parsePhLines,
 }
 
 export function parseCapture(config: ParserConfig, lines: CapturedLine[], sampleId: string): Reading[] {

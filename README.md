@@ -1,7 +1,7 @@
 # Bench Bridge
 
 Demo that connects older lab instruments to a LIMS and a controlled-substance (CS) ledger.
-Live today: <!-- gen:fact catalog.liveNames -->Analytical balance and HPLC system<!-- /gen -->. <!-- gen:fact catalog.planned -->9<!-- /gen --> more instruments are planned.
+Live today: <!-- gen:fact catalog.liveNames -->Analytical balance, HPLC system, and pH meter<!-- /gen -->. <!-- gen:fact catalog.planned -->10<!-- /gen --> more instruments are planned.
 The demo has no database. The ledger is stateless: every run starts from the same opening balance.
 
 Live demo: <!-- gen:fact site.url -->https://bench-bridge.juntotechnologies.com/<!-- /gen -->
@@ -58,15 +58,17 @@ Every directory has an `AGENTS.md` with its domain knowledge and rules.
 | --- | ---------- | --------- | --- | ------ | -------------- |
 | 1 | Analytical balance | RS-232 print | 1990s | Bridged | Every controlled-substance weigh-out must match the CS ledger. |
 | 2 | HPLC system | LAN / GPIB, legacy CDS | 2000s | Bridged | Assay and purity results. CDS and OS updates drop old instrument drivers. |
-| 3 | LC-MS/MS | LAN, vendor export files | 2000s | Planned | Potency and trace results sit in vendor files the LIMS cannot read. |
+| 3 | GC system | LAN, legacy CDS | 2000s | Planned | Residual solvent and purity results. CDS and OS updates drop old instrument drivers. |
 | 4 | GC-MS | GPIB, legacy CDS | 1990s | Planned | Identity tests for controlled substances. |
-| 5 | Headspace GC | GPIB / RS-232 | 1990s | Planned | Residual solvent results for release testing. |
-| 6 | Dissolution tester | Parallel printer port | 1990s | Planned | Release results print on paper strips. |
-| 7 | FTIR spectrometer | Serial, floppy export | 1990s | Planned | Identity tests on incoming controlled-substance lots. |
-| 8 | Karl Fischer titrator | RS-232 print | 2000s | Planned | Water content results are typed in from a strip printer. |
-| 9 | UV-Vis spectrophotometer | GPIB | 1990s | Planned | Assay and identity results need an old PC with a GPIB card. |
-| 10 | Stability chamber | 4–20 mA, chart recorder | 1990s | Planned | Storage condition records for stability studies are on paper charts. |
-| 11 | CS vault and safe | Door contact, keypad log | 2000s | Planned | Access to controlled-substance storage must be logged. |
+| 5 | pH meter | RS-232 print | 2000s | Bridged | pH results for buffers and solutions are copied from the display. |
+| 6 | Karl Fischer titrator | RS-232 print | 2000s | Planned | Water content results are typed in from a strip printer. |
+| 7 | LC-MS/MS | LAN, vendor export files | 2000s | Planned | Potency and trace results sit in vendor files the LIMS cannot read. |
+| 8 | Headspace GC | GPIB / RS-232 | 1990s | Planned | Residual solvent results for release testing. |
+| 9 | Dissolution tester | Parallel printer port | 1990s | Planned | Release results print on paper strips. |
+| 10 | FTIR spectrometer | Serial, floppy export | 1990s | Planned | Identity tests on incoming controlled-substance lots. |
+| 11 | UV-Vis spectrophotometer | GPIB | 1990s | Planned | Assay and identity results need an old PC with a GPIB card. |
+| 12 | Stability chamber | 4–20 mA, chart recorder | 1990s | Planned | Storage condition records for stability studies are on paper charts. |
+| 13 | CS vault and safe | Door contact, keypad log | 2000s | Planned | Access to controlled-substance storage must be logged. |
 <!-- /gen -->
 
 ## Notes

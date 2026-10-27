@@ -29,6 +29,16 @@ describe("normalize", () => {
   it("gives no difference from a single weight", () => {
     expect(normalize({ byDifference: { quantity: "Q" } }, [weight(1)]).kept).toEqual([])
   })
+
+  it("keeps the last settled reading when the rule says so", () => {
+    const result = normalize({ dropUnstable: true, keepLast: true }, [weight(1, "unstable"), weight(2), weight(3)])
+    expect(result.kept).toEqual([weight(3)])
+    expect(result.stable).toEqual([weight(2), weight(3)])
+  })
+
+  it("keeps every settled reading when no rule picks one", () => {
+    expect(normalize({ dropUnstable: true }, [weight(1), weight(2)]).kept).toEqual([weight(1), weight(2)])
+  })
 })
 
 function peak(name: string, minutes: number, area: number, role = "impurity"): Reading {

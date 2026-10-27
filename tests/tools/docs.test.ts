@@ -1,5 +1,6 @@
 /** Tests for the docs generator: block filling, facts from the real pipeline, references and notes. */
 import { describe, expect, it } from "vitest"
+import { catalog, isLive } from "@shared/registry"
 import { buildFacts } from "../../tools/docs/facts"
 import { applyBlocks, type Renderers } from "../../tools/docs/markers"
 import { staleNotes, type Notes } from "../../tools/docs/notes"
@@ -71,8 +72,15 @@ describe("facts", () => {
     expect(facts["hplc.receipt.ledger"]).toBeUndefined()
   })
 
+  it("computes the pH meter figures by running the real pipeline", () => {
+    expect(facts["ph-meter.run.used"]).toBe("7.02")
+    expect(facts["ph-meter.run.unit"]).toBe("pH")
+    expect(facts["ph-meter.receipt.lims"]).toBe("RES-000001")
+    expect(facts["ph-meter.receipt.ledger"]).toBeUndefined()
+  })
+
   it("names the live instruments", () => {
-    expect(facts["catalog.liveNames"]).toBe("Analytical balance and HPLC system")
+    for (const entry of catalog.filter(isLive)) expect(facts["catalog.liveNames"]).toContain(entry.name)
   })
 
   it("counts the catalogue", () => {

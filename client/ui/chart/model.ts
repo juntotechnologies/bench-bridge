@@ -1,13 +1,13 @@
-/** Picks the chart for a run: a chromatogram when the readings are peaks, a weight trace otherwise. */
+/** Picks the chart for a run: a chromatogram when the readings are peaks, a trace of values otherwise. */
 import type { BridgeRun, Reading } from "@shared/bridge/types"
 import { chromatogram } from "./chromatogram"
-import { weightTrace } from "./trace"
+import { valueTrace } from "./trace"
 import type { Chart } from "./types"
 
 export type ChartKind = "chromatogram" | "trace"
 type Builder = (run: BridgeRun, ruled: boolean) => Chart
 
-const BUILDERS: Record<ChartKind, Builder> = { chromatogram, trace: weightTrace }
+const BUILDERS: Record<ChartKind, Builder> = { chromatogram, trace: valueTrace }
 
 export function chartKind(readings: Reading[]): ChartKind {
   return readings.some(hasRetention) ? "chromatogram" : "trace"

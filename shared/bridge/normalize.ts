@@ -8,6 +8,15 @@ const MASS_PLACES = 4
 const PURITY_PLACES = 2
 const PERCENT = 100
 
+/** A rule that drops a reading. It is silent when the device does not ask for it. */
+type DropRule = (rules: NormalizeRules, reading: Reading) => boolean
+
+/** A rule that picks the readings to deliver. It returns null when the device does not ask for it. */
+type Derivation = (rules: NormalizeRules, stable: Reading[]) => Reading[] | null
+
+const DROP_RULES: DropRule[] = [dropsUnstable, elutesTooEarly]
+const DERIVATIONS: Derivation[] = [fromDifference, fromPurity, fromLast]
+
 /** Apply the device's rules in order: drop readings, then derive the one to deliver, if a rule asks for it. */
 export function normalize(rules: NormalizeRules, readings: Reading[]): Normalized {
   const dropped = readings.filter(isDropped.bind(null, rules))
@@ -16,19 +25,46 @@ export function normalize(rules: NormalizeRules, readings: Reading[]): Normalize
 }
 
 function isDropped(rules: NormalizeRules, reading: Reading): boolean {
-  return (rules.dropUnstable === true && reading.status === "unstable") || elutesTooEarly(rules.dropBeforeMinutes, reading)
+  return DROP_RULES.some(drops.bind(null, rules, reading))
+}
+
+function drops(rules: NormalizeRules, reading: Reading, rule: DropRule): boolean {
+  return rule(rules, reading)
+}
+
+function dropsUnstable(rules: NormalizeRules, reading: Reading): boolean {
+  return rules.dropUnstable === true && reading.status === "unstable"
 }
 
 /** The solvent front: a peak that comes off the column before the limit. */
-function elutesTooEarly(limit: number | undefined, reading: Reading): boolean {
+function elutesTooEarly(rules: NormalizeRules, reading: Reading): boolean {
   const minutes = reading.extras["minutes"]
-  return limit !== undefined && typeof minutes === "number" && minutes < limit
+  return rules.dropBeforeMinutes !== undefined && typeof minutes === "number" && minutes < rules.dropBeforeMinutes
 }
 
+/** The first derivation that the device asks for. With none, every settled reading is delivered. */
 function derive(rules: NormalizeRules, stable: Reading[]): Reading[] {
-  if (rules.byDifference) return byDifference(rules.byDifference.quantity, stable)
-  if (rules.purity) return purity(rules.purity.quantity, stable)
-  return stable
+  return DERIVATIONS.map(derivation.bind(null, rules, stable)).find(isDerived) ?? stable
+}
+
+function derivation(rules: NormalizeRules, stable: Reading[], rule: Derivation): Reading[] | null {
+  return rule(rules, stable)
+}
+
+function isDerived(kept: Reading[] | null): kept is Reading[] {
+  return kept !== null
+}
+
+function fromDifference(rules: NormalizeRules, stable: Reading[]): Reading[] | null {
+  return rules.byDifference ? byDifference(rules.byDifference.quantity, stable) : null
+}
+
+function fromPurity(rules: NormalizeRules, stable: Reading[]): Reading[] | null {
+  return rules.purity ? purity(rules.purity.quantity, stable) : null
+}
+
+function fromLast(rules: NormalizeRules, stable: Reading[]): Reading[] | null {
+  return rules.keepLast === true ? stable.slice(-1) : null
 }
 
 /** Container weighed before and after: the amount used is the first weight less the last. */

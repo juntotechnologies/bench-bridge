@@ -5,10 +5,11 @@ import { deviceById } from "@shared/registry"
 import type { Device } from "@shared/registry/schema"
 import { chartFor, chartKind } from "@client/ui/chart/model"
 import { chromatogram, peakCurve } from "@client/ui/chart/chromatogram"
-import { weightTrace } from "@client/ui/chart/trace"
+import { valueTrace } from "@client/ui/chart/trace"
 
 const hplc = runBridge(deviceById("hplc") as Device)
 const balance = runBridge(deviceById("balance") as Device)
+const meter = runBridge(deviceById("ph-meter") as Device)
 
 describe("chartKind", () => {
   it("draws a chromatogram for peaks and a trace for weights", () => {
@@ -17,7 +18,7 @@ describe("chartKind", () => {
 
   it("picks the builder by kind", () => {
     expect(chartFor(hplc, true).title).toBe(chromatogram(hplc, true).title)
-    expect(chartFor(balance, true).title).toBe(weightTrace(balance, true).title)
+    expect(chartFor(balance, true).title).toBe(valueTrace(balance, true).title)
   })
 })
 
@@ -56,23 +57,37 @@ describe("chromatogram", () => {
   })
 })
 
-describe("weightTrace", () => {
+describe("valueTrace", () => {
   it("draws a dot for each reading, hollow for the dropped ones", () => {
-    const chart = weightTrace(balance, true)
+    const chart = valueTrace(balance, true)
     expect(chart.dots.length).toBe(balance.readings.length)
     expect(chart.dots.filter((dot) => dot.state === "dropped").length).toBe(balance.normalized.dropped.length)
   })
 
   it("keeps every dot filled until the rules are applied", () => {
-    expect(weightTrace(balance, false).dots.every((dot) => dot.state === "kept")).toBe(true)
+    expect(valueTrace(balance, false).dots.every((dot) => dot.state === "kept")).toBe(true)
   })
 
   it("labels the first and last kept weight with the digits the balance prints", () => {
-    const texts = weightTrace(balance, true).notes.map((note) => note.text)
+    const texts = valueTrace(balance, true).notes.map((note) => note.text)
     expect(texts).toEqual(["25.4821 g", "25.3617 g"])
   })
 
   it("starts the x axis at zero seconds", () => {
-    expect(weightTrace(balance, true).x.domain[0]).toBe(0)
+    expect(valueTrace(balance, true).x.domain[0]).toBe(0)
+  })
+})
+
+describe("valueTrace for another instrument", () => {
+  it("names the trace from the quantity the instrument reports", () => {
+    expect([valueTrace(balance, true).title, valueTrace(meter, true).title]).toEqual(["Weight trace", "pH trace"])
+  })
+
+  it("labels the settled value that the rules keep, not a difference", () => {
+    expect(valueTrace(meter, true).notes.map((note) => note.text)).toEqual(["7.02 pH"])
+  })
+
+  it("draws a trace for a series of values and no peaks", () => {
+    expect(chartKind(meter.readings)).toBe("trace")
   })
 })

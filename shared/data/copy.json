@@ -129,8 +129,8 @@
   "chart": {
     "chromatogram": "Chromatogram",
     "chromatogramHint": "Peaks by retention time",
-    "trace": "Weight trace",
-    "traceHint": "Weight by capture time",
+    "trace": "trace",
+    "traceHint": "by capture time",
     "signal": "Signal",
     "minutes": "min",
     "seconds": "s",

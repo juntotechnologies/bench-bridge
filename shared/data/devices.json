@@ -18,7 +18,7 @@
       "settings": "2400 baud · 7E1 · no flow control",
       "pins": [["2", "RXD", "Data from balance"], ["3", "TXD", "Commands to balance"], ["5", "GND", "Signal ground"]]
     },
-    "parser": { "kind": "sics-line", "quantity": "Mass" },
+    "parser": { "kind": "sics-line", "quantity": "Weight" },
     "normalize": { "dropUnstable": true, "byDifference": { "quantity": "Quantity used" } },
     "capture": {
       "startedAt": "2026-10-26T14:02:10Z",
@@ -68,6 +68,37 @@
     },
     "deliveries": [
       { "target": "lims", "fields": { "sample_ref": "reading.sampleId", "instrument_id": "device.assetId", "analyte": "reading.quantity", "result_value": "reading.value", "unit": "reading.unit", "measured_at": "reading.takenAt" } }
+    ]
+  },
+  {
+    "id": "ph-meter",
+    "name": "pH meter",
+    "model": "PH-30",
+    "era": 2003,
+    "status": "bridged",
+    "assetId": "EQ-0377",
+    "summary": "A benchtop pH meter with a serial print port. Analysts wait for the value to settle, then copy the pH by hand.",
+    "today": ["Analyst waits for the display to settle.", "Analyst writes the pH and the temperature on a paper log.", "Analyst types the pH into the LIMS later."],
+    "bridged": ["The tap reads each line that the meter prints on the port.", "The bridge drops the lines that still drift and keeps the last settled value.", "One pH result goes to the LIMS with its sample and instrument."],
+    "kit": "serial-tap",
+    "specs": [["Range", "0 to 14 pH"], ["Resolution", "0.01 pH"], ["Output", "Continuous print, RS-232"]],
+    "connection": [["Where", "Rear panel, the port marked RS-232"], ["Today", "A serial printer or a PC reads the port"], ["Trigger", "One line each second while the meter reads"], ["Format", "pH 7.02 25.1C READY: the pH, the temperature, then READY for a settled value or DRIFT for a moving one"], ["On the instrument", "No change. Keep 9600 baud and 8N1"]],
+    "port": {
+      "kind": "RS-232",
+      "connector": "DB9 female",
+      "settings": "9600 baud · 8N1 · no flow control",
+      "pins": [["2", "RXD", "Data from meter"], ["3", "TXD", "Commands to meter"], ["5", "GND", "Signal ground"]]
+    },
+    "parser": { "kind": "ph-line", "quantity": "pH", "unit": "pH" },
+    "normalize": { "dropUnstable": true, "keepLast": true },
+    "capture": {
+      "startedAt": "2026-10-26T14:08:30Z",
+      "cadenceMs": 1000,
+      "sampleId": "S-2026-0418",
+      "lines": ["pH 4.31 25.0C DRIFT", "pH 6.84 25.1C DRIFT", "pH 7.03 25.1C DRIFT", "pH 7.02 25.1C READY", "pH 7.02 25.1C READY"]
+    },
+    "deliveries": [
+      { "target": "lims", "fields": { "sample_ref": "reading.sampleId", "instrument_id": "device.assetId", "analyte": { "const": "pH" }, "result_value": "reading.value", "unit": "reading.unit", "measured_at": "reading.takenAt" } }
     ]
   }
 ]

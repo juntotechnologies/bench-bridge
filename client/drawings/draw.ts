@@ -1,5 +1,5 @@
 /** Draws one drawing by ID: an instrument from its model, or a bridge kit from its kit model and the registry's part names. */
-import { deviceById, kitById, partsOf } from "@shared/registry"
+import { deviceById, kitById, kitTitle, partsOf } from "@shared/registry"
 import type { Device, Kit, KitPart } from "@shared/registry/schema"
 import { P, type RenderOptions, type RenderResult } from "./engine"
 import { kitIdOf } from "./ids"
@@ -12,7 +12,7 @@ export type DrawOptions = Omit<RenderOptions, "camera">
 export function drawDevice(device: Device, options: DrawOptions): RenderResult {
   const model = MODELS[device.id]
   if (!model) throw Error(`No drawing model for ${device.id}`)
-  const parts = model.build({ kit: device.kit, connector: device.port.connector })
+  const parts = model.build({ kit: kitTitle(device), connector: device.port.connector })
   return P.render(parts, { ...options, camera: model.camera })
 }
 

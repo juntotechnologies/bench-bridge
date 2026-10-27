@@ -62,3 +62,27 @@ describe("peak-table parser", () => {
     expect(parseCapture(hplc.parser, lines, "S-1")).toEqual([])
   })
 })
+
+describe("ph-line parser", () => {
+  const meter = deviceById("ph-meter") as Device
+
+  it("reads the pH, the temperature and whether the value has settled", () => {
+    const readings = parseCapture(meter.parser, stampLines(meter.capture), "S-1")
+    expect(readings.map((r) => [r.value, r.unit, r.status, r.extras["temperature"]])).toEqual([
+      [4.31, "pH", "unstable", 25],
+      [6.84, "pH", "unstable", 25.1],
+      [7.03, "pH", "unstable", 25.1],
+      [7.02, "pH", "stable", 25.1],
+      [7.02, "pH", "stable", 25.1],
+    ])
+  })
+
+  it("keeps the two decimals the meter prints", () => {
+    expect(parseCapture(meter.parser, stampLines(meter.capture), "S-1").every((r) => r.places === 2)).toBe(true)
+  })
+
+  it("ignores lines that are not readings", () => {
+    const lines = stampLines({ ...meter.capture, lines: ["CAL OK", "pH 7.00 25.0C WAIT", "pH 7.00 25.0C READY"] })
+    expect(parseCapture(meter.parser, lines, "S-1")).toHaveLength(1)
+  })
+})

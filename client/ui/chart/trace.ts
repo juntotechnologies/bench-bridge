@@ -1,4 +1,4 @@
-/** The weight trace: each weight the balance printed, against seconds since the first line. */
+/** The trace: each value the instrument printed, against seconds since the first line. */
 import { copy } from "@shared/registry"
 import { printed } from "@shared/bridge/numbers"
 import type { BridgeRun, Reading } from "@shared/bridge/types"
@@ -12,16 +12,17 @@ const FIRST_LIFT = -10
 const LAST_LIFT = 15
 const MS = 1000
 
-export function weightTrace(run: BridgeRun, ruled: boolean): Chart {
+export function valueTrace(run: BridgeRun, ruled: boolean): Chart {
   const start = startOf(run.readings)
   const points = run.readings.map(pointOf.bind(null, start))
+  const quantity = run.readings[0]?.quantity ?? ""
   return {
-    title: copy.chart.trace,
-    hint: copy.chart.traceHint,
+    title: `${quantity} ${copy.chart.trace}`,
+    hint: `${quantity} ${copy.chart.traceHint}`,
     ...axes(run.readings, points),
-    lines: [traceLine(points)],
+    lines: [traceLine(points, `${quantity} ${copy.chart.trace}`)],
     dots: run.readings.map(dotOf.bind(null, { run, ruled, start })),
-    notes: ruled ? edgeNotes(run, start) : [],
+    notes: ruled ? resultNotes(run, start) : [],
     key: keyOf(),
   }
 }
@@ -59,8 +60,8 @@ function padded(readings: Reading[]): [number, number] {
   return [low - pad, high + pad]
 }
 
-function traceLine(points: Vec[]): Line {
-  return { points, state: "kept", title: copy.chart.trace }
+function traceLine(points: Vec[], title: string): Line {
+  return { points, state: "kept", title }
 }
 
 interface DotContext {
@@ -73,6 +74,20 @@ function dotOf(context: DotContext, reading: Reading): Dot {
   const dropped = context.ruled && context.run.normalized.dropped.includes(reading)
   const at = pointOf(context.start, reading)
   return { at, state: dropped ? "dropped" : "kept", title: `${printed(reading)} ${reading.unit} · ${at.x.toFixed(1)} ${copy.chart.seconds}` }
+}
+
+/** A derived result, such as a difference, labels the two readings it came from. Any other result labels the readings that it keeps. */
+function resultNotes(run: BridgeRun, start: number): Note[] {
+  const derived = run.normalized.kept.some(isDerived.bind(null, run.normalized.stable))
+  return derived ? edgeNotes(run, start) : run.normalized.kept.map(keptNote.bind(null, start))
+}
+
+function isDerived(stable: Reading[], reading: Reading): boolean {
+  return !stable.includes(reading)
+}
+
+function keptNote(start: number, reading: Reading): Note {
+  return noteFor(reading, start, "end", LAST_LIFT)
 }
 
 /** The first and the last weight that count, which the arithmetic subtracts. */
