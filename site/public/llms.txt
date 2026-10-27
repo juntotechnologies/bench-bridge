@@ -1,6 +1,6 @@
 # Bench Bridge
 
-> Bench Bridge is a demo with sample data. It shows how older lab instruments can feed a laboratory information management system (LIMS) and controlled-substance ledgers.
+> Bench Bridge is a demo with sample data. It shows how older lab instruments feed a laboratory information management system (LIMS) and a controlled-substance ledger.
 
 ## What the demo shows
 
@@ -25,5 +25,5 @@
 
 - [Live demo](https://bench-bridge.juntotechnologies.com/): The demo app. It runs in the browser.
 - [Junto Technologies](https://juntotechnologies.com/): The maker of Bench Bridge.
-- [Source code](https://github.com/juntotechnologies/bench-bridge): The code of the demo.
+- [Source on GitHub](https://github.com/juntotechnologies/bench-bridge): The code of the demo.
 - [Book a call](https://cal.com/shaun-porwal-junto/30min): Talk to the maker.

@@ -1,6 +1,7 @@
 # Bench Bridge
 
-Demo that connects older lab instruments to a LIMS and a controlled-substance (CS) ledger.
+A demo of how older lab instruments feed a LIMS and a controlled-substance (CS) ledger.
+One reading becomes a sample result in the LIMS and a use entry in the CS ledger. Both are mock in the demo. All data is sample data.
 Live today: <!-- gen:fact catalog.liveNames -->Analytical balance, HPLC system, GC system, GC-MS, pH meter, and Karl Fischer titrator<!-- /gen -->. <!-- gen:fact catalog.planned -->7<!-- /gen --> more instruments are planned.
 The demo has no database. The ledger is stateless: every run starts from the same opening balance.
 
@@ -47,7 +48,7 @@ Every directory has an `AGENTS.md` with its domain knowledge and rules.
 | `npm run check` | Typecheck, lint, test, check the drawings, build and build the static site |
 | `npm run docs` | Rewrites every generated block from its source |
 | `npm run media` | Builds the static site, records it, and writes the README screenshot and GIF |
-| `npm run fit` | Builds the static site, opens it at nine window sizes, and fails when the page scrolls or a region is clipped |
+| `npm run fit` | Builds the static site, opens it at nine window sizes, and fails when the page scrolls, a region is clipped, a control is too small to tap, or the layout budget breaks |
 | `npm run design` | Writes design/tokens.css, SPEC.md and spec.lock from the JSON sources |
 | `npm run seo` | Writes the discovery files, icons and home page tags from site/seo.json |
 <!-- /gen -->

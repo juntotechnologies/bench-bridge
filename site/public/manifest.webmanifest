@@ -1,7 +1,7 @@
 {
   "name": "Bench Bridge demo",
   "short_name": "Bench Bridge",
-  "description": "Demo with sample data. It shows how older lab instruments can feed a laboratory information management system (LIMS) and controlled-substance ledgers.",
+  "description": "Demo with sample data. It shows how older lab instruments feed a laboratory information management system (LIMS) and a controlled-substance ledger.",
   "lang": "en",
   "start_url": "/",
   "display": "standalone",
