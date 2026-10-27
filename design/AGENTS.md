@@ -38,3 +38,7 @@ The design spec: one source for the look of the app. Copy this directory to reus
 4. Import the file `design/tokens.css` before the app stylesheet, through the alias. Install the font packages named in `SPEC.md`.
 5. Run `npm run design`, then run the tests. `spec.lock` shows if a copy changed a source file.
 6. Replace the app-specific entries in `components.json` with the new app's components.
+
+## Taste
+- `principles.json` holds this app's rules about the look. The shared `site-taste` skill in `agent-skills` holds the rules that every Junto site shares.
+- A new rule that holds for every site goes to the skill. A new rule for this app goes to `principles.json`.

@@ -18,7 +18,7 @@ const RAW_TIMING = /\b\d*\.?\d+m?s\b/
 const RAW_RADIUS = /border-radius: (?!var\(--radius-|50%|0\b)/
 const RAW_SHADOW = /box-shadow: (?!var\(--|none)/
 const VAR_USE = /var\(--([a-z0-9-]+)/g
-const LOCAL_VARS = ["zoom", "i"]
+const LOCAL_VARS = ["zoom", "i", "glow-x", "glow-y", "glow-on", "sheen-angle"]
 
 function outputs(): Outputs {
   return { "tokens.css": tokenCss(spec.tokens), "SPEC.md": specMarkdown(spec), "spec.lock": lockText(sourceTexts(DIR)) }

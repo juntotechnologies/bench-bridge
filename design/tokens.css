@@ -23,6 +23,8 @@
   --ok-soft: #e5f1ea;
   --danger: #b3261e;
   --danger-soft: #fbe3e1;
+  --glow-tint: rgba(232, 89, 12, 0.1);
+  --sheen: rgba(255, 255, 255, 0.85);
   /* font */
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
   --font-sans: "Inter Variable", system-ui, sans-serif;
@@ -35,6 +37,7 @@
   /* shadow */
   --shadow-panel: 0 1px 0 rgba(255, 255, 255, 0.8) inset, 0 8px 24px -16px rgba(28, 27, 25, 0.25);
   --shadow-float: 0 6px 18px -10px rgba(0, 0, 0, 0.3);
+  --shadow-lift: 0 8px 20px -12px rgba(28, 27, 25, 0.35);
   --shadow-cta: 0 8px 20px -10px var(--accent);
   --ring-accent: 0 0 0 3px var(--accent-soft);
   /* motion */
@@ -46,9 +49,16 @@
   --motion-draw: 0.8s;
   --motion-hold: 1.6s;
   --motion-spin: 0.9s;
+  --motion-glow: 0.4s;
+  --motion-reveal: 0.55s;
+  --motion-ping: 3.2s;
+  --motion-sheen: 6s;
+  --press-scale: 0.97;
   --motion-none: 0.01ms;
   /* size */
   --touch: 44px;
+  --glow-size: 220px;
+  --lift: -1px;
   --fade: 28px;
 }
 :root[data-theme="dark"] {
@@ -74,8 +84,11 @@
   --ok-soft: #1b3427;
   --danger: #f2807a;
   --danger-soft: #3d2220;
+  --glow-tint: rgba(242, 105, 27, 0.16);
+  --sheen: rgba(255, 255, 255, 0.75);
   --shadow-panel: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 8px 24px -16px rgba(0, 0, 0, 0.7);
   --shadow-float: 0 6px 18px -10px rgba(0, 0, 0, 0.7);
+  --shadow-lift: 0 8px 20px -12px rgba(0, 0, 0, 0.8);
   --shadow-cta: 0 8px 20px -10px var(--accent);
   --ring-accent: 0 0 0 3px var(--accent-soft);
 }
@@ -103,8 +116,11 @@
     --ok-soft: #1b3427;
     --danger: #f2807a;
     --danger-soft: #3d2220;
+    --glow-tint: rgba(242, 105, 27, 0.16);
+    --sheen: rgba(255, 255, 255, 0.75);
     --shadow-panel: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 8px 24px -16px rgba(0, 0, 0, 0.7);
     --shadow-float: 0 6px 18px -10px rgba(0, 0, 0, 0.7);
+    --shadow-lift: 0 8px 20px -12px rgba(0, 0, 0, 0.8);
     --shadow-cta: 0 8px 20px -10px var(--accent);
     --ring-accent: 0 0 0 3px var(--accent-soft);
   }
