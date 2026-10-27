@@ -1,4 +1,4 @@
-# PR: Alive kit and parity for Bench Bridge
+# PR 1: Alive kit and parity for Bench Bridge
 
 Status: in-scope work complete
 
