@@ -1,7 +1,7 @@
 # Bench Bridge
 
 Demo that connects older lab instruments to a LIMS and a controlled-substance (CS) ledger.
-Live today: <!-- gen:fact catalog.liveNames -->Analytical balance, HPLC system, GC system, pH meter, and Karl Fischer titrator<!-- /gen -->. <!-- gen:fact catalog.planned -->8<!-- /gen --> more instruments are planned.
+Live today: <!-- gen:fact catalog.liveNames -->Analytical balance, HPLC system, GC system, GC-MS, pH meter, and Karl Fischer titrator<!-- /gen -->. <!-- gen:fact catalog.planned -->7<!-- /gen --> more instruments are planned.
 The demo has no database. The ledger is stateless: every run starts from the same opening balance.
 
 Live demo: <!-- gen:fact site.url -->https://bench-bridge.juntotechnologies.com/<!-- /gen -->
@@ -59,7 +59,7 @@ Every directory has an `AGENTS.md` with its domain knowledge and rules.
 | 1 | Analytical balance | RS-232 print | 1990s | Bridged | Every controlled-substance weigh-out must match the CS ledger. |
 | 2 | HPLC system | LAN / GPIB, legacy CDS | 2000s | Bridged | Assay and purity results. CDS and OS updates drop old instrument drivers. |
 | 3 | GC system | LAN, legacy CDS | 2000s | Bridged | Residual solvent and purity results. CDS and OS updates drop old instrument drivers. |
-| 4 | GC-MS | GPIB, legacy CDS | 1990s | Planned | Identity tests for controlled substances. |
+| 4 | GC-MS | GPIB, legacy CDS | 1990s | Bridged | Identity tests for controlled substances. |
 | 5 | pH meter | RS-232 print | 2000s | Bridged | pH results for buffers and solutions are copied from the display. |
 | 6 | Karl Fischer titrator | RS-232 print | 2000s | Bridged | Water content results are typed in from a strip printer. |
 | 7 | LC-MS/MS | LAN, vendor export files | 2000s | Planned | Potency and trace results sit in vendor files the LIMS cannot read. |

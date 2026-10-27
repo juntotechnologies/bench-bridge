@@ -43,6 +43,15 @@ describe("normalize", () => {
     expect(result.dropped.map((r) => r.quantity)).toEqual(["Sample wt"])
   })
 
+  it("keeps the reading with the highest value when the rule says best match", () => {
+    const result = normalize({ bestMatch: true }, [weight(52), weight(97), weight(88)])
+    expect(result.kept.map((r) => r.value)).toEqual([97])
+  })
+
+  it("keeps nothing when no reading is left to match", () => {
+    expect(normalize({ bestMatch: true }, []).kept).toEqual([])
+  })
+
   it("keeps every settled reading when no rule picks one", () => {
     expect(normalize({ dropUnstable: true }, [weight(1), weight(2)]).kept).toEqual([weight(1), weight(2)])
   })
@@ -123,5 +132,15 @@ describe("the GC run", () => {
 
   it("maps the solvent name to the analyte of each record", () => {
     expect(gc.mapped.map((record) => record.fields["analyte"])).toEqual(["Methanol", "Ethanol", "Acetone"])
+  })
+})
+
+describe("the GC-MS run", () => {
+  const gcms = runBridge(deviceById("gc-ms") as Device)
+
+  it("drops the air peak and delivers only the best library match", () => {
+    expect(gcms.normalized.dropped.map((r) => r.quantity)).toEqual(["Air"])
+    expect(gcms.normalized.kept.map((r) => [r.quantity, r.value])).toEqual([["Oxycodone", 97]])
+    expect(gcms.mapped).toHaveLength(1)
   })
 })

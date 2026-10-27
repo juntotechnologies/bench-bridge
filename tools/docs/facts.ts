@@ -90,7 +90,7 @@ function stableFacts(stable: Reading[]): Facts {
 }
 
 function usedFacts(kept: Reading[]): Facts {
-  return { "run.used": valueText(kept[0]), "run.unit": kept[0]?.unit ?? "" }
+  return { "run.used": valueText(kept[0]), "run.unit": kept[0]?.unit ?? "", "run.analyte": kept[0]?.quantity ?? "", "run.records": String(kept.length) }
 }
 
 function valueText(reading: Reading | undefined): string {

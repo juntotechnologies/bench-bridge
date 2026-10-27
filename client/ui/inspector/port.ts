@@ -8,7 +8,33 @@ const SETTING_SEPARATOR = " · "
 
 type Diagram = (used: Set<string>) => string
 
-const DIAGRAMS: Record<string, Diagram> = { "RS-232": db9, LAN: rj45 }
+const DIAGRAMS: Record<string, Diagram> = { "RS-232": db9, LAN: rj45, GPIB: gpib }
+const GPIB_PINS = 24
+const GPIB_LEFT = 24
+const GPIB_PITCH = 15
+const PIN_RANGE = /^(\d+)[–-](\d+)$/
+
+/** The pin numbers in a pin label. A label is one pin, or a list of pins and ranges, such as "1–4, 13–16". */
+export function pinNumbers(label: string): string[] {
+  return label.split(",").map(trimmed).flatMap(expandSegment)
+}
+
+function trimmed(text: string): string {
+  return text.trim()
+}
+
+function expandSegment(segment: string): string[] {
+  const range = PIN_RANGE.exec(segment)
+  return range ? sequence(Number(range[1]), Number(range[2])) : [segment]
+}
+
+function sequence(from: number, to: number): string[] {
+  return Array.from({ length: to - from + 1 }, offsetFrom.bind(null, from))
+}
+
+function offsetFrom(from: number, _: unknown, index: number): string {
+  return String(from + index)
+}
 
 /** The connector drawing for a port kind, with the used pins filled. */
 export function portDiagram(kind: string, used: Set<string>): string | undefined {
@@ -25,7 +51,7 @@ function settingChip(part: string): HTMLElement {
 }
 
 export function portTab(device: Device): Child[] {
-  const used = new Set(device.port.pins.map(pinNumber))
+  const used = new Set(device.port.pins.map(pinLabel).flatMap(pinNumbers))
   const diagram = portDiagram(device.port.kind, used)
   return [
     h("h2", { class: "inspector-title" }, [device.port.kind, h("small", {}, [device.port.connector])]),
@@ -48,7 +74,7 @@ function pinTable(device: Device): HTMLElement {
   return h("table", { class: "pins" }, [h("thead", {}, [head]), h("tbody", {}, device.port.pins.map(pinRow))])
 }
 
-function pinNumber(pin: [string, string, string]): string {
+function pinLabel(pin: [string, string, string]): string {
   return pin[0]
 }
 
@@ -72,6 +98,20 @@ function rj45Contact(used: Set<string>, pin: number): string {
   const x = 50 + (pin - 1) * 15
   const on = used.has(String(pin)) ? " is-used" : ""
   return `<rect x="${x}" y="32" width="9" height="28" rx="2" class="pin${on}"/><text x="${x + 4.5}" y="74">${pin}</text>`
+}
+
+/** A GPIB socket seen from the front: 24 contacts in two rows of 12. Used contacts are filled. */
+function gpib(used: Set<string>): string {
+  const contacts = pinNumbers(`1-${GPIB_PINS}`).map(Number).map(gpibContact.bind(null, used)).join("")
+  return `<svg viewBox="0 0 220 110"><rect x="12" y="20" width="196" height="74" rx="9" class="shell"/>${contacts}</svg>`
+}
+
+function gpibContact(used: Set<string>, pin: number): string {
+  const top = pin <= GPIB_PINS / 2
+  const x = GPIB_LEFT + (((pin - 1) % (GPIB_PINS / 2)) * GPIB_PITCH)
+  const y = top ? 38 : 62
+  const on = used.has(String(pin)) ? " is-used" : ""
+  return `<rect x="${x}" y="${y}" width="9" height="12" rx="2" class="pin${on}"/><text x="${x + 4.5}" y="${top ? 33 : 86}">${pin}</text>`
 }
 
 function db9Pin(used: Set<string>, pin: number): string {

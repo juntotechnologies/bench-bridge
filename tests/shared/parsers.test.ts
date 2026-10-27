@@ -119,3 +119,17 @@ describe("peak-table parser for a solvent screen", () => {
     ])
   })
 })
+
+describe("peak-table parser for a library match report", () => {
+  const gcms = deviceById("gc-ms") as Device
+
+  it("reads a whole-number match quality as the value", () => {
+    const readings = parseCapture(gcms.parser, stampLines(gcms.capture), "S-1")
+    expect(readings.map((r) => [r.quantity, r.value, r.unit, r.places, r.extras["minutes"]])).toEqual([
+      ["Air", 0, "% match", 0, 1.12],
+      ["Oxycodone", 97, "% match", 0, 7.85],
+      ["Caffeine", 88, "% match", 0, 9.14],
+      ["Unknown", 52, "% match", 0, 10.62],
+    ])
+  })
+})

@@ -15,7 +15,7 @@ type DropRule = (rules: NormalizeRules, reading: Reading) => boolean
 type Derivation = (rules: NormalizeRules, stable: Reading[]) => Reading[] | null
 
 const DROP_RULES: DropRule[] = [dropsUnstable, elutesTooEarly, isOtherQuantity]
-const DERIVATIONS: Derivation[] = [fromDifference, fromPurity, fromLast]
+const DERIVATIONS: Derivation[] = [fromDifference, fromPurity, fromLast, fromBestMatch]
 
 /** Apply the device's rules in order: drop readings, then derive the one to deliver, if a rule asks for it. */
 export function normalize(rules: NormalizeRules, readings: Reading[]): Normalized {
@@ -70,6 +70,19 @@ function fromPurity(rules: NormalizeRules, stable: Reading[]): Reading[] | null 
 
 function fromLast(rules: NormalizeRules, stable: Reading[]): Reading[] | null {
   return rules.keepLast === true ? stable.slice(-1) : null
+}
+
+function fromBestMatch(rules: NormalizeRules, stable: Reading[]): Reading[] | null {
+  return rules.bestMatch === true ? best(stable) : null
+}
+
+/** An identity test: of every peak that the library searched, the one with the highest match quality. */
+function best(readings: Reading[]): Reading[] {
+  return readings.length === 0 ? [] : [readings.reduce(higher)]
+}
+
+function higher(top: Reading, reading: Reading): Reading {
+  return reading.value > top.value ? reading : top
 }
 
 /** Container weighed before and after: the amount used is the first weight less the last. */

@@ -12,6 +12,7 @@ const balance = runBridge(deviceById("balance") as Device)
 const meter = runBridge(deviceById("ph-meter") as Device)
 const titrator = runBridge(deviceById("kf-titrator") as Device)
 const solvents = runBridge(deviceById("gc") as Device)
+const library = runBridge(deviceById("gc-ms") as Device)
 
 describe("chartKind", () => {
   it("draws a chromatogram for peaks and a trace for weights", () => {
@@ -109,5 +110,27 @@ describe("chromatogram of a run with no analyte peak", () => {
 
   it("draws no main peak", () => {
     expect(chromatogram(solvents, true).lines.map((line) => line.state)).toEqual(["dropped", "kept", "kept", "kept"])
+  })
+})
+
+describe("chromatogram of a library match report", () => {
+  it("names every peak with its match quality, and marks the air peak dropped", () => {
+    const texts = chromatogram(library, true).notes.map((note) => note.text)
+    expect(texts).toEqual(["dropped", "Oxycodone", "97 % match", "Caffeine", "88 % match", "Unknown", "52 % match"])
+  })
+
+  it("raises the label of a small peak that sits beside another small peak", () => {
+    const notes = chromatogram(library, true).notes
+    const lift = (text: string): number | undefined => notes.find((note) => note.text === text)?.lift
+    expect(lift("Unknown")).toBeLessThan(lift("Caffeine") ?? 0)
+  })
+
+  it("leaves the label of a peak that is much taller than its neighbour where it is", () => {
+    const notes = chromatogram(solvents, true).notes
+    expect(new Set(notes.map((note) => note.lift))).toEqual(new Set([-6, -17]))
+  })
+
+  it("names the air peak as raw before the rules are applied", () => {
+    expect(chromatogram(library, false).notes[0]?.text).toBe("Air")
   })
 })

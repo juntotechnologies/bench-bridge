@@ -5,13 +5,13 @@ import { roleOf, type PeakRoles } from "../peaks"
 import { makeReading } from "./reading"
 
 export interface PeakConfig extends PeakRoles {
-  /** The unit of the value column: "%" for an area percent, "ppm" for a concentration. */
+  /** The unit of the value column: "%" for an area percent, "ppm" for a concentration, "% match" for a library match. */
   unit: string
 }
 
-const PEAK = /^\s*\d+\s+(\d+\.\d+)\s+(\d+)\s+(\d+\.\d+)\s+(.+?)\s*$/
+const PEAK = /^\s*\d+\s+(\d+\.\d+)\s+(\d+)\s+(\d+(?:\.\d+)?)\s+(.+?)\s*$/
 
-/** Rows such as "2  4.37  287650  98.10  Codeine phosphate". Title and header lines are skipped. */
+/** Rows such as "2  4.37  287650  98.10  Codeine phosphate". The value column may be a whole number. Title and header lines are skipped. */
 export function parsePeakTable(config: PeakConfig, lines: CapturedLine[], sampleId: string): Reading[] {
   return lines.flatMap(parsePeakLine.bind(null, config, sampleId))
 }

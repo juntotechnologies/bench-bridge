@@ -93,6 +93,16 @@ describe("facts", () => {
     expect(facts["gc.receipt.ledger"]).toBeUndefined()
   })
 
+  it("computes the GC-MS figures by running the real pipeline", () => {
+    expect(facts["gc-ms.run.used"]).toBe("97")
+    expect(facts["gc-ms.run.unit"]).toBe("% match")
+    expect(facts["gc-ms.run.analyte"]).toBe("Oxycodone")
+    expect(facts["gc-ms.run.records"]).toBe("1")
+    expect(facts["gc.run.records"]).toBe("3")
+    expect(facts["gc-ms.run.unstable"]).toBe("1")
+    expect(facts["gc-ms.receipt.lims"]).toBe("RES-000001")
+  })
+
   it("names the live instruments", () => {
     for (const entry of catalog.filter(isLive)) expect(facts["catalog.liveNames"]).toContain(entry.name)
   })

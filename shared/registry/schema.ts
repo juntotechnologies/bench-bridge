@@ -28,6 +28,7 @@ export const NormalizeRules = z.object({
   purity: z.object({ quantity: z.string() }).optional(),
   keepLast: z.boolean().optional(),
   keepQuantity: z.string().optional(),
+  bestMatch: z.boolean().optional(),
 })
 
 export const Capture = z.object({

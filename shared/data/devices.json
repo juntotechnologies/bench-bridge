@@ -109,6 +109,44 @@
     ]
   },
   {
+    "id": "gc-ms",
+    "name": "GC-MS",
+    "model": "GM-5",
+    "era": 1996,
+    "status": "bridged",
+    "assetId": "EQ-0299",
+    "summary": "A gas chromatograph with a mass spectrometer. It names a controlled substance by its mass spectrum. The old data system prints a library match report on the GPIB bus. Analysts copy the identity by hand.",
+    "today": ["The analyst prints the match report.", "The analyst reads the best match and types the identity into the LIMS.", "The old PC and its GPIB card are hard to replace."],
+    "bridged": ["The tap listens to the match report on the GPIB bus.", "The bridge drops the air peak and keeps the best library match.", "One identity result goes to the LIMS with its sample and instrument."],
+    "kit": "gpib-tap",
+    "specs": [["Analyzer", "Quadrupole mass filter"], ["Library", "Spectral library on the data system"], ["Output", "Match report, GPIB"]],
+    "connection": [["Where", "The GPIB socket on the instrument"], ["Today", "The old PC controls the bus and prints the report"], ["Trigger", "One report for each run, sent in talk-only mode"], ["Format", "A text table with one row for each peak: retention time, area, match quality and library name"], ["On the instrument", "No change. Keep the bus address and the print mode"]],
+    "port": {
+      "kind": "GPIB",
+      "connector": "IEEE-488 (24-pin)",
+      "settings": "Bus address 5 · talk-only mode · ASCII",
+      "pins": [["1–4, 13–16", "DIO1–DIO8", "Report data from the instrument"], ["5", "EOI", "End of a report line"], ["6", "DAV", "Data valid"], ["7", "NRFD", "Instrument not ready for data"], ["8", "NDAC", "Data not yet accepted"], ["18–24", "GND", "Signal ground"]]
+    },
+    "parser": { "kind": "peak-table", "unit": "% match", "role": "library hit" },
+    "normalize": { "dropBeforeMinutes": 2, "bestMatch": true },
+    "capture": {
+      "startedAt": "2026-10-26T14:18:00Z",
+      "cadenceMs": 900,
+      "sampleId": "S-2026-0433",
+      "lines": [
+        "Sample: S-2026-0433   Method: ID-03",
+        "Peak   RT(min)   Area      Match   Name",
+        "  1      1.12      9640        0   Air",
+        "  2      7.85    412300       97   Oxycodone",
+        "  3      9.14     18050       88   Caffeine",
+        "  4     10.62      3410       52   Unknown"
+      ]
+    },
+    "deliveries": [
+      { "target": "lims", "fields": { "sample_ref": "reading.sampleId", "instrument_id": "device.assetId", "analyte": "reading.quantity", "result_value": "reading.value", "unit": "reading.unit", "measured_at": "reading.takenAt" } }
+    ]
+  },
+  {
     "id": "ph-meter",
     "name": "pH meter",
     "model": "PH-30",
