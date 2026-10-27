@@ -86,3 +86,22 @@ describe("ph-line parser", () => {
     expect(parseCapture(meter.parser, lines, "S-1")).toHaveLength(1)
   })
 })
+
+describe("labelled-lines parser", () => {
+  const titrator = deviceById("kf-titrator") as Device
+
+  it("reads each labelled value with its unit and the decimals printed", () => {
+    const readings = parseCapture(titrator.parser, stampLines(titrator.capture), "S-1")
+    expect(readings.map((r) => [r.quantity, r.value, r.unit, r.places])).toEqual([
+      ["Sample wt", 1.2034, "g", 4],
+      ["Titrant", 4.82, "mL", 2],
+      ["Drift", 8.1, "ug/min", 1],
+      ["Water", 0.412, "%", 3],
+    ])
+  })
+
+  it("ignores the title lines and any label it does not know", () => {
+    const lines = stampLines({ ...titrator.capture, lines: ["KF-20  RESULT", "Sample S-1", "Cell temp   25.0  C", "Water   0.5  %"] })
+    expect(parseCapture(titrator.parser, lines, "S-1").map((r) => r.quantity)).toEqual(["Water"])
+  })
+})

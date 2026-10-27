@@ -18,6 +18,7 @@ export const ParserConfig = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("sics-line"), quantity: z.string() }),
   z.object({ kind: z.literal("peak-table"), analyte: z.string() }),
   z.object({ kind: z.literal("ph-line"), quantity: z.string(), unit: z.string() }),
+  z.object({ kind: z.literal("labelled-lines"), labels: z.array(z.string()).min(1) }),
 ])
 
 export const NormalizeRules = z.object({
@@ -26,6 +27,7 @@ export const NormalizeRules = z.object({
   byDifference: z.object({ quantity: z.string() }).optional(),
   purity: z.object({ quantity: z.string() }).optional(),
   keepLast: z.boolean().optional(),
+  keepQuantity: z.string().optional(),
 })
 
 export const Capture = z.object({

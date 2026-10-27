@@ -14,7 +14,7 @@ type DropRule = (rules: NormalizeRules, reading: Reading) => boolean
 /** A rule that picks the readings to deliver. It returns null when the device does not ask for it. */
 type Derivation = (rules: NormalizeRules, stable: Reading[]) => Reading[] | null
 
-const DROP_RULES: DropRule[] = [dropsUnstable, elutesTooEarly]
+const DROP_RULES: DropRule[] = [dropsUnstable, elutesTooEarly, isOtherQuantity]
 const DERIVATIONS: Derivation[] = [fromDifference, fromPurity, fromLast]
 
 /** Apply the device's rules in order: drop readings, then derive the one to deliver, if a rule asks for it. */
@@ -40,6 +40,11 @@ function dropsUnstable(rules: NormalizeRules, reading: Reading): boolean {
 function elutesTooEarly(rules: NormalizeRules, reading: Reading): boolean {
   const minutes = reading.extras["minutes"]
   return rules.dropBeforeMinutes !== undefined && typeof minutes === "number" && minutes < rules.dropBeforeMinutes
+}
+
+/** A result strip that prints several values, of which the lab wants one. */
+function isOtherQuantity(rules: NormalizeRules, reading: Reading): boolean {
+  return rules.keepQuantity !== undefined && reading.quantity !== rules.keepQuantity
 }
 
 /** The first derivation that the device asks for. With none, every settled reading is delivered. */

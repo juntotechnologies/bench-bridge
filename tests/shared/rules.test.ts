@@ -36,6 +36,13 @@ describe("normalize", () => {
     expect(result.stable).toEqual([weight(2), weight(3)])
   })
 
+  it("keeps one quantity from a strip and drops the others", () => {
+    const strip = [{ ...weight(1.2), quantity: "Sample wt" }, { ...weight(0.41), quantity: "Water" }]
+    const result = normalize({ keepQuantity: "Water" }, strip)
+    expect(result.kept.map((r) => r.quantity)).toEqual(["Water"])
+    expect(result.dropped.map((r) => r.quantity)).toEqual(["Sample wt"])
+  })
+
   it("keeps every settled reading when no rule picks one", () => {
     expect(normalize({ dropUnstable: true }, [weight(1), weight(2)]).kept).toEqual([weight(1), weight(2)])
   })

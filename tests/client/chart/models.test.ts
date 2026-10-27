@@ -10,6 +10,7 @@ import { valueTrace } from "@client/ui/chart/trace"
 const hplc = runBridge(deviceById("hplc") as Device)
 const balance = runBridge(deviceById("balance") as Device)
 const meter = runBridge(deviceById("ph-meter") as Device)
+const titrator = runBridge(deviceById("kf-titrator") as Device)
 
 describe("chartKind", () => {
   it("draws a chromatogram for peaks and a trace for weights", () => {
@@ -17,8 +18,8 @@ describe("chartKind", () => {
   })
 
   it("picks the builder by kind", () => {
-    expect(chartFor(hplc, true).title).toBe(chromatogram(hplc, true).title)
-    expect(chartFor(balance, true).title).toBe(valueTrace(balance, true).title)
+    expect(chartFor(hplc, true)?.title).toBe(chromatogram(hplc, true).title)
+    expect(chartFor(balance, true)?.title).toBe(valueTrace(balance, true).title)
   })
 })
 
@@ -89,5 +90,12 @@ describe("valueTrace for another instrument", () => {
 
   it("draws a trace for a series of values and no peaks", () => {
     expect(chartKind(meter.readings)).toBe("trace")
+  })
+})
+
+describe("a strip of single values", () => {
+  it("has no chart, because no quantity repeats and no peak has a retention time", () => {
+    expect(chartKind(titrator.readings)).toBeNull()
+    expect(chartFor(titrator, true)).toBeNull()
   })
 })

@@ -1,6 +1,7 @@
 /** Parser table: one parser per protocol kind in the registry. */
 import type { ParserConfig } from "../../registry/schema"
 import type { CapturedLine, Reading } from "../types"
+import { parseLabelledLines } from "./labelledLines"
 import { parsePeakTable } from "./peakTable"
 import { parsePhLines } from "./phLine"
 import { parseSicsLines } from "./sicsLine"
@@ -12,6 +13,7 @@ const PARSERS: { [K in Kind]: Parser<K> } = {
   "sics-line": parseSicsLines,
   "peak-table": parsePeakTable,
   "ph-line": parsePhLines,
+  "labelled-lines": parseLabelledLines,
 }
 
 export function parseCapture(config: ParserConfig, lines: CapturedLine[], sampleId: string): Reading[] {

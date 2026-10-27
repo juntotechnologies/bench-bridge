@@ -100,5 +100,36 @@
     "deliveries": [
       { "target": "lims", "fields": { "sample_ref": "reading.sampleId", "instrument_id": "device.assetId", "analyte": { "const": "pH" }, "result_value": "reading.value", "unit": "reading.unit", "measured_at": "reading.takenAt" } }
     ]
+  },
+  {
+    "id": "kf-titrator",
+    "name": "Karl Fischer titrator",
+    "model": "KF-20",
+    "era": 2006,
+    "status": "bridged",
+    "assetId": "EQ-0463",
+    "summary": "A volumetric titrator that measures the water in a sample. It prints a result strip. Analysts type the water result into the LIMS.",
+    "today": ["The titrator prints a result strip.", "Analyst types the water result into the LIMS.", "The strip fades, so a paper copy does not last."],
+    "bridged": ["The tap reads the result lines that the titrator prints.", "The bridge keeps the water result and drops the other lines.", "One water result goes to the LIMS with its sample and instrument."],
+    "kit": "serial-tap",
+    "specs": [["Method", "Volumetric titration"], ["Reports", "Sample weight, titrant, drift and water"], ["Output", "Result strip, RS-232"]],
+    "connection": [["Where", "Rear panel, the port marked PRINTER"], ["Today", "A strip printer reads the port"], ["Trigger", "One block of lines at the end of each titration"], ["Format", "A label, a value and a unit on each line: Sample wt, Titrant, Drift and Water"], ["On the instrument", "No change. Keep 4800 baud and 8N1"]],
+    "port": {
+      "kind": "RS-232",
+      "connector": "DB9 male",
+      "settings": "4800 baud · 8N1 · no flow control",
+      "pins": [["2", "RXD", "Data from titrator"], ["3", "TXD", "Commands to titrator"], ["5", "GND", "Signal ground"]]
+    },
+    "parser": { "kind": "labelled-lines", "labels": ["Sample wt", "Titrant", "Drift", "Water"] },
+    "normalize": { "keepQuantity": "Water" },
+    "capture": {
+      "startedAt": "2026-10-26T14:12:00Z",
+      "cadenceMs": 700,
+      "sampleId": "S-2026-0421",
+      "lines": ["KF-20  RESULT", "Sample S-2026-0421", "Sample wt   1.2034  g", "Titrant      4.82    mL", "Drift        8.1     ug/min", "Water        0.412   %"]
+    },
+    "deliveries": [
+      { "target": "lims", "fields": { "sample_ref": "reading.sampleId", "instrument_id": "device.assetId", "analyte": { "const": "Water content" }, "result_value": "reading.value", "unit": "reading.unit", "measured_at": "reading.takenAt" } }
+    ]
   }
 ]

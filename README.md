@@ -1,7 +1,7 @@
 # Bench Bridge
 
 Demo that connects older lab instruments to a LIMS and a controlled-substance (CS) ledger.
-Live today: <!-- gen:fact catalog.liveNames -->Analytical balance, HPLC system, and pH meter<!-- /gen -->. <!-- gen:fact catalog.planned -->10<!-- /gen --> more instruments are planned.
+Live today: <!-- gen:fact catalog.liveNames -->Analytical balance, HPLC system, pH meter, and Karl Fischer titrator<!-- /gen -->. <!-- gen:fact catalog.planned -->9<!-- /gen --> more instruments are planned.
 The demo has no database. The ledger is stateless: every run starts from the same opening balance.
 
 Live demo: <!-- gen:fact site.url -->https://bench-bridge.juntotechnologies.com/<!-- /gen -->
@@ -61,7 +61,7 @@ Every directory has an `AGENTS.md` with its domain knowledge and rules.
 | 3 | GC system | LAN, legacy CDS | 2000s | Planned | Residual solvent and purity results. CDS and OS updates drop old instrument drivers. |
 | 4 | GC-MS | GPIB, legacy CDS | 1990s | Planned | Identity tests for controlled substances. |
 | 5 | pH meter | RS-232 print | 2000s | Bridged | pH results for buffers and solutions are copied from the display. |
-| 6 | Karl Fischer titrator | RS-232 print | 2000s | Planned | Water content results are typed in from a strip printer. |
+| 6 | Karl Fischer titrator | RS-232 print | 2000s | Bridged | Water content results are typed in from a strip printer. |
 | 7 | LC-MS/MS | LAN, vendor export files | 2000s | Planned | Potency and trace results sit in vendor files the LIMS cannot read. |
 | 8 | Headspace GC | GPIB / RS-232 | 1990s | Planned | Residual solvent results for release testing. |
 | 9 | Dissolution tester | Parallel printer port | 1990s | Planned | Release results print on paper strips. |

@@ -79,6 +79,13 @@ describe("facts", () => {
     expect(facts["ph-meter.receipt.ledger"]).toBeUndefined()
   })
 
+  it("computes the Karl Fischer figures by running the real pipeline", () => {
+    expect(facts["kf-titrator.run.used"]).toBe("0.412")
+    expect(facts["kf-titrator.run.unit"]).toBe("%")
+    expect(facts["kf-titrator.run.unstable"]).toBe("3")
+    expect(facts["kf-titrator.receipt.lims"]).toBe("RES-000001")
+  })
+
   it("names the live instruments", () => {
     for (const entry of catalog.filter(isLive)) expect(facts["catalog.liveNames"]).toContain(entry.name)
   })
