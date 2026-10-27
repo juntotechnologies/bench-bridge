@@ -1,0 +1,29 @@
+# Bench Bridge
+
+> Bench Bridge is a demo with sample data. It shows how older lab instruments can feed a laboratory information management system (LIMS) and controlled-substance ledgers.
+
+## What the demo shows
+
+- Each demo instrument has a concept drawing, a port, a bridge kit, sample readings and a delivery step.
+- The LIMS and the ledger in the demo are mock systems. The ledger resets on each page load.
+- The demo runs in the browser. It has no login.
+- The bridge runs these steps in order: Capture, Parse, Normalize, Map, Deliver.
+
+## Instruments
+
+- Run in the demo with sample data: Analytical balance, High-Performance Liquid Chromatography (HPLC) system, Gas Chromatography (GC) system, Gas Chromatography-Mass Spectrometry (GC-MS), pH meter, Karl Fischer titrator.
+- Planned, with no demo yet: LC-MS/MS, Headspace Gas Chromatography (GC), Dissolution tester, FTIR spectrometer, UV-Vis spectrophotometer, Stability chamber, controlled-substance (CS) vault and safe.
+
+## Limits
+
+- All data is sample data. No real instrument, sample or ledger connects to the demo.
+- Drawings and kits are concept. They are not to scale and they are not dimensioned.
+- Kit parts are example parts. A part name is not an endorsement.
+- The bridge is designed to support validation. The demo makes no claim of regulatory compliance.
+
+## Links
+
+- [Live demo](https://bench-bridge.juntotechnologies.com/): The demo app. It runs in the browser.
+- [Junto Technologies](https://juntotechnologies.com/): The maker of Bench Bridge.
+- [Source code](https://github.com/juntotechnologies/bench-bridge): The code of the demo.
+- [Book a call](https://cal.com/shaun-porwal-junto/30min): Talk to the maker.

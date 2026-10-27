@@ -16,4 +16,5 @@ The browser app: the UI, the drawings and the web worker.
 - Run `npm run fit` after any layout change. It fails when the page scrolls or a region is clipped at any listed window size.
 - Use no Node modules in app code. `scripts/` and `vite.config.ts` may use them.
 - Use `crypto.getRandomValues`, never `randomUUID`: the demo runs over plain HTTP.
+- `vite.config.ts` serves the generated files in `../site/public/`. The head tags in `index.html` link to the icons there. Never edit those tags: they come from `../site/seo.json`.
 - Run browser checks at the tailnet link, not only at localhost.

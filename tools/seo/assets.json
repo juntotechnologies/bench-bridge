@@ -1,0 +1,6 @@
+{
+  "mono500": { "path": "node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2", "mime": "font/woff2" },
+  "mono600": { "path": "node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-600-normal.woff2", "mime": "font/woff2" },
+  "inter": { "path": "node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2", "mime": "font/woff2" },
+  "screenshot": { "path": "docs/media/screenshot.png", "mime": "image/png" }
+}

@@ -10,6 +10,7 @@ Repo tooling that enforces the rules.
 | `docs/` | Docs generator: fills generated blocks and checks references |
 | `eslint/` | Local ESLint rules |
 | `repo-files.ts` | Walks the repo: checked directories, entries and markdown files |
+| `seo/` | SEO generator: writes the discovery files, icons and home page tags from site/seo.json |
 <!-- /gen -->
 
 ## Rules

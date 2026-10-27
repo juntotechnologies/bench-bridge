@@ -49,6 +49,7 @@ Every directory has an `AGENTS.md` with its domain knowledge and rules.
 | `npm run media` | Builds the static site, records it, and writes the README screenshot and GIF |
 | `npm run fit` | Builds the static site, opens it at nine window sizes, and fails when the page scrolls or a region is clipped |
 | `npm run design` | Writes design/tokens.css, SPEC.md and spec.lock from the JSON sources |
+| `npm run seo` | Writes the discovery files, icons and home page tags from site/seo.json |
 <!-- /gen -->
 
 ## Instruments
@@ -74,5 +75,6 @@ Every directory has an `AGENTS.md` with its domain knowledge and rules.
 ## Notes
 
 - The demo uses sample data. It makes no claim of Part 11 compliance.
+- Search engines and agents find the demo through the files that `npm run seo` writes. The copy lives in `site/seo.json`.
 - Drawings use the vendored `/teardown` skill (MIT) in `.agents/skills/teardown/`.
 - Every figure, count, file list and command table in the docs is generated. Run `npm run docs` after a change.

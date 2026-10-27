@@ -1,0 +1,53 @@
+{
+  "publicDir": "site/public",
+  "indexHtml": "client/index.html",
+  "language": "en",
+  "locale": "en_US",
+  "title": "Bench Bridge demo: older lab instruments feed a LIMS",
+  "tagline": "Demo with sample data",
+  "headline": "Older lab instruments feed the LIMS and the ledger",
+  "description": "Demo with sample data. It shows how older lab instruments can feed a laboratory information management system (LIMS) and controlled-substance ledgers.",
+  "summary": "Bench Bridge is a demo with sample data. It shows how older lab instruments can feed a laboratory information management system (LIMS) and controlled-substance ledgers.",
+  "needsScript": "This demo needs JavaScript to run.",
+  "shows": [
+    "Each demo instrument has a concept drawing, a port, a bridge kit, sample readings and a delivery step.",
+    "The LIMS and the ledger in the demo are mock systems. The ledger resets on each page load.",
+    "The demo runs in the browser. It has no login."
+  ],
+  "limits": [
+    "All data is sample data. No real instrument, sample or ledger connects to the demo.",
+    "Drawings and kits are concept. They are not to scale and they are not dimensioned.",
+    "Kit parts are example parts. A part name is not an endorsement.",
+    "The bridge is designed to support validation. The demo makes no claim of regulatory compliance."
+  ],
+  "crawlers": ["GPTBot", "ClaudeBot", "PerplexityBot", "Google-Extended", "CCBot"],
+  "agents": {
+    "summary": "This site is a public demo with sample data. It has no login and no real account.",
+    "may": ["Read each public page.", "Follow each link on a page."],
+    "mayNot": ["Post a form.", "Send a message for a person.", "Book a call for a person."]
+  },
+  "links": [
+    { "kind": "demo", "label": "Live demo", "note": "The demo app. It runs in the browser." },
+    { "kind": "maker", "label": "Junto Technologies", "note": "The maker of Bench Bridge." },
+    { "kind": "source", "label": "Source code", "note": "The code of the demo.", "url": "https://github.com/juntotechnologies/bench-bridge" },
+    { "kind": "booking", "label": "Book a call", "note": "Talk to the maker.", "url": "https://cal.com/shaun-porwal-junto/30min" }
+  ],
+  "pages": [
+    { "path": "/", "sources": ["client", "shared", "server", "design", "site/seo.json", "site/send.ts"] }
+  ],
+  "og": {
+    "path": "og.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "The Bench Bridge demo with sample data. It shows an instrument list, a concept drawing and the records that go to a LIMS and a ledger."
+  },
+  "icons": {
+    "svg": "favicon.svg",
+    "touch": { "path": "apple-touch-icon.png", "size": 180 },
+    "app": [
+      { "path": "icon-192.png", "size": 192 },
+      { "path": "icon-512.png", "size": 512 }
+    ]
+  },
+  "manifest": "manifest.webmanifest"
+}

@@ -21,7 +21,12 @@ const PATHS: Record<string, string> = {
   back: "M19 12H5M11 6l-6 6 6 6",
 }
 
+/** The path data of one icon, so other tools draw the same mark. */
+export function iconPath(name: string): string {
+  return PATHS[name] ?? ""
+}
+
 export function icon(name: string, size = 16): string {
-  const d = PATHS[name] ?? ""
+  const d = iconPath(name)
   return `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`
 }

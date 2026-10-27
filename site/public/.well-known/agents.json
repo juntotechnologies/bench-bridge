@@ -1,0 +1,18 @@
+{
+  "name": "Bench Bridge",
+  "url": "https://bench-bridge.juntotechnologies.com/",
+  "summary": "This site is a public demo with sample data. It has no login and no real account.",
+  "maker": "https://juntotechnologies.com/",
+  "mayDo": [
+    "Read each public page.",
+    "Follow each link on a page."
+  ],
+  "mayNotDo": [
+    "Post a form.",
+    "Send a message for a person.",
+    "Book a call for a person."
+  ],
+  "contact": "https://cal.com/shaun-porwal-junto/30min",
+  "sitemap": "https://bench-bridge.juntotechnologies.com/sitemap.xml",
+  "llms": "https://bench-bridge.juntotechnologies.com/llms.txt"
+}

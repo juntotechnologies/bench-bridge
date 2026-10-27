@@ -1,0 +1,19 @@
+* { box-sizing: border-box; margin: 0; }
+html, body { width: 1200px; height: 630px; overflow: hidden; }
+body {
+  position: relative;
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 40px 40px;
+  color: var(--ink);
+  font-family: "Inter Variable", system-ui, sans-serif;
+}
+.brand { position: absolute; top: 52px; left: 64px; display: flex; align-items: center; gap: 16px; }
+.mark { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 12px; background: var(--card); }
+.mark svg { width: 38px; height: 38px; fill: none; stroke: var(--accent); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.name { font: 600 26px "IBM Plex Mono", monospace; letter-spacing: 0.22em; text-transform: uppercase; }
+.headline { position: absolute; top: 168px; left: 64px; width: 500px; font-size: 54px; text-wrap: balance; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+.pill { position: absolute; top: 440px; left: 64px; padding: 10px 18px; border-radius: 99px; background: var(--card); color: var(--on-card); font: 500 17px "IBM Plex Mono", monospace; letter-spacing: 0.14em; text-transform: uppercase; }
+.steps { position: absolute; top: 508px; left: 64px; color: var(--accent); font: 500 15px "IBM Plex Mono", monospace; letter-spacing: 0.2em; text-transform: uppercase; }
+.domain { position: absolute; bottom: 44px; left: 64px; color: var(--ink-2); font: 500 20px "IBM Plex Mono", monospace; }
+.shot { position: absolute; top: 120px; left: 600px; width: 760px; border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 28px 48px -28px rgba(28, 27, 25, 0.4); }
