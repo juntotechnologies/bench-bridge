@@ -57,5 +57,26 @@
   "stagePane": "stage",
   "deviceAttribute": "data-device",
   "runMs": 5200,
-  "minSheetHeight": 120
+  "minSheetHeight": 120,
+  "tappable": [
+    ".segmented button",
+    ".slider input",
+    ".stage-controls .chip",
+    ".zoom button",
+    ".pane-nav button",
+    ".tabs button",
+    ".run"
+  ],
+  "sliderSelector": ".slider input",
+  "motionMs": 3000,
+  "spacing": [
+    {
+      "button": ".segmented button:nth-child(1)",
+      "value": "0"
+    },
+    {
+      "button": ".segmented button:nth-child(2)",
+      "value": "1"
+    }
+  ]
 }

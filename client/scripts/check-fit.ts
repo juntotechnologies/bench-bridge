@@ -11,6 +11,9 @@ import { serveSite } from "./staticSite"
 const Viewport = z.object({ name: z.string(), width: z.number(), height: z.number() })
 type Viewport = z.infer<typeof Viewport>
 
+const Spacing = z.object({ button: z.string(), value: z.string() })
+type Spacing = z.infer<typeof Spacing>
+
 const Fit = z.object({
   siteConfig: z.string(),
   outDir: z.string(),
@@ -18,6 +21,10 @@ const Fit = z.object({
   sheetSelector: z.string(),
   contained: z.array(z.tuple([z.string(), z.string()])),
   truncated: z.array(z.string()),
+  tappable: z.array(z.string()),
+  sliderSelector: z.string(),
+  motionMs: z.number(),
+  spacing: z.array(Spacing),
   tabs: z.array(z.string()),
   readySelector: z.string(),
   runSelector: z.string(),
@@ -46,6 +53,7 @@ interface Measure {
   clipped: string[]
   escaped: string[]
   cutOff: string[]
+  covered: string[]
   sheetHeight: number
 }
 
@@ -112,10 +120,26 @@ async function cutOffText(page: Page): Promise<string[]> {
   return fit.truncated.filter(isFlagged.bind(null, flags))
 }
 
+/** True when the middle of a visible element of the selector shows another element, so a tap would miss it. */
+async function isCovered(page: Page, selector: string): Promise<boolean> {
+  const script = `[...document.querySelectorAll(${JSON.stringify(selector)})].some(e => {
+    if (e.offsetParent === null) return false
+    const r = e.getBoundingClientRect()
+    const top = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)
+    return top !== null && !e.contains(top)
+  })`
+  return (await page.evaluate(script)) as boolean
+}
+
+async function coveredControls(page: Page): Promise<string[]> {
+  const flags = await Promise.all(fit.tappable.map(isCovered.bind(null, page)))
+  return fit.tappable.filter(isFlagged.bind(null, flags))
+}
+
 async function measure(page: Page, viewport: Viewport): Promise<Measure> {
   const sheet = (await boxesOf(page, fit.sheetSelector))[0]
   const pageOverflow = (await page.evaluate(OVERFLOW)) as number
-  return { pageOverflow, clipped: await clippedRegions(page, viewport), escaped: await escapedPairs(page), cutOff: await cutOffText(page), sheetHeight: sheet?.height ?? 0 }
+  return { pageOverflow, clipped: await clippedRegions(page, viewport), escaped: await escapedPairs(page), cutOff: await cutOffText(page), covered: await coveredControls(page), sheetHeight: sheet?.height ?? 0 }
 }
 
 function overflowProblem(step: string, found: Measure): string | null {
@@ -134,13 +158,17 @@ function cutProblem(step: string, found: Measure): string | null {
   return found.cutOff.length ? `${step}: text cut off in ${found.cutOff.join(", ")}` : null
 }
 
+function coverProblem(step: string, found: Measure): string | null {
+  return found.covered.length ? `${step}: another element covers ${found.covered.join(", ")}` : null
+}
+
 function sheetProblem(step: string, found: Measure): string | null {
   const small = found.sheetHeight > 0 && found.sheetHeight < fit.minSheetHeight
   return small ? `${step}: drawing only ${Math.round(found.sheetHeight)}px tall` : null
 }
 
 function problemsOf(step: string, found: Measure): string[] {
-  return [overflowProblem(step, found), clipProblem(step, found), escapeProblem(step, found), cutProblem(step, found), sheetProblem(step, found)].filter(isString)
+  return [overflowProblem(step, found), clipProblem(step, found), escapeProblem(step, found), cutProblem(step, found), coverProblem(step, found), sheetProblem(step, found)].filter(isString)
 }
 
 async function check(page: Page, viewport: Viewport, step: string): Promise<string[]> {
@@ -160,6 +188,37 @@ function isString(value: string | null): value is string {
 async function visiblePanes(page: Page): Promise<string[]> {
   const buttons = await page.locator(fit.navSelector).all()
   return (await Promise.all(buttons.map(paneIfVisible))).filter(isString)
+}
+
+/** Presses at the middle of an element with the mouse, as a finger does. */
+async function pressAt(page: Page, selector: string): Promise<void> {
+  const box = await page.locator(selector).boundingBox()
+  if (box) await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2)
+}
+
+async function sliderReaches(page: Page, value: string): Promise<boolean> {
+  const script = `document.querySelector(${JSON.stringify(fit.sliderSelector)}).value === ${JSON.stringify(value)}`
+  return page.waitForFunction(script, null, { timeout: fit.motionMs }).then(isTrue, isFalse)
+}
+
+function isTrue(): boolean {
+  return true
+}
+
+function isFalse(): boolean {
+  return false
+}
+
+async function pressSpacing(page: Page, step: Spacing): Promise<string | null> {
+  await pressAt(page, step.button)
+  return (await sliderReaches(page, step.value)) ? null : `${step.button} did not move the drawing`
+}
+
+/** Presses Assembled and then Exploded, and waits for the spacing slider to follow. */
+async function walkSpacing(page: Page): Promise<string[]> {
+  const problems: (string | null)[] = []
+  for (const step of fit.spacing) problems.push(await pressSpacing(page, step))
+  return problems.filter(isString)
 }
 
 async function walkPanes(page: Page, viewport: Viewport): Promise<string[]> {
@@ -207,7 +266,7 @@ async function walkDevice(page: Page, viewport: Viewport, id: string): Promise<s
   await selectDevice(page, id)
   const loaded = await check(page, viewport, "load")
   await page.screenshot({ path: join(fit.outDir, `${viewport.name}-${id}-load.png`) })
-  const problems = [...loaded, ...(await walkPanes(page, viewport)), ...(await walkRun(page, viewport))]
+  const problems = [...loaded, ...(await walkSpacing(page)), ...(await walkPanes(page, viewport)), ...(await walkRun(page, viewport))]
   await page.screenshot({ path: join(fit.outDir, `${viewport.name}-${id}-run.png`) })
   return problems.map(prefixed.bind(null, id))
 }

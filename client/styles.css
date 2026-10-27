@@ -90,7 +90,7 @@ code, pre { font-family: var(--font-mono); }
   grid-area: stage; position: relative; overflow: hidden; border-radius: var(--radius-lg); border: 1px dashed var(--line);
   display: flex; flex-direction: column; container-type: inline-size;
 }
-.sheet { position: relative; flex: 1; min-height: 0; display: grid; place-items: center; }
+.sheet { position: relative; flex: 1; min-height: 0; display: grid; place-items: center; overflow: hidden; }
 .drawing { width: 100%; height: 100%; transform: scale(var(--zoom, 1)); transition: transform var(--motion-base); }
 .drawing path { fill: none; stroke: var(--ink); stroke-linejoin: round; stroke-linecap: round; }
 .drawing [data-line-role="outline"] { stroke-width: 0.42; }
