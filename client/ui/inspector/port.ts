@@ -2,6 +2,7 @@
 import { copy } from "@shared/registry"
 import type { Device } from "@shared/registry/schema"
 import { h, svg, type Child } from "../dom"
+import { pairList } from "./pairs"
 
 const SETTING_SEPARATOR = " · "
 
@@ -29,13 +30,22 @@ export function portTab(device: Device): Child[] {
   return [
     h("h2", { class: "inspector-title" }, [device.port.kind, h("small", {}, [device.port.connector])]),
     diagram ? svg(diagram, "port-diagram") : null,
-    h("div", { class: "setting" }, [h("div", { class: "eyebrow" }, [copy.port.settings]), h("div", { class: "tool-chips" }, settingParts(device.port.settings).map(settingChip))]),
+    h("div", { class: "eyebrow" }, [copy.port.connection]),
+    pairList(device.connection),
+    settingsBlock(device),
     h("div", { class: "eyebrow" }, [copy.port.pins]),
-    h("table", { class: "pins" }, [
-      h("thead", {}, [h("tr", {}, [h("th", {}, [copy.port.pin]), h("th", {}, [copy.port.signal]), h("th", {}, [copy.port.use])])]),
-      h("tbody", {}, device.port.pins.map(pinRow)),
-    ]),
+    pinTable(device),
   ]
+}
+
+function settingsBlock(device: Device): HTMLElement {
+  const chips = settingParts(device.port.settings).map(settingChip)
+  return h("div", { class: "setting" }, [h("div", { class: "eyebrow" }, [copy.port.settings]), h("div", { class: "tool-chips" }, chips)])
+}
+
+function pinTable(device: Device): HTMLElement {
+  const head = h("tr", {}, [h("th", {}, [copy.port.pin]), h("th", {}, [copy.port.signal]), h("th", {}, [copy.port.use])])
+  return h("table", { class: "pins" }, [h("thead", {}, [head]), h("tbody", {}, device.port.pins.map(pinRow))])
 }
 
 function pinNumber(pin: [string, string, string]): string {

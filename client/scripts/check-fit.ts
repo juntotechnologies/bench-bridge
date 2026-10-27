@@ -31,6 +31,10 @@ const Fit = z.object({
   navSelector: z.string(),
   devicesPane: z.string(),
   stagePane: z.string(),
+  inspectorPane: z.string(),
+  kitSwitch: z.string(),
+  kitReadySelector: z.string(),
+  partSelector: z.string(),
   deviceAttribute: z.string(),
   runMs: z.number(),
   minSheetHeight: z.number(),
@@ -120,14 +124,29 @@ async function cutOffText(page: Page): Promise<string[]> {
   return fit.truncated.filter(isFlagged.bind(null, flags))
 }
 
+/** Page script: true when the middle of the element is scrolled out of its scrolling ancestor. The user scrolls to such a control, so it is not covered. */
+const SCROLLED_OUT = `function scrolledOut(x, y, e) {
+  for (let p = e.parentElement; p; p = p.parentElement) {
+    if (!/auto|scroll/.test(getComputedStyle(p).overflowY)) continue
+    const c = p.getBoundingClientRect()
+    return y < c.top || y > c.bottom || x < c.left || x > c.right
+  }
+  return false
+}`
+
 /** True when the middle of a visible element of the selector shows another element, so a tap would miss it. */
 async function isCovered(page: Page, selector: string): Promise<boolean> {
-  const script = `[...document.querySelectorAll(${JSON.stringify(selector)})].some(e => {
-    if (e.offsetParent === null) return false
-    const r = e.getBoundingClientRect()
-    const top = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)
-    return top !== null && !e.contains(top)
-  })`
+  const script = `(() => {
+    ${SCROLLED_OUT}
+    return [...document.querySelectorAll(${JSON.stringify(selector)})].some(e => {
+      if (e.offsetParent === null) return false
+      const r = e.getBoundingClientRect()
+      const x = r.x + r.width / 2, y = r.y + r.height / 2
+      if (scrolledOut(x, y, e)) return false
+      const top = document.elementFromPoint(x, y)
+      return top !== null && !e.contains(top)
+    })
+  })()`
   return (await page.evaluate(script)) as boolean
 }
 
@@ -221,6 +240,21 @@ async function walkSpacing(page: Page): Promise<string[]> {
   return problems.filter(isString)
 }
 
+/** Opens the kit from the stage switch, picks the first part in the list, and goes back to the instrument. */
+async function walkKit(page: Page, viewport: Viewport): Promise<string[]> {
+  await pressAt(page, fit.kitSwitch)
+  await page.waitForSelector(fit.kitReadySelector)
+  const problems = await check(page, viewport, "kit view")
+  await showPane(page, fit.inspectorPane)
+  await page.locator(fit.partSelector).first().click()
+  problems.push(...(await check(page, viewport, "kit part")))
+  await showPane(page, fit.stagePane)
+  problems.push(...(await check(page, viewport, "kit pick")))
+  await pressAt(page, fit.kitSwitch)
+  await page.waitForSelector(fit.readySelector)
+  return problems
+}
+
 async function walkPanes(page: Page, viewport: Viewport): Promise<string[]> {
   const problems: string[] = []
   for (const pane of await visiblePanes(page)) {
@@ -266,7 +300,7 @@ async function walkDevice(page: Page, viewport: Viewport, id: string): Promise<s
   await selectDevice(page, id)
   const loaded = await check(page, viewport, "load")
   await page.screenshot({ path: join(fit.outDir, `${viewport.name}-${id}-load.png`) })
-  const problems = [...loaded, ...(await walkSpacing(page)), ...(await walkPanes(page, viewport)), ...(await walkRun(page, viewport))]
+  const problems = [...loaded, ...(await walkSpacing(page)), ...(await walkKit(page, viewport)), ...(await walkPanes(page, viewport)), ...(await walkRun(page, viewport))]
   await page.screenshot({ path: join(fit.outDir, `${viewport.name}-${id}-run.png`) })
   return problems.map(prefixed.bind(null, id))
 }

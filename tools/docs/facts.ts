@@ -2,7 +2,7 @@
 import { runBridge } from "@shared/bridge/pipeline"
 import type { BridgeRun, Reading } from "@shared/bridge/types"
 import { DeliverResponse } from "@shared/contracts"
-import { catalog, devices, isLive } from "@shared/registry"
+import { catalog, devices, isLive, kitTitle } from "@shared/registry"
 import type { CatalogEntry, Device } from "@shared/registry/schema"
 import { handleDeliver } from "@server/handler"
 import { createDeps } from "@server/refs"
@@ -60,7 +60,7 @@ function identityFacts(device: Device): Facts {
     name: device.name,
     model: device.model,
     era: String(device.era),
-    kit: device.kit,
+    kit: kitTitle(device),
     "port.kind": device.port.kind,
     "port.connector": device.port.connector,
     "port.settings": device.port.settings,

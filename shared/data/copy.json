@@ -21,6 +21,7 @@
     "tabs": {
       "overview": "Overview",
       "port": "Port",
+      "kit": "Kit",
       "data": "Data",
       "deliver": "Deliver"
     },
@@ -61,14 +62,33 @@
     "drawingPrefix": "BB",
     "zoomIn": "Zoom in",
     "zoomOut": "Zoom out",
-    "zoomReset": "Reset zoom"
+    "zoomReset": "Reset zoom",
+    "showKit": "Bridge kit",
+    "showInstrument": "Instrument",
+    "kitDrawingPrefix": "BB-K",
+    "kitSheet": "NTS · Concept kit"
   },
   "overview": {
     "problemTitle": "Today",
     "bridgeTitle": "With the bridge",
-    "kitTitle": "Bridge kit"
+    "kitTitle": "Bridge kit",
+    "openKit": "Open kit"
+  },
+  "kit": {
+    "fits": "Fits",
+    "flow": "How the data moves",
+    "parts": "Parts",
+    "pickHint": "Pick a part here or on the drawing.",
+    "job": "Job",
+    "why": "Why",
+    "examples": "Example parts",
+    "exampleNote": "Example only. Not an endorsement. Check each data sheet.",
+    "install": "Install steps",
+    "checks": "Checks that support validation",
+    "safeguards": "Safeguards"
   },
   "port": {
+    "connection": "On this instrument",
     "settings": "Settings",
     "pins": "Pins used",
     "pin": "Pin",

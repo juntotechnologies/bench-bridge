@@ -48,6 +48,7 @@
   "tabs": [
     "overview",
     "port",
+    "kit",
     "data",
     "deliver"
   ],
@@ -56,6 +57,10 @@
   "navSelector": ".pane-nav button",
   "devicesPane": "devices",
   "stagePane": "stage",
+  "inspectorPane": "inspector",
+  "kitSwitch": ".stage-switch",
+  "kitReadySelector": ".sheet.is-kit .drawing [data-item=\"case\"]",
+  "partSelector": ".part-row",
   "deviceAttribute": "data-device",
   "runMs": 5200,
   "minSheetHeight": 120,
@@ -66,7 +71,10 @@
     ".zoom button",
     ".pane-nav button",
     ".tabs button",
-    ".run"
+    ".run",
+    ".stage-switch",
+    ".part-row",
+    ".kit-open"
   ],
   "sliderSelector": ".slider input",
   "motionMs": 3000,

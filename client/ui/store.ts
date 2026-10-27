@@ -3,7 +3,7 @@ import type { DeliverResponse } from "@shared/contracts"
 import type { BridgeRun } from "@shared/bridge/types"
 import type { Theme } from "./theme"
 
-export type TabId = "overview" | "port" | "data" | "deliver"
+export type TabId = "overview" | "port" | "kit" | "data" | "deliver"
 
 /** The panes a narrow window shows one at a time. Wide windows show all three. */
 export const PANES = ["devices", "stage", "inspector"] as const
@@ -32,6 +32,8 @@ export interface AppState extends RunState {
   zoom: number
   catalogFilter: CatalogFilter
   theme: Theme
+  /** The kit part picked on the Kit tab, or null. */
+  part: string | null
 }
 
 export type Listener = (state: AppState, previous: AppState) => void

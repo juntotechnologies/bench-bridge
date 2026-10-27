@@ -170,5 +170,8 @@ The fit check opens each size.
 | Pane nav | `.pane-nav` | Switch the pane on a narrow window. | `is-on` | `ink`, `on-ink`, `accent`, `touch`, `radius-md`, `ink-card` | Original |
 | Dock | `.dock` | Holds the pipeline and the pane switch at the bottom of a narrow window. | none | `panel`, `touch` | Original |
 | Theme toggle | `.theme-toggle` | Switch between the light and the dark theme. The choice stays in the browser.. | none | `panel`, `line`, `ink-2`, `accent`, `touch`, `radius-md` | Original |
+| Stage switch | `.stage-switch` | Switch the stage between an instrument and its bridge kit. | none | `panel`, `line`, `accent`, `radius-md`, `shadow-float` | Original |
+| Part row | `.part` | One part of a bridge kit. A pick opens its job, its reason and its example parts. A click on the drawing picks the same part.. | `is-picked` | `raised`, `line`, `accent`, `ring-accent`, `radius-md`, `ink-2` | Original |
+| Step list | `.steps` | Numbered steps for the data flow and the install. Plain items for the checks and the safeguards.. | none | `ink-card`, `on-ink`, `ink-2`, `line`, `radius-pill` | Original |
 | Title block | `.title-block` | A caption on a narrow stage and a boxed corner stamp on a wide one. | none | `panel`, `ink`, `line` | Original |
 

@@ -4,7 +4,7 @@ import type { DeliverResponse } from "@shared/contracts"
 import { startRun, type Schedule } from "@client/ui/runner"
 import { IDLE_RUN, Store, type AppState } from "@client/ui/store"
 
-const INITIAL: AppState = { deviceId: "balance", tab: "overview", pane: "stage", explosion: 1, labels: true, zoom: 1, catalogFilter: "all", theme: "system", ...IDLE_RUN }
+const INITIAL: AppState = { deviceId: "balance", tab: "overview", pane: "stage", explosion: 1, labels: true, zoom: 1, catalogFilter: "all", theme: "system", part: null, ...IDLE_RUN }
 const RESPONSE: DeliverResponse = { receipts: [], ledger: null }
 
 interface Collector {

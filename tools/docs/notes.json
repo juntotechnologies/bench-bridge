@@ -1,6 +1,7 @@
 {
   "files": {
     "shared/data/devices.json": "One entry per live instrument: port, parser, rules, capture and field maps",
+    "shared/data/kits.json": "Every bridge kit: its parts, flow, install steps, checks and safeguards, with example parts",
     "shared/data/catalog.json": "Every planned instrument, ranked by value to a DEA-registered lab",
     "shared/data/targets.json": "Target systems: endpoint, reference prefix and required fields",
     "shared/data/pipeline.json": "The five pipeline stages",
@@ -43,7 +44,8 @@
   "scripts": {
     "build": "Typechecks, then builds the client into dist/",
     "build:pages": "Builds the static site for GitHub Pages, with the delivery API in the browser",
-    "check": "Typecheck, lint, test, build and build the static site",
+    "check": "Typecheck, lint, test, check the drawings, build and build the static site",
+    "drawings": "Draws every instrument and kit under Node, and fails when a part or a builder is missing",
     "design": "Writes design/tokens.css, SPEC.md and spec.lock from the JSON sources",
     "dev": "Starts the app and the API, and prints the one tailnet link",
     "docs": "Rewrites every generated block from its source",
@@ -51,7 +53,7 @@
     "health": "Checks that the dev server answers",
     "lint": "ESLint, the AGENTS.md check and the docs check",
     "media": "Builds the static site, records it, and writes the README screenshot and GIF",
-    "proof": "Renders every device drawing to proof/",
+    "proof": "Renders every instrument and kit drawing to proof/",
     "test": "Runs all tests in tests/",
     "typecheck": "Typechecks all areas"
   },

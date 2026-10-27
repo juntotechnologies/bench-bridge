@@ -8,6 +8,7 @@ JSON registries. Each file is the one source for its facts.
 | `catalog.json` | Every planned instrument, ranked by value to a DEA-registered lab |
 | `copy.json` | UI text |
 | `devices.json` | One entry per live instrument: port, parser, rules, capture and field maps |
+| `kits.json` | Every bridge kit: its parts, flow, install steps, checks and safeguards, with example parts |
 | `pipeline.json` | The five pipeline stages |
 | `targets.json` | Target systems: endpoint, reference prefix and required fields |
 <!-- /gen -->

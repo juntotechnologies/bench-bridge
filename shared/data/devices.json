@@ -9,8 +9,9 @@
     "summary": "A 0.1 mg balance with a serial print key. Analysts weigh controlled substances by difference and copy each weight by hand.",
     "today": ["Analyst copies two weights onto a paper log.", "Analyst types the result into the LIMS.", "The CS ledger is updated by hand later."],
     "bridged": ["The tap reads each stable print on the port.", "The bridge works out the amount used.", "One reading goes to the LIMS and the CS ledger."],
-    "kit": "Serial tap with DB9 pass-through",
+    "kit": "serial-tap",
     "specs": [["Capacity", "220 g"], ["Readability", "0.1 mg"], ["Output", "Print key, RS-232"]],
+    "connection": [["Where", "Rear panel, the port marked RS-232"], ["Today", "A serial printer or a PC reads the port"], ["Trigger", "One line for each press of the print key"], ["Format", "S S 25.4790 g: S is stable and D is moving, then the value and the unit"], ["On the instrument", "No change. Keep 2400 baud and 7E1"]],
     "port": {
       "kind": "RS-232",
       "connector": "DB9 male",
@@ -41,8 +42,9 @@
     "summary": "A liquid chromatograph run by a legacy chromatography data system. The system prints a peak report. Analysts copy each purity result by hand.",
     "today": ["The analyst prints the peak report on paper.", "The analyst types the purity result into the LIMS.", "A software or Windows update can break the old instrument driver."],
     "bridged": ["The tap reads the peak report that the system prints over the network.", "The bridge drops the solvent front and works out purity.", "One result goes to the LIMS with its sample and instrument."],
-    "kit": "Network tap with RJ45 pass-through",
+    "kit": "network-tap",
     "specs": [["Detector", "UV, 254 nm"], ["Pump", "Quaternary, 5 mL/min"], ["Output", "Peak report to a network printer"]],
+    "connection": [["Where", "The network cable between the data system and its printer"], ["Today", "The chromatography data system prints the peak report to a network printer"], ["Trigger", "One report for each sample run"], ["Format", "A text peak table with one row for each peak"], ["On the instrument", "No change. The printer stays in the line"]],
     "port": {
       "kind": "LAN",
       "connector": "RJ45 (Ethernet)",

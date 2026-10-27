@@ -6,7 +6,7 @@ interface Pending {
   reject: (error: Error) => void
 }
 
-/** Sends draw requests to the worker and caches each drawing by device, spacing and labels. */
+/** Sends draw requests to the worker and caches each drawing by ID, spacing and labels. */
 export class DrawingClient {
   private readonly worker: Worker
   private readonly pending = new Map<number, Pending>()
@@ -18,9 +18,9 @@ export class DrawingClient {
     this.worker.addEventListener("message", this.onReply.bind(this))
   }
 
-  draw(deviceId: string, explosion: number, annotate: boolean): Promise<string> {
-    const key = `${deviceId}:${explosion.toFixed(2)}:${annotate}`
-    const cached = this.cache.get(key) ?? this.request({ requestId: this.nextId++, deviceId, explosion, annotate })
+  draw(drawingId: string, explosion: number, annotate: boolean): Promise<string> {
+    const key = `${drawingId}:${explosion.toFixed(2)}:${annotate}`
+    const cached = this.cache.get(key) ?? this.request({ requestId: this.nextId++, drawingId, explosion, annotate })
     this.cache.set(key, cached)
     return cached
   }

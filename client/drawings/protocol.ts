@@ -1,7 +1,8 @@
 /** Message shapes between the page and the drawing worker. */
 export interface DrawRequest {
   requestId: number
-  deviceId: string
+  /** A device ID, or "kit:" and a kit ID. */
+  drawingId: string
   explosion: number
   annotate: boolean
 }

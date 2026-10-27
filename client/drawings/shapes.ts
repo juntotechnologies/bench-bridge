@@ -1,8 +1,6 @@
 /** Small part builders shared by every drawing model. */
 import { G, type Part, type Vec2, type Vec3 } from "./engine"
 
-export const BRIDGE_ID = "bridge"
-
 interface Disc {
   center: Vec2
   radius: number

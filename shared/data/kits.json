@@ -1,0 +1,195 @@
+{
+  "parts": [
+    {
+      "id": "case",
+      "name": "Sealed case",
+      "job": "Holds every part. The case carries the two instrument-side connectors and one network connector.",
+      "why": "A closed case keeps dust out and keeps hands off the wiring.",
+      "examples": [
+        { "vendor": "Hammond Manufacturing", "product": "1591 series ABS enclosure", "note": "Two-piece case. The flanged lid hides the screws." }
+      ]
+    },
+    {
+      "id": "lid",
+      "name": "Lid and tamper seal",
+      "job": "Closes the case. A numbered seal crosses the join.",
+      "why": "A broken or missing seal shows that someone opened the case. The seal number goes into the install record.",
+      "examples": []
+    },
+    {
+      "id": "port-in",
+      "name": "Instrument connector",
+      "job": "Plugs into the port that the instrument used before.",
+      "why": "The instrument sees the same plug as before. Nothing changes on the instrument.",
+      "examples": []
+    },
+    {
+      "id": "port-out",
+      "name": "Cable connector",
+      "job": "Takes the original cable, which goes to the old printer, PC or network.",
+      "why": "Whatever read the instrument before still reads it. The signal passes through the box unchanged.",
+      "examples": []
+    },
+    {
+      "id": "tap-serial",
+      "name": "Listen-only tap",
+      "job": "Copies the instrument's send line to the capture side. The receive line goes straight through and has no branch.",
+      "why": "Nothing can flow from the kit back into the instrument. The wiring makes the tap read-only. Software does not.",
+      "examples": [
+        { "vendor": "B+B SmartWorx (Advantech)", "product": "BB-232CDT", "note": "Inline RS-232 data tap on the send, receive and ground lines." },
+        { "vendor": "Stratus Engineering", "product": "EZ-Tap RS232", "note": "Passive tap that logs the data to a PC over USB." }
+      ]
+    },
+    {
+      "id": "tap-network",
+      "name": "Passive copper tap",
+      "job": "Passes the 10/100 line straight through. It copies each direction to a receive-only monitor port.",
+      "why": "The monitor ports have no transmit path. The kit can listen to the instrument's network and cannot talk on it. A gigabit link needs a different tap.",
+      "examples": [
+        { "vendor": "Great Scott Gadgets", "product": "Throwing Star LAN Tap Pro", "note": "Passive 10/100 tap with receive-only monitor ports. It needs no power." },
+        { "vendor": "Garland Technology", "product": "Copper network TAPs", "note": "Portable taps for 10/100 and 10/100/1000 copper links." }
+      ]
+    },
+    {
+      "id": "tap-gpib",
+      "name": "Listen-only bus interface",
+      "job": "A GPIB gateway set to listen-only mode. It receives the report that the instrument sends in talk-only mode. It never addresses the instrument and never sends a command.",
+      "why": "A GPIB bus has one controller. The old PC stays the controller. The kit joins the bus as a listener only.",
+      "examples": [
+        { "vendor": "Prologix", "product": "GPIB-ETHERNET", "note": "GPIB to LAN gateway with a device mode and a listen-only setting." },
+        { "vendor": "Keysight", "product": "E5810B", "note": "LAN, USB and RS-232 to GPIB gateway. Check its data sheet for a listen-only mode." }
+      ]
+    },
+    {
+      "id": "isolator",
+      "name": "Isolation module",
+      "job": "Separates the electrical ground of the instrument from the ground of the capture computer.",
+      "why": "A ground difference can add noise to an old instrument's lines or damage its port. Isolation stops both.",
+      "examples": [
+        { "vendor": "Advantech", "product": "ADAM-4520", "note": "Isolated RS-232 to RS-422/485 converter with 3,000 VDC isolation." }
+      ]
+    },
+    {
+      "id": "computer",
+      "name": "Capture computer",
+      "job": "Reads the tapped signal and stamps each line. It runs the parser, the rules and the field map, and it sends the records.",
+      "why": "One small computer does every step. The instrument and its PC need no new software.",
+      "examples": [
+        { "vendor": "OnLogic", "product": "Factor 201", "note": "Raspberry Pi Compute Module 4 in an industrial case. DIN-rail mount, with a PoE option." },
+        { "vendor": "Kontron", "product": "AL Pi-Tron CM4", "note": "DIN-rail box PC with eMMC storage." },
+        { "vendor": "Techbase", "product": "Modberry 500 CM4", "note": "DIN-rail computer with two RS-232 ports." }
+      ]
+    },
+    {
+      "id": "storage",
+      "name": "Local store",
+      "job": "Holds every raw line and every receipt on the kit. It keeps the data while the network is down.",
+      "why": "No data is lost in an outage. A reviewer can compare any record with its raw source line.",
+      "examples": [
+        { "vendor": "Swissbit", "product": "Industrial microSD, everbit series", "note": "Cards for heavy logging. The firmware protects data at power loss." }
+      ]
+    },
+    {
+      "id": "clock",
+      "name": "Time source",
+      "job": "Gives each captured line its time. Network time sets the clock. A battery-backed chip keeps it between syncs.",
+      "why": "A record needs a trusted time. A clock fault must raise an alarm and must not stamp a wrong time.",
+      "examples": [
+        { "vendor": "Analog Devices (Maxim)", "product": "DS3231", "note": "Temperature-compensated real-time clock chip." }
+      ]
+    },
+    {
+      "id": "power",
+      "name": "Power module",
+      "job": "Powers the kit from the network cable or a wall supply. It isolates the kit from the power source.",
+      "why": "The kit needs no mains wiring near the instrument.",
+      "examples": [
+        { "vendor": "Waveshare", "product": "Industrial Gigabit PoE Splitter, 5 V", "note": "Isolated 802.3af/at splitter with a 5 V output." },
+        { "vendor": "Adafruit", "product": "PoE Splitter with USB Type C", "note": "Isolated 802.3af splitter, 5 V 2 A." }
+      ]
+    },
+    {
+      "id": "uplink",
+      "name": "Network connector",
+      "job": "Carries the records out to the lab network and carries the time in.",
+      "why": "Only this port leaves the box. The kit is designed to accept no commands from the network.",
+      "examples": []
+    }
+  ],
+  "checks": [
+    { "title": "Installation check", "detail": "Record the kit serial number, the seal number and the software version. Compare the connectors and cables with the drawing." },
+    { "title": "Operation check", "detail": "Send a known test line. Check that it arrives whole and with the right time. Check that the instrument's own output has not changed." },
+    { "title": "Performance check", "detail": "Run known samples. Compare each record in the LIMS with the instrument display. Keep the comparison as evidence." },
+    { "title": "Change check", "detail": "Repeat the checks after any change to the kit, the parser or the rules." }
+  ],
+  "safeguards": [
+    { "title": "Read-only by wiring", "detail": "The kit has no wire that can write to the instrument." },
+    { "title": "Raw copy kept", "detail": "The raw line is stored before any rule runs. A reviewer can compare each record with its source line." },
+    { "title": "Trusted time", "detail": "Each line carries a time from a synced clock. A clock fault raises an alarm." },
+    { "title": "Sealed case", "detail": "A numbered seal shows if someone opened the case." },
+    { "title": "Linked receipts", "detail": "Each target receipt is stored with the raw line that it came from." },
+    { "title": "No lost data", "detail": "If the network fails, the kit keeps its lines and sends them later in order." }
+  ],
+  "kits": [
+    {
+      "id": "serial-tap",
+      "name": "Serial tap",
+      "summary": "A tap is a device that copies a signal and does not change it. This tap sits in the instrument's serial cable and copies each line that the instrument prints. The instrument and its old printer or PC work as before.",
+      "flow": [
+        { "title": "Listen", "detail": "The tap copies the instrument's send line. It does not touch the receive line, so the bridge cannot send anything to the instrument." },
+        { "title": "Stamp", "detail": "The capture computer adds a time to each line. A clock that the lab network keeps in step gives the time." },
+        { "title": "Keep", "detail": "Each raw line goes to the local store first. No later step can change it." },
+        { "title": "Convert", "detail": "The parser, the rules and the field map run on the kit. They turn raw lines into the record that the target expects." },
+        { "title": "Send", "detail": "The kit sends each record to the LIMS and the CS ledger over HTTPS. Each target returns a receipt. The kit stores the receipt with the raw line." }
+      ],
+      "install": [
+        { "title": "Note the settings", "detail": "Read the baud rate and the format in the instrument menu. Change nothing." },
+        { "title": "Finish the run", "detail": "Wait until the instrument is idle. Unplug the original cable from the instrument's serial port." },
+        { "title": "Fit the tap", "detail": "Plug the instrument connector into that port. Plug the original cable into the cable connector." },
+        { "title": "Connect the kit", "detail": "Plug in the network cable. The kit starts when it gets power." },
+        { "title": "Capture a first line", "detail": "Press the print key once. Check that the line on the kit matches the instrument display." }
+      ],
+      "parts": ["case", "lid", "port-in", "port-out", "tap-serial", "isolator", "computer", "storage", "clock", "power", "uplink"]
+    },
+    {
+      "id": "network-tap",
+      "name": "Network tap",
+      "summary": "A tap is a device that copies a signal and does not change it. This tap sits in the network cable that carries the instrument's report to its printer. It copies each frame and lets the report reach the printer as before.",
+      "flow": [
+        { "title": "Copy", "detail": "The passive tap copies each direction of the line to a receive-only monitor port. The monitor side has no way to transmit." },
+        { "title": "Pick", "detail": "The capture computer keeps only the instrument's print job on TCP port 9100. It drops all other traffic." },
+        { "title": "Stamp and keep", "detail": "The capture computer adds a time to each line and stores the raw line first. No later step can change it." },
+        { "title": "Convert", "detail": "The parser, the rules and the field map run on the kit. They turn the raw report into the record that the target expects." },
+        { "title": "Send", "detail": "The kit sends each record to the LIMS over HTTPS. The target returns a receipt. The kit stores the receipt with the raw report." }
+      ],
+      "install": [
+        { "title": "Find the print path", "detail": "Find the network cable that carries the report from the data system to its printer." },
+        { "title": "Wait for a quiet moment", "detail": "Wait until no run is printing. Unplug that cable at the printer end." },
+        { "title": "Fit the tap", "detail": "Plug the instrument connector into the line that came from the data system. Plug the original cable into the cable connector." },
+        { "title": "Connect the kit", "detail": "Plug the monitor cables into the capture computer. Plug the network cable into the network connector." },
+        { "title": "Capture a first report", "detail": "Print one test report. Check that every row arrives on the kit." }
+      ],
+      "parts": ["case", "lid", "port-in", "port-out", "tap-network", "computer", "storage", "clock", "power", "uplink"]
+    },
+    {
+      "id": "gpib-tap",
+      "name": "GPIB tap",
+      "summary": "GPIB is an old instrument bus. An instrument can send its report on the bus in talk-only mode. This tap stacks onto the instrument's GPIB socket and listens. The old PC stays in charge of the bus.",
+      "flow": [
+        { "title": "Listen", "detail": "The gateway in listen-only mode receives each report that the instrument sends. It never addresses the instrument and never sends a command." },
+        { "title": "Stamp", "detail": "The capture computer adds a time to each line. A clock that the lab network keeps in step gives the time." },
+        { "title": "Keep", "detail": "Each raw line goes to the local store first. No later step can change it." },
+        { "title": "Convert", "detail": "The parser, the rules and the field map run on the kit. They turn raw lines into the record that the target expects." },
+        { "title": "Send", "detail": "The kit sends each record to the LIMS over HTTPS. The target returns a receipt. The kit stores the receipt with the raw report." }
+      ],
+      "install": [
+        { "title": "Note the bus address", "detail": "Read the instrument's GPIB address and its print mode. Change nothing." },
+        { "title": "Stack the connector", "detail": "GPIB connectors stack. Plug the instrument connector into the instrument's socket. Plug the original cable into the cable connector." },
+        { "title": "Set listen-only", "detail": "Set the gateway to listen-only mode. Check that it never addresses the instrument." },
+        { "title": "Connect the kit", "detail": "Plug in the network cable. The kit starts when it gets power." },
+        { "title": "Capture a first report", "detail": "Print one report from the instrument. Check each line against the instrument printout." }
+      ],
+      "parts": ["case", "lid", "port-in", "port-out", "tap-gpib", "computer", "storage", "clock", "power", "uplink"]
+    }
+  ]
+}

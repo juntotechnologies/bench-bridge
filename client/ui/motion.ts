@@ -1,6 +1,7 @@
 /** Spacing motion: steps the drawing between assembled and exploded, one rendered frame at a time. */
 import type { Schedule } from "./runner"
 import type { AppState, Store } from "./store"
+import { drawingId } from "./view"
 
 export const SPACING_STEP = 0.1
 const FRAME_MS = 45
@@ -8,7 +9,7 @@ const SETTLED = [0, 1]
 
 /** Anything that can draw a frame: the drawing client in the app, a fake in tests. */
 export interface Painter {
-  draw(deviceId: string, explosion: number, annotate: boolean): Promise<string>
+  draw(drawingId: string, explosion: number, annotate: boolean): Promise<string>
 }
 
 /** Counts the moves; a move that is no longer the newest stops at its next step. */
@@ -34,10 +35,10 @@ export function stopsNearest(from: number): number[] {
   return spacingStops().sort(byDistanceFrom.bind(null, from))
 }
 
-/** Asks for every frame of a device up front, so a move later finds them drawn. */
-export function prewarm(painter: Painter, deviceId: string, from: number): void {
-  for (const explosion of stopsNearest(from)) void painter.draw(deviceId, explosion, false)
-  for (const explosion of SETTLED) void painter.draw(deviceId, explosion, true)
+/** Asks for every frame of a drawing up front, so a move later finds them drawn. */
+export function prewarm(painter: Painter, drawingId: string, from: number): void {
+  for (const explosion of stopsNearest(from)) void painter.draw(drawingId, explosion, false)
+  for (const explosion of SETTLED) void painter.draw(drawingId, explosion, true)
 }
 
 /** Step the spacing one stop at a time. A step waits for its frame, so a slow draw delays the move and never drops a frame. */
@@ -63,7 +64,7 @@ async function step(store: Store, deps: MotionDeps, target: number, run: number)
 
 /** Draws the frame that the next step shows. A failure is logged where the stage paints it, so it is ignored here. */
 function frame(state: AppState, painter: Painter, explosion: number): Promise<string | null> {
-  return painter.draw(state.deviceId, explosion, annotates({ ...state, explosion })).catch(ignoreFailure)
+  return painter.draw(drawingId(state.deviceId, state.tab), explosion, annotates({ ...state, explosion })).catch(ignoreFailure)
 }
 
 function ignoreFailure(): null {

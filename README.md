@@ -41,9 +41,10 @@ Every directory has an `AGENTS.md` with its domain knowledge and rules.
 | `npm run typecheck` | Typechecks all areas |
 | `npm run lint` | ESLint, the AGENTS.md check and the docs check |
 | `npm run test` | Runs all tests in tests/ |
-| `npm run proof` | Renders every device drawing to proof/ |
+| `npm run proof` | Renders every instrument and kit drawing to proof/ |
+| `npm run drawings` | Draws every instrument and kit under Node, and fails when a part or a builder is missing |
 | `npm run health` | Checks that the dev server answers |
-| `npm run check` | Typecheck, lint, test, build and build the static site |
+| `npm run check` | Typecheck, lint, test, check the drawings, build and build the static site |
 | `npm run docs` | Rewrites every generated block from its source |
 | `npm run media` | Builds the static site, records it, and writes the README screenshot and GIF |
 | `npm run fit` | Builds the static site, opens it at nine window sizes, and fails when the page scrolls or a region is clipped |
