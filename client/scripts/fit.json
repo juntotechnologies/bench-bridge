@@ -42,7 +42,8 @@
     ".brand-name",
     ".run",
     ".pane-nav button",
-    ".tabs button"
+    ".tabs button",
+    ".code ol"
   ],
   "tabs": [
     "overview",

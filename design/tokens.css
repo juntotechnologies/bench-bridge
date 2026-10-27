@@ -49,6 +49,7 @@
   --motion-none: 0.01ms;
   /* size */
   --touch: 44px;
+  --fade: 28px;
 }
 :root[data-theme="dark"] {
   color-scheme: dark;

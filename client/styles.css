@@ -38,6 +38,8 @@ code, pre { font-family: var(--font-mono); }
   box-shadow: var(--shadow-panel);
   overflow: auto;
 }
+/* A scrolling panel fades at its foot, so content cut off there reads as "more below". */
+.panel::after { content: ""; display: block; flex: none; position: sticky; bottom: 0; width: 100%; height: var(--fade); background: linear-gradient(to bottom, transparent, var(--panel)); pointer-events: none; }
 .panel-title { font: 600 11px var(--font-mono); letter-spacing: 0.16em; text-transform: uppercase; padding: 16px 16px 8px; }
 
 /* Top bar */
@@ -229,9 +231,9 @@ td, th { padding: 6px 4px; border-bottom: 1px solid var(--line); }
 .payload { flex-direction: column; flex-wrap: nowrap; min-width: 0; }
 .code { min-width: 0; margin: 0; background: var(--raised); border: 1px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; font-family: var(--font-mono); font-size: 11px; }
 .code figcaption { display: flex; justify-content: space-between; align-items: center; padding: 4px 4px 4px 10px; border-bottom: 1px solid var(--line); background: var(--paper); color: var(--ink-2); }
-.code ol { margin: 0; padding: 8px 0; list-style: none; overflow: auto; counter-reset: code; }
+.code ol { margin: 0; padding: 8px 0; list-style: none; counter-reset: code; }
 .code li { display: flex; gap: 12px; padding: 0 10px; counter-increment: code; }
-.code-text { white-space: pre; }
+.code-text { flex: 1; min-width: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
 .code li::before { content: counter(code); min-width: 2ch; text-align: right; color: var(--ink-3); user-select: none; }
 .tok-key { color: var(--ink-2); }
 .tok-string { color: var(--ok); }

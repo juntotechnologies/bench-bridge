@@ -1,5 +1,5 @@
 [
-  { "name": "Panel", "selector": ".panel", "use": "The card that holds each region of the app", "parts": ["panel-title"], "states": [], "tokens": ["panel", "line", "radius-lg", "shadow-panel"], "origin": "Original" },
+  { "name": "Panel", "selector": ".panel", "use": "The card that holds each region of the app", "parts": ["panel-title"], "states": [], "tokens": ["panel", "line", "radius-lg", "shadow-panel", "fade"], "origin": "Original" },
   { "name": "Eyebrow", "selector": ".eyebrow", "use": "A small mono label above a group of content", "parts": [], "states": [], "tokens": ["ink-2", "font-mono"], "origin": "Original" },
   { "name": "Segmented control", "selector": ".segmented", "use": "Pick one of a few modes", "parts": ["button"], "states": ["is-on"], "tokens": ["paper", "on-ink", "radius-sm", "ink-card"], "origin": "Original" },
   { "name": "Chip", "selector": ".chip", "use": "A toggle for one option", "parts": [], "states": ["is-on"], "tokens": ["line", "accent", "radius-sm"], "origin": "Original" },

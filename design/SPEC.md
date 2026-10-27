@@ -14,9 +14,10 @@ The design spec: one source for the look of every screen. Copy this directory to
 6. Build the page as drafting paper: cream sheet, fine grid and ink lines. Make cards lighter than the sheet. Why: The look says engineering, not marketing.
 7. Use motion to explain a change: a line arrives, a step finishes. Use the motion tokens. Stop motion when the user asks for reduced motion. Why: Motion that explains is useful. Other motion distracts.
 8. Show a state with a word or an icon as well as a colour. Why: Some readers cannot tell the colours apart.
-9. Give every colour and shadow a dark value. Never branch on the theme in a stylesheet. Keep each colour pair in the contrast file. Why: Both themes then come from one source, and a test finds a faint pair.
-10. Write no raw colour, radius, shadow or timing in a stylesheet. Use a token. Why: One source means one change. A test enforces this.
-11. Run the fit check after every layout change. It opens every window size in the viewports file. Why: A layout that fits one size often fails another.
+9. Let nothing run past an edge. Wrap code lines. Fade the foot of a panel that scrolls, so cut content reads as more below. Why: Content cut at an edge with no cue looks like a fault, and the reader cannot tell what is missing.
+10. Give every colour and shadow a dark value. Never branch on the theme in a stylesheet. Keep each colour pair in the contrast file. Why: Both themes then come from one source, and a test finds a faint pair.
+11. Write no raw colour, radius, shadow or timing in a stylesheet. Use a token. Why: One source means one change. A test enforces this.
+12. Run the fit check after every layout change. It opens every window size in the viewports file. Why: A layout that fits one size often fails another.
 
 ## Tokens
 
@@ -91,6 +92,7 @@ The design spec: one source for the look of every screen. Copy this directory to
 | Token | Value | Use |
 | --- | --- | --- |
 | `--touch` | `44px` | Smallest tap target on a narrow window. |
+| `--fade` | `28px` | Height of the fade at the foot of a panel that scrolls. |
 
 ## Contrast
 
@@ -147,7 +149,7 @@ The fit check opens each size.
 
 | Name | Selector | Use | States | Tokens | Origin |
 | --- | --- | --- | --- | --- | --- |
-| Panel | `.panel` | The card that holds each region of the app. | none | `panel`, `line`, `radius-lg`, `shadow-panel` | Original |
+| Panel | `.panel` | The card that holds each region of the app. | none | `panel`, `line`, `radius-lg`, `shadow-panel`, `fade` | Original |
 | Eyebrow | `.eyebrow` | A small mono label above a group of content. | none | `ink-2`, `font-mono` | Original |
 | Segmented control | `.segmented` | Pick one of a few modes. | `is-on` | `paper`, `on-ink`, `radius-sm`, `ink-card` | Original |
 | Chip | `.chip` | A toggle for one option. | `is-on` | `line`, `accent`, `radius-sm` | Original |
