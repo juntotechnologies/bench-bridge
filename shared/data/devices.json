@@ -201,5 +201,41 @@
     "deliveries": [
       { "target": "lims", "fields": { "sample_ref": "reading.sampleId", "instrument_id": "device.assetId", "analyte": { "const": "Water content" }, "result_value": "reading.value", "unit": "reading.unit", "measured_at": "reading.takenAt" } }
     ]
+  },
+  {
+    "id": "lc-ms",
+    "name": "LC-MS/MS",
+    "model": "TQ-8",
+    "era": 2011,
+    "status": "bridged",
+    "assetId": "EQ-0551",
+    "summary": "A liquid chromatograph with a triple quadrupole mass spectrometer. It measures trace amounts of controlled substances. Its data system sits on the LAN and writes a results file to a network folder. Analysts copy each concentration into the LIMS by hand.",
+    "today": ["The data system writes a results file to a network folder.", "The analyst opens the file and checks each internal standard by eye.", "The analyst types each concentration into the LIMS."],
+    "bridged": ["The kit reads each new results file from the share with a read-only account.", "The bridge drops an analyte below the lower limit of quantitation, or with an internal standard response out of range.", "One result for each passed analyte goes to the LIMS with its sample and instrument."],
+    "kit": "lan-file",
+    "specs": [["Analyzer", "Triple quadrupole, multiple reaction monitoring"], ["Data system", "Exports a results file for each sample"], ["Output", "Results file on a network share, LAN"]],
+    "connection": [["Where", "The network folder where the data system writes its results files"], ["Today", "The data system exports each results file to a shared folder"], ["Trigger", "One new file for each processed sample"], ["Format", "Comma-separated values: sample, analyte, area, internal standard area and concentration"], ["On the instrument", "No change. The kit reads the share with a read-only account and never writes to it"]],
+    "port": {
+      "connector": "RJ45 (Ethernet)",
+      "settings": "SMB 3 share · read-only account · read-only mount · check every 30 s",
+      "pins": [["1", "TX+", "Requests to the file server"], ["2", "TX-", "Requests to the file server"], ["3", "RX+", "File data from the file server"], ["6", "RX-", "File data from the file server"]]
+    },
+    "parser": { "kind": "csv-export", "unit": "ng/mL", "columns": { "sample": "Sample", "analyte": "Analyte", "area": "Area", "isArea": "IS Area", "value": "Conc (ng/mL)" } },
+    "normalize": { "belowLimit": 0.1, "internalStandard": { "min": 50000, "max": 150000 } },
+    "capture": {
+      "startedAt": "2026-10-26T14:24:00Z",
+      "cadenceMs": 600,
+      "sampleId": "S-2026-0440",
+      "lines": [
+        "Sample,Analyte,Area,IS Area,Conc (ng/mL)",
+        "S-2026-0440,Fentanyl,184220,95310,12.40",
+        "S-2026-0440,Norfentanyl,40210,93880,2.71",
+        "S-2026-0440,Acetyl fentanyl,1320,94770,0.08",
+        "S-2026-0440,Carfentanil,5120,41200,0.36"
+      ]
+    },
+    "deliveries": [
+      { "target": "lims", "fields": { "sample_ref": "reading.sampleId", "instrument_id": "device.assetId", "analyte": "reading.quantity", "result_value": "reading.value", "unit": "reading.unit", "measured_at": "reading.takenAt" } }
+    ]
   }
 ]

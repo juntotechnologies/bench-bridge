@@ -3,7 +3,7 @@ When working on coding with me, follow this workflow.
 ## 0. Demo Mode (overrides sections 2, 3 and 5)
 
 - This repo is a sales demo for DEA-registered, FDA-regulated test labs. Build tracer bullets only: one thin path from end to end.
-- Add one instrument at a time. Do not add a second until Shaun asks. On 2026-10-26 Shaun asked for GC, GC-MS, pH meter and Karl Fischer titrator after the balance and HPLC. Add them one at a time, and commit and push after each.
+- Add one instrument at a time. Do not add a second until Shaun asks. On 2026-10-26 Shaun asked for GC, GC-MS, pH meter and Karl Fischer titrator after the balance and HPLC. Add them one at a time, and commit and push after each. On 2026-10-28 Shaun asked for IEEE-488 (GPIB) labels, a connection filter, and the LC-MS/MS on a LAN file pickup kit.
 - Show no prices anywhere in the demo. Name a vendor only as a labelled example part, and say it is not an endorsement.
 - Commit early and often, directly on `main`, and push after each commit.
 - Do not write PR docs or open PRs until Shaun ends demo mode.

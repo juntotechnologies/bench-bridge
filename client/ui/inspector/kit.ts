@@ -1,5 +1,5 @@
 /** The Kit tab: how the data moves, the parts, the install steps, the checks and the safeguards of the bridge kit. */
-import { copy, kitById, kitChecks, kitSafeguards, partsOf } from "@shared/registry"
+import { copy, kitById, kitChecks, partsOf, safeguardsOf } from "@shared/registry"
 import type { Device, Kit, KitExample, KitPart, KitStep } from "@shared/registry/schema"
 import { h, type Child } from "../dom"
 import type { AppState, Store } from "../store"
@@ -14,7 +14,7 @@ export function kitTab(device: Device, state: AppState, store: Store): Child[] {
     section(copy.kit.parts, partList(store, state, partsOf(kit))),
     section(copy.kit.install, steps(kit.install, "ol")),
     section(copy.kit.checks, steps(kitChecks, "ul")),
-    section(copy.kit.safeguards, steps(kitSafeguards, "ul")),
+    section(copy.kit.safeguards, steps(safeguardsOf(kit), "ul")),
   ]
 }
 

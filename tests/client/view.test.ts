@@ -11,6 +11,7 @@ describe("drawingId", () => {
   it("is the kit of the instrument on the Kit tab", () => {
     expect(drawingId("balance", "kit")).toBe("kit:serial-tap")
     expect(drawingId("hplc", "kit")).toBe("kit:network-tap")
+    expect(drawingId("lc-ms", "kit")).toBe("kit:lan-file")
   })
 })
 

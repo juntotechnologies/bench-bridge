@@ -19,6 +19,10 @@ describe("chartKind", () => {
     expect([chartKind(hplc.readings), chartKind(balance.readings)]).toEqual(["chromatogram", "trace"])
   })
 
+  it("draws no chart for a results file with one row for each analyte", () => {
+    expect(chartKind(runBridge(deviceById("lc-ms") as Device).readings)).toBeNull()
+  })
+
   it("picks the builder by kind", () => {
     expect(chartFor(hplc, true)?.title).toBe(chromatogram(hplc, true).title)
     expect(chartFor(balance, true)?.title).toBe(valueTrace(balance, true).title)

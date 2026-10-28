@@ -133,3 +133,29 @@ describe("peak-table parser for a library match report", () => {
     ])
   })
 })
+
+describe("csv-export parser for a results file", () => {
+  const lcms = deviceById("lc-ms") as Device
+
+  it("reads one reading for each row after the header, with its areas", () => {
+    const readings = parseCapture(lcms.parser, stampLines(lcms.capture), "S-1")
+    expect(readings.map((r) => [r.quantity, r.value, r.unit, r.places])).toEqual([
+      ["Fentanyl", 12.4, "ng/mL", 2],
+      ["Norfentanyl", 2.71, "ng/mL", 2],
+      ["Acetyl fentanyl", 0.08, "ng/mL", 2],
+      ["Carfentanil", 0.36, "ng/mL", 2],
+    ])
+    expect(readings[0]?.extras).toEqual({ area: 184220, isArea: 95310 })
+  })
+
+  it("takes the sample from the row, and finds each column by its header", () => {
+    const lines = stampLines({ ...lcms.capture, lines: ["Conc (ng/mL),Analyte,Sample,IS Area,Area", "1.50,Morphine,S-9,90000,1200"] })
+    const [reading] = parseCapture(lcms.parser, lines, "S-1")
+    expect([reading?.sampleId, reading?.quantity, reading?.value, reading?.extras["isArea"]]).toEqual(["S-9", "Morphine", 1.5, 90000])
+  })
+
+  it("skips a row with no number in the value column", () => {
+    const lines = stampLines({ ...lcms.capture, lines: [lcms.capture.lines[0]!, "S-1,Blank,0,90000,N/A"] })
+    expect(parseCapture(lcms.parser, lines, "S-1")).toEqual([])
+  })
+})

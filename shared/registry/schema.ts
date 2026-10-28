@@ -19,6 +19,7 @@ export const ParserConfig = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("peak-table"), unit: z.string(), analyte: z.string().optional(), role: z.string().optional() }),
   z.object({ kind: z.literal("ph-line"), quantity: z.string(), unit: z.string() }),
   z.object({ kind: z.literal("labelled-lines"), labels: z.array(z.string()).min(1) }),
+  z.object({ kind: z.literal("csv-export"), unit: z.string(), columns: z.object({ sample: z.string(), analyte: z.string(), area: z.string(), isArea: z.string(), value: z.string() }) }),
 ])
 
 export const NormalizeRules = z.object({
@@ -29,6 +30,10 @@ export const NormalizeRules = z.object({
   keepLast: z.boolean().optional(),
   keepQuantity: z.string().optional(),
   bestMatch: z.boolean().optional(),
+  /** The lower limit of quantitation, in the unit of the value. A smaller result is dropped. */
+  belowLimit: z.number().positive().optional(),
+  /** The internal standard area range that a result needs. A result outside it is dropped. */
+  internalStandard: z.object({ min: z.number().nonnegative(), max: z.number().positive() }).optional(),
 })
 
 export const Capture = z.object({
@@ -62,6 +67,8 @@ export const Kit = z.object({
   flow: z.array(KitStep).min(1),
   install: z.array(KitStep).min(1),
   parts: z.array(z.string()).min(1),
+  /** Safeguards for this kit only. The kit tab lists them before the shared ones. */
+  safeguards: z.array(KitStep).optional(),
 })
 
 /** Every kit, the library of parts they draw from, and the checks and safeguards that all kits share. */

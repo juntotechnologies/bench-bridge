@@ -2,7 +2,7 @@
 
 A demo of how older lab instruments feed a LIMS and a controlled-substance (CS) ledger.
 One reading becomes a sample result in the LIMS and a use entry in the CS ledger. Both are mock in the demo. All data is sample data.
-Live today: <!-- gen:fact catalog.liveNames -->Analytical balance, HPLC system, GC system, GC-MS, pH meter, and Karl Fischer titrator<!-- /gen -->. <!-- gen:fact catalog.planned -->7<!-- /gen --> more instruments are planned.
+Live today: <!-- gen:fact catalog.liveNames -->Analytical balance, HPLC system, GC system, GC-MS, pH meter, Karl Fischer titrator, and LC-MS/MS<!-- /gen -->. <!-- gen:fact catalog.planned -->6<!-- /gen --> more instruments are planned.
 The demo has no database. The ledger is stateless: every run starts from the same opening balance.
 
 Live demo: <!-- gen:fact site.url -->https://bench-bridge.juntotechnologies.com/<!-- /gen -->
@@ -64,7 +64,7 @@ Every directory has an `AGENTS.md` with its domain knowledge and rules.
 | 4 | GC-MS | IEEE-488 (GPIB) | IEEE-488 (GPIB), legacy CDS | 1990s | Bridged | Identity tests for controlled substances. |
 | 5 | pH meter | RS-232 | RS-232 print | 2000s | Bridged | pH results for buffers and solutions are copied from the display. |
 | 6 | Karl Fischer titrator | RS-232 | RS-232 print | 2000s | Bridged | Water content results are typed in from a strip printer. |
-| 7 | LC-MS/MS | LAN | LAN, vendor export files | 2000s | Planned | Potency and trace results sit in vendor files the LIMS cannot read. |
+| 7 | LC-MS/MS | LAN | LAN, vendor export files | 2000s | Bridged | Potency and trace results sit in vendor files the LIMS cannot read. |
 | 8 | Headspace GC | IEEE-488 (GPIB) | IEEE-488 (GPIB) / RS-232 | 1990s | Planned | Residual solvent results for release testing. |
 | 9 | Dissolution tester | Other | Parallel printer port | 1990s | Planned | Release results print on paper strips. |
 | 10 | FTIR spectrometer | RS-232 | RS-232, floppy export | 1990s | Planned | Identity tests on incoming controlled-substance lots. |

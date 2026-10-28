@@ -61,6 +61,22 @@
       ]
     },
     {
+      "id": "port-share",
+      "name": "Share connector",
+      "job": "Joins the network where the data system writes its results files. The kit reads the share through this port.",
+      "why": "Nothing plugs into the instrument. The kit reaches the files over the network that the data system already uses.",
+      "examples": []
+    },
+    {
+      "id": "reader-share",
+      "name": "Read-only file reader",
+      "job": "A second network interface that mounts the export share read-only with a read-only account. It reads each new file and passes it to the capture computer with its hash.",
+      "why": "Two locks keep the share safe: the account can only read, and the mount is read-only. A program fault cannot change a results file.",
+      "examples": [
+        { "vendor": "Plugable", "product": "USB3-E1000", "note": "USB to gigabit network adapter. It adds a second network port to the capture computer." }
+      ]
+    },
+    {
       "id": "isolator",
       "name": "Isolation module",
       "job": "Separates the electrical ground of the instrument from the ground of the capture computer.",
@@ -190,6 +206,31 @@
         { "title": "Capture a first report", "detail": "Print one report from the instrument. Check each line against the instrument printout." }
       ],
       "parts": ["case", "lid", "port-in", "port-out", "tap-gpib", "computer", "storage", "clock", "power", "uplink"]
+    },
+    {
+      "id": "lan-file",
+      "name": "LAN file pickup",
+      "summary": "Newer instruments and data systems sit on the LAN and write a results file for each sample to a network folder. This kit reads each new file from that folder through a read-only share. It never sends a command to the instrument and never writes to the share.",
+      "flow": [
+        { "title": "Pick up", "detail": "The kit checks the export folder on the share. It reads each new file with a read-only account on a read-only mount." },
+        { "title": "Hash and stamp", "detail": "The kit records a SHA-256 hash of each raw file and the time that it read the file. A clock that the lab network keeps in step gives the time." },
+        { "title": "Keep", "detail": "Each raw file goes to the local store first, with its hash and time. No later step can change it." },
+        { "title": "Convert", "detail": "The parser, the rules and the field map run on the kit. They turn each row of the file into the record that the target expects." },
+        { "title": "Send", "detail": "The kit sends each record to the LIMS over HTTPS. The target returns a receipt. The kit stores the receipt with the raw file." }
+      ],
+      "install": [
+        { "title": "Find the export folder", "detail": "Find the folder where the data system writes its results files. Change nothing in the data system." },
+        { "title": "Get a read-only account", "detail": "Lab IT makes a service account that can read that folder only. It has no write, rename or delete permission." },
+        { "title": "Mount read-only", "detail": "Mount the share read-only on the kit. Try to write a test file from the kit. The write must fail." },
+        { "title": "Connect the kit", "detail": "Plug the share connector into the instrument network and the network connector into the lab network. The kit starts when it gets power." },
+        { "title": "Capture a first file", "detail": "Process one sample. Check that the kit picks up the file and that each row matches the data system." }
+      ],
+      "parts": ["case", "lid", "port-share", "reader-share", "computer", "storage", "clock", "power", "uplink"],
+      "safeguards": [
+        { "title": "Read-only share", "detail": "The account can only read, and the mount is read-only. The kit cannot write, rename or delete a file on the share." },
+        { "title": "No instrument commands", "detail": "The kit never connects to the instrument or its control software. It reads only the files that the data system already wrote." },
+        { "title": "Hash of each file", "detail": "Each raw file is kept with its SHA-256 hash and the time that the kit read it. A changed file shows a new hash." }
+      ]
     }
   ]
 }

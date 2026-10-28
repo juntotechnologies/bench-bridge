@@ -109,6 +109,17 @@ describe("facts", () => {
     expect(facts["gc-ms.receipt.lims"]).toBe("RES-000001")
   })
 
+  it("computes the LC-MS/MS figures by running the real pipeline", () => {
+    expect(facts["lc-ms.run.used"]).toBe("12.4")
+    expect(facts["lc-ms.run.unit"]).toBe("ng/mL")
+    expect(facts["lc-ms.run.analyte"]).toBe("Fentanyl")
+    expect(facts["lc-ms.run.records"]).toBe("2")
+    expect(facts["lc-ms.run.unstable"]).toBe("2")
+    expect(facts["lc-ms.kit"]).toBe("LAN file pickup")
+    expect(facts["lc-ms.port.kind"]).toBe("LAN")
+    expect(facts["lc-ms.receipt.ledger"]).toBeUndefined()
+  })
+
   it("names the connection types that the legend lists, without Other", () => {
     expect(facts["catalog.connections"]).toBe("RS-232, IEEE-488 (GPIB), and LAN")
   })

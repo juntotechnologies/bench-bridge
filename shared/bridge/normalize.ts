@@ -14,7 +14,7 @@ type DropRule = (rules: NormalizeRules, reading: Reading) => boolean
 /** A rule that picks the readings to deliver. It returns null when the device does not ask for it. */
 type Derivation = (rules: NormalizeRules, stable: Reading[]) => Reading[] | null
 
-const DROP_RULES: DropRule[] = [dropsUnstable, elutesTooEarly, isOtherQuantity]
+const DROP_RULES: DropRule[] = [dropsUnstable, elutesTooEarly, isOtherQuantity, isBelowLimit, hasBadInternalStandard]
 const DERIVATIONS: Derivation[] = [fromDifference, fromPurity, fromLast, fromBestMatch]
 
 /** Apply the device's rules in order: drop readings, then derive the one to deliver, if a rule asks for it. */
@@ -45,6 +45,18 @@ function elutesTooEarly(rules: NormalizeRules, reading: Reading): boolean {
 /** A result strip that prints several values, of which the lab wants one. */
 function isOtherQuantity(rules: NormalizeRules, reading: Reading): boolean {
   return rules.keepQuantity !== undefined && reading.quantity !== rules.keepQuantity
+}
+
+/** A result below the lower limit of quantitation is not reportable as a number. */
+function isBelowLimit(rules: NormalizeRules, reading: Reading): boolean {
+  return rules.belowLimit !== undefined && reading.value < rules.belowLimit
+}
+
+/** A result whose internal standard area is out of range: the injection or the extraction failed, so the result is not trusted. */
+function hasBadInternalStandard(rules: NormalizeRules, reading: Reading): boolean {
+  const area = reading.extras["isArea"]
+  const range = rules.internalStandard
+  return range !== undefined && typeof area === "number" && (area < range.min || area > range.max)
 }
 
 /** The first derivation that the device asks for. With none, every settled reading is delivered. */

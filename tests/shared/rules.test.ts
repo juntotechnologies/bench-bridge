@@ -144,3 +144,34 @@ describe("the GC-MS run", () => {
     expect(gcms.mapped).toHaveLength(1)
   })
 })
+
+function quantified(value: number, isArea: number): Reading {
+  return { ...weight(value), quantity: "Analyte", unit: "ng/mL", extras: { area: 1000, isArea } }
+}
+
+describe("the quantitation rules", () => {
+  it("drops a result below the lower limit of quantitation and keeps one at the limit", () => {
+    const run = normalize({ belowLimit: 0.1 }, [quantified(0.08, 90000), quantified(0.1, 90000)])
+    expect(run.dropped.map((r) => r.value)).toEqual([0.08])
+  })
+
+  it("drops a result whose internal standard area is out of range", () => {
+    const run = normalize({ internalStandard: { min: 50000, max: 150000 } }, [quantified(1, 41200), quantified(2, 95000), quantified(3, 160000)])
+    expect(run.dropped.map((r) => r.value)).toEqual([1, 3])
+    expect(run.kept.map((r) => r.value)).toEqual([2])
+  })
+
+  it("leaves a reading with no internal standard area alone", () => {
+    expect(normalize({ internalStandard: { min: 1, max: 2 } }, [weight(5)]).dropped).toEqual([])
+  })
+})
+
+describe("the LC-MS/MS run", () => {
+  const lcms = runBridge(deviceById("lc-ms") as Device)
+
+  it("drops the analyte below the limit and the one with a bad internal standard, and delivers the rest", () => {
+    expect(lcms.normalized.dropped.map((r) => r.quantity)).toEqual(["Acetyl fentanyl", "Carfentanil"])
+    expect(lcms.normalized.kept.map((r) => [r.quantity, r.value])).toEqual([["Fentanyl", 12.4], ["Norfentanyl", 2.71]])
+    expect(lcms.mapped).toHaveLength(2)
+  })
+})

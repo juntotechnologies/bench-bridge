@@ -1,4 +1,4 @@
-/** The case, the lid with its tamper seal, the two pass-through connectors and the network jack. */
+/** The case, the lid with its tamper seal, the two pass-through connectors, the share connector and the network jack. */
 import { G, type Part, type Vec2, type Vec3 } from "../engine"
 import { block, frontRect } from "../shapes"
 import { FLOOR, HALF_DEPTH, HALF_WIDTH, LID_TOP, LIFT, PORT_HEIGHT, PROUD } from "./layout"
@@ -29,10 +29,20 @@ function sidePlate(p: Part, connector: Connector, fromX: number): Part {
   return G.merge(p, G.transform(plate, { ...G.plane("yz"), origin: [fromX, 0, PORT_HEIGHT] }))
 }
 
-export function portIn(context: PartContext): Part {
-  const p = sidePlate(G.part("port-in", context.name), context.connector, -HALF_WIDTH - PROUD)
+/** A connector plate on the instrument side, the left face. */
+function leftPlate(id: string, context: PartContext): Part {
+  const p = sidePlate(G.part(id, context.name), context.connector, -HALF_WIDTH - PROUD)
   p.explosion = [-LIFT.port, 0, 0]
   return p
+}
+
+export function portIn(context: PartContext): Part {
+  return leftPlate("port-in", context)
+}
+
+/** The network jack that joins the instrument network, where the export share lives. */
+export function portShare(context: PartContext): Part {
+  return leftPlate("port-share", context)
 }
 
 export function portOut(context: PartContext): Part {

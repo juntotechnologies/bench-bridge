@@ -21,6 +21,10 @@ describe("readingDetail", () => {
   it("keeps the trailing zero the report prints", () => {
     expect(readingDetail({ ...peak, extras: { minutes: 5.9 } })).toBe("5.90 min")
   })
+
+  it("shows the internal standard area for a quantitated result, so a reader sees why the rule dropped it", () => {
+    expect(readingDetail({ ...base, extras: { area: 5120, isArea: 41200 } })).toBe("IS area 41200")
+  })
 })
 
 describe("readingTag", () => {

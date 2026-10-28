@@ -11,8 +11,8 @@
 
 ## Instruments
 
-- Run in the demo with sample data: Analytical balance, High-Performance Liquid Chromatography (HPLC) system, Gas Chromatography (GC) system, Gas Chromatography-Mass Spectrometry (GC-MS), pH meter, Karl Fischer titrator.
-- Planned, with no demo yet: LC-MS/MS, Headspace Gas Chromatography (GC), Dissolution tester, FTIR spectrometer, UV-Vis spectrophotometer, Stability chamber, controlled-substance (CS) vault and safe.
+- Run in the demo with sample data: Analytical balance, High-Performance Liquid Chromatography (HPLC) system, Gas Chromatography (GC) system, Gas Chromatography-Mass Spectrometry (GC-MS), pH meter, Karl Fischer titrator, Liquid Chromatography-Tandem Mass Spectrometry (LC-MS/MS).
+- Planned, with no demo yet: Headspace Gas Chromatography (GC), Dissolution tester, FTIR spectrometer, UV-Vis spectrophotometer, Stability chamber, controlled-substance (CS) vault and safe.
 
 ## Limits
 

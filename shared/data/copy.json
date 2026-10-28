@@ -114,6 +114,7 @@
     "droppedCount": "dropped",
     "keptCount": "kept",
     "minutes": "min",
+    "internalStandard": "IS area",
     "empty": "Run the bridge to see readings."
   },
   "deliver": {

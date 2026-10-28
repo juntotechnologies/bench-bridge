@@ -1,6 +1,6 @@
 /** Drift checks: each view that names GPIB names it first as IEEE-488 (GPIB), so a reader sees the standard. */
 import { describe, expect, it } from "vitest"
-import { catalog, connectionLabel, devices, kitById, kitChecks, kitSafeguards, kitTitle, partsOf, portKind } from "@shared/registry"
+import { catalog, connectionLabel, devices, kitById, kitChecks, kitTitle, partsOf, portKind, safeguardsOf } from "@shared/registry"
 import type { CatalogEntry, Device, Kit, KitPart, KitStep } from "@shared/registry/schema"
 
 const LABEL = connectionLabel("gpib")
@@ -33,7 +33,7 @@ function portView(device: Device): string {
 }
 
 function kitView(kit: Kit): string {
-  const steps = [...kit.flow, ...kit.install, ...kitChecks, ...kitSafeguards].map(stepText)
+  const steps = [...kit.flow, ...kit.install, ...kitChecks, ...safeguardsOf(kit)].map(stepText)
   return [kit.name, kit.summary, ...partsOf(kit).map(partText), ...steps].join(" ")
 }
 

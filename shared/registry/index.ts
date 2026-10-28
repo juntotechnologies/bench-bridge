@@ -6,7 +6,7 @@ import catalogJson from "../data/catalog.json"
 import pipelineJson from "../data/pipeline.json"
 import copyJson from "../data/copy.json"
 import kitsJson from "../data/kits.json"
-import { CatalogEntry, Device, KitFile, Stage, Target, TargetId, type Connection, type Kit, type KitPart } from "./schema"
+import { CatalogEntry, Device, KitFile, Stage, Target, TargetId, type Connection, type Kit, type KitPart, type KitStep } from "./schema"
 
 export const devices = z.array(Device).parse(devicesJson)
 export const targets = z.record(TargetId, Target).parse(targetsJson)
@@ -36,10 +36,19 @@ export function kitById(id: string): Kit | undefined {
   return kits.find(matchesId.bind(null, id))
 }
 
-/** The kit and its pass-through connector as one line, such as "Serial tap with DB9 pass-through". */
+/** The part that passes the original cable through a tap kit. A kit without it plugs into nothing on the instrument. */
+const PASS_THROUGH = "port-out"
+
+/** The kit and its pass-through connector as one line, such as "Serial tap with DB9 pass-through". A kit with no pass-through is its name alone. */
 export function kitTitle(device: Device): string {
   const kit = kitById(device.kit)
-  return `${kit?.name ?? device.kit} with ${device.port.connector.split(" ")[0]} pass-through`
+  const name = kit?.name ?? device.kit
+  return kit?.parts.includes(PASS_THROUGH) ? `${name} with ${device.port.connector.split(" ")[0]} pass-through` : name
+}
+
+/** The safeguards of a kit: its own, then the ones that every kit shares. */
+export function safeguardsOf(kit: Kit): KitStep[] {
+  return [...(kit.safeguards ?? []), ...kitSafeguards]
 }
 
 /** The parts of a kit, in the order the kit lists them. */

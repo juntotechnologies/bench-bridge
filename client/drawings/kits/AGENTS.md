@@ -4,7 +4,7 @@ One drawing for each bridge kit, built from part builders.
 
 ## Domain
 - Part IDs, names and kit lists come from `shared/data/kits.json`. This directory holds only the shape of each part.
-- All kits share one case. A kit differs by its connector (`outlines.ts`) and its tap board (`taps.ts`).
+- All kits share one case. A kit differs by its connector (`outlines.ts`) and its tap or reader board (`taps.ts`). The LAN file pickup kit has a share connector in place of the two pass-through connectors.
 - `layout.ts` holds the sizes and the lift of each part. Every part explodes along one axis, so labels stay clear.
 
 ## Rules

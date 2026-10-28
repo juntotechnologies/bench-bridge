@@ -26,6 +26,7 @@ export const CONNECTORS: Record<string, Connector> = {
   "serial-tap": connector(DB9),
   "network-tap": connector(RJ45),
   "gpib-tap": connector(GPIB),
+  "lan-file": connector(RJ45),
 }
 
 /** The network jack on the front of every kit. */

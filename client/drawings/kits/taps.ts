@@ -1,4 +1,4 @@
-/** The tap board of each kit: the part that copies the signal and has no way to write back. */
+/** The tap board of each kit: the part that copies the signal, or reads the share, and has no way to write back. */
 import { G, type Part, type Vec3 } from "../engine"
 import { block } from "../shapes"
 import { LIFT } from "./layout"
@@ -26,6 +26,16 @@ export function tapNetwork(context: PartContext): Part {
   const p = board("tap-network", context.name)
   for (const x of [-30, 14]) G.box(p, [x, -8, BOARD_Z + 3], [x + 22, 8, BOARD_Z + 11])
   for (const x of [-34, 12]) G.box(p, [x, -48, BOARD_Z], [x + 22, -34, BOARD_Z + 12])
+  return p
+}
+
+/** A network module and its jack header, and a flash chip that holds the read-only mount settings. */
+export function readerShare(context: PartContext): Part {
+  const p = board("reader-share", context.name)
+  G.box(p, [-40, -14, BOARD_Z + 3], [0, 14, BOARD_Z + 12])
+  G.box(p, [-60, -10, BOARD_Z + 3], [-46, 10, BOARD_Z + 14])
+  G.box(p, [16, -8, BOARD_Z + 3], [34, 8, BOARD_Z + 6])
+  for (const y of [-24, 24]) G.line(p, [-46, y, BOARD_Z + 3.05], [50, y, BOARD_Z + 3.05], "detail")
   return p
 }
 

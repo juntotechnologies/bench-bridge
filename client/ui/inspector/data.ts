@@ -63,10 +63,11 @@ function resultCard(run: BridgeRun): HTMLElement {
   return h("div", { class: "result" }, [h("div", { class: "eyebrow" }, [result.quantity]), h("b", {}, [String(result.value), " ", result.unit])])
 }
 
-/** When a weight was taken, or when a peak came off the column. */
+/** When a peak came off the column, the internal standard area of a quantitated result, or else when the reading was taken. */
 export function readingDetail(reading: Reading): string {
-  const minutes = reading.extras["minutes"]
-  return minutes === undefined ? reading.takenAt.slice(11, 19) : `${retentionText(Number(minutes))} ${copy.data.minutes}`
+  const { minutes, isArea } = reading.extras
+  if (minutes !== undefined) return `${retentionText(Number(minutes))} ${copy.data.minutes}`
+  return isArea === undefined ? reading.takenAt.slice(11, 19) : `${copy.data.internalStandard} ${isArea}`
 }
 
 /** The stability flag of a weight, or the role of a peak. */

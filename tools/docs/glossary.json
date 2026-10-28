@@ -10,6 +10,7 @@
   "GC-MS": { "expansion": "Gas Chromatography-Mass Spectrometry", "meaning": "GC that also identifies each part by its mass" },
   "HPLC": { "expansion": "High-Performance Liquid Chromatography", "meaning": "A method that separates the parts of a liquid sample" },
   "IQ": { "expansion": "installation qualification", "meaning": "The check that a system is installed as specified" },
+  "LC-MS/MS": { "expansion": "Liquid Chromatography-Tandem Mass Spectrometry", "meaning": "Liquid chromatography with two mass filters in a row. It measures trace amounts of a drug" },
   "LIMS": { "expansion": "Laboratory Information Management System", "meaning": "The system of record for samples and results" },
   "OQ": { "expansion": "operational qualification", "meaning": "The check that a system works across its operating range" },
   "PC": { "expansion": "Personal Computer", "meaning": "A desktop or laptop computer" },

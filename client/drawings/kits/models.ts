@@ -2,8 +2,8 @@
 import type { Part } from "../engine"
 import { clock, computer, isolator, power, storage } from "./boards"
 import { CONNECTORS } from "./outlines"
-import { caseFloor, lid, portIn, portOut, uplink } from "./shell"
-import { tapGpib, tapNetwork, tapSerial } from "./taps"
+import { caseFloor, lid, portIn, portOut, portShare, uplink } from "./shell"
+import { readerShare, tapGpib, tapNetwork, tapSerial } from "./taps"
 import { KIT_CAMERA, type Connector, type KitModel, type PartBuilder, type PartNames } from "./types"
 
 /** Part builder by part ID. A test fails when a part in kits.json has no builder here. */
@@ -12,10 +12,12 @@ export const BUILDERS: Record<string, PartBuilder> = {
   lid,
   "port-in": portIn,
   "port-out": portOut,
+  "port-share": portShare,
   uplink,
   "tap-serial": tapSerial,
   "tap-network": tapNetwork,
   "tap-gpib": tapGpib,
+  "reader-share": readerShare,
   computer,
   storage,
   clock,
