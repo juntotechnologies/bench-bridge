@@ -56,21 +56,21 @@ Every directory has an `AGENTS.md` with its domain knowledge and rules.
 ## Instruments
 
 <!-- gen:catalog -->
-| # | Instrument | Interface | Era | Status | Why it matters |
-| --- | ---------- | --------- | --- | ------ | -------------- |
-| 1 | Analytical balance | RS-232 print | 1990s | Bridged | Every controlled-substance weigh-out must match the CS ledger. |
-| 2 | HPLC system | LAN / IEEE-488 (GPIB), legacy CDS | 2000s | Bridged | Assay and purity results. CDS and OS updates drop old instrument drivers. |
-| 3 | GC system | LAN, legacy CDS | 2000s | Bridged | Residual solvent and purity results. CDS and OS updates drop old instrument drivers. |
-| 4 | GC-MS | IEEE-488 (GPIB), legacy CDS | 1990s | Bridged | Identity tests for controlled substances. |
-| 5 | pH meter | RS-232 print | 2000s | Bridged | pH results for buffers and solutions are copied from the display. |
-| 6 | Karl Fischer titrator | RS-232 print | 2000s | Bridged | Water content results are typed in from a strip printer. |
-| 7 | LC-MS/MS | LAN, vendor export files | 2000s | Planned | Potency and trace results sit in vendor files the LIMS cannot read. |
-| 8 | Headspace GC | IEEE-488 (GPIB) / RS-232 | 1990s | Planned | Residual solvent results for release testing. |
-| 9 | Dissolution tester | Parallel printer port | 1990s | Planned | Release results print on paper strips. |
-| 10 | FTIR spectrometer | Serial, floppy export | 1990s | Planned | Identity tests on incoming controlled-substance lots. |
-| 11 | UV-Vis spectrophotometer | IEEE-488 (GPIB) | 1990s | Planned | Assay and identity results need an old PC with a GPIB card. |
-| 12 | Stability chamber | 4–20 mA, chart recorder | 1990s | Planned | Storage condition records for stability studies are on paper charts. |
-| 13 | CS vault and safe | Door contact, keypad log | 2000s | Planned | Access to controlled-substance storage must be logged. |
+| # | Instrument | Connection | Interface | Era | Status | Why it matters |
+| --- | ---------- | ---------- | --------- | --- | ------ | -------------- |
+| 1 | Analytical balance | RS-232 | RS-232 print | 1990s | Bridged | Every controlled-substance weigh-out must match the CS ledger. |
+| 2 | HPLC system | LAN | LAN / IEEE-488 (GPIB), legacy CDS | 2000s | Bridged | Assay and purity results. CDS and OS updates drop old instrument drivers. |
+| 3 | GC system | LAN | LAN, legacy CDS | 2000s | Bridged | Residual solvent and purity results. CDS and OS updates drop old instrument drivers. |
+| 4 | GC-MS | IEEE-488 (GPIB) | IEEE-488 (GPIB), legacy CDS | 1990s | Bridged | Identity tests for controlled substances. |
+| 5 | pH meter | RS-232 | RS-232 print | 2000s | Bridged | pH results for buffers and solutions are copied from the display. |
+| 6 | Karl Fischer titrator | RS-232 | RS-232 print | 2000s | Bridged | Water content results are typed in from a strip printer. |
+| 7 | LC-MS/MS | LAN | LAN, vendor export files | 2000s | Planned | Potency and trace results sit in vendor files the LIMS cannot read. |
+| 8 | Headspace GC | IEEE-488 (GPIB) | IEEE-488 (GPIB) / RS-232 | 1990s | Planned | Residual solvent results for release testing. |
+| 9 | Dissolution tester | Other | Parallel printer port | 1990s | Planned | Release results print on paper strips. |
+| 10 | FTIR spectrometer | RS-232 | RS-232, floppy export | 1990s | Planned | Identity tests on incoming controlled-substance lots. |
+| 11 | UV-Vis spectrophotometer | IEEE-488 (GPIB) | IEEE-488 (GPIB) | 1990s | Planned | Assay and identity results need an old PC with a GPIB card. |
+| 12 | Stability chamber | Other | 4–20 mA, chart recorder | 1990s | Planned | Storage condition records for stability studies are on paper charts. |
+| 13 | CS vault and safe | Other | Door contact, keypad log | 2000s | Planned | Access to controlled-substance storage must be logged. |
 <!-- /gen -->
 
 ## Notes

@@ -1,5 +1,5 @@
 /** The Data tab: raw capture lines, parsed readings and the result card. */
-import { copy } from "@shared/registry"
+import { copy, portKind } from "@shared/registry"
 import type { Device } from "@shared/registry/schema"
 import { stampLines } from "@shared/bridge/capture"
 import { printed } from "@shared/bridge/numbers"
@@ -14,7 +14,7 @@ const RULED_STAGE = 3
 export function dataTab(device: Device, state: AppState): Child[] {
   const lines = state.run?.captured ?? stampLines(device.capture)
   return [
-    h("div", { class: "eyebrow" }, [copy.data.raw, h("span", { class: "port-tag" }, [device.port.kind])]),
+    h("div", { class: "eyebrow" }, [copy.data.raw, h("span", { class: "port-tag" }, [portKind(device)])]),
     terminal(lines, state.revealed >= 1),
     h("div", { class: "eyebrow" }, [copy.data.parsed]),
     ...parsedSection(state),

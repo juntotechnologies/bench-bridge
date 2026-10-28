@@ -1,9 +1,9 @@
 /** Drift checks: each view that names GPIB names it first as IEEE-488 (GPIB), so a reader sees the standard. */
 import { describe, expect, it } from "vitest"
-import { catalog, devices, kitById, kitChecks, kitSafeguards, kitTitle, partsOf } from "@shared/registry"
+import { catalog, connectionLabel, devices, kitById, kitChecks, kitSafeguards, kitTitle, partsOf, portKind } from "@shared/registry"
 import type { CatalogEntry, Device, Kit, KitPart, KitStep } from "@shared/registry/schema"
 
-const LABEL = "IEEE-488 (GPIB)"
+const LABEL = connectionLabel("gpib")
 const SHORT = "GPIB"
 
 /** True when a text has no GPIB, or when its first GPIB sits inside the full label. */
@@ -29,7 +29,7 @@ function overviewView(device: Device): string {
 }
 
 function portView(device: Device): string {
-  return [device.port.kind, device.port.connector, ...device.connection.flat(), device.port.settings, ...device.port.pins.flat()].join(" ")
+  return [portKind(device), device.port.connector, ...device.connection.flat(), device.port.settings, ...device.port.pins.flat()].join(" ")
 }
 
 function kitView(kit: Kit): string {
@@ -57,14 +57,13 @@ describe("IEEE-488 (GPIB) is named in full on first mention", () => {
   it.each(devices.map((device) => [device.id, device] as const))("%s overview, port and data tabs", (_id, device) => {
     expect(labelledFirst(overviewView(device))).toBe(true)
     expect(labelledFirst(portView(device))).toBe(true)
-    expect(labelledFirst(device.port.kind)).toBe(true)
   })
 
   it.each(devices.map((device) => [device.id, device.kit] as const))("%s kit tab", (_id, kit) => {
     expect(labelledFirst(kitView(kitById(kit)!))).toBe(true)
   })
 
-  it("names the GC-MS port IEEE-488 (GPIB)", () => {
-    expect(devices.find((device) => device.id === "gc-ms")?.port.kind).toBe(LABEL)
+  it("labels the GPIB connection IEEE-488 (GPIB)", () => {
+    expect(LABEL).toBe("IEEE-488 (GPIB)")
   })
 })

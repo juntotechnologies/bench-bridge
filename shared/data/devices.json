@@ -13,7 +13,6 @@
     "specs": [["Capacity", "220 g"], ["Readability", "0.1 mg"], ["Output", "Print key, RS-232"]],
     "connection": [["Where", "Rear panel, the port marked RS-232"], ["Today", "A serial printer or a PC reads the port"], ["Trigger", "One line for each press of the print key"], ["Format", "S S 25.4790 g: S is stable and D is moving, then the value and the unit"], ["On the instrument", "No change. Keep 2400 baud and 7E1"]],
     "port": {
-      "kind": "RS-232",
       "connector": "DB9 male",
       "settings": "2400 baud · 7E1 · no flow control",
       "pins": [["2", "RXD", "Data from balance"], ["3", "TXD", "Commands to balance"], ["5", "GND", "Signal ground"]]
@@ -46,7 +45,6 @@
     "specs": [["Detector", "UV, 254 nm"], ["Pump", "Quaternary, 5 mL/min"], ["Output", "Peak report to a network printer"]],
     "connection": [["Where", "The network cable between the data system and its printer"], ["Today", "The chromatography data system prints the peak report to a network printer"], ["Trigger", "One report for each sample run"], ["Format", "A text peak table with one row for each peak"], ["On the instrument", "No change. The printer stays in the line"]],
     "port": {
-      "kind": "LAN",
       "connector": "RJ45 (Ethernet)",
       "settings": "100 Mbit · raw print, TCP port 9100",
       "pins": [["1", "TX+", "Data to the network"], ["2", "TX-", "Data to the network"], ["3", "RX+", "Data from the network"], ["6", "RX-", "Data from the network"]]
@@ -84,7 +82,6 @@
     "specs": [["Detector", "Flame ionization"], ["Inlet", "Split or splitless"], ["Output", "Peak report to a network printer"]],
     "connection": [["Where", "The network cable between the data system and its printer"], ["Today", "The chromatography data system prints the peak report to a network printer"], ["Trigger", "One report for each sample run"], ["Format", "A text peak table with one row for each peak. The value column is a concentration in parts per million"], ["On the instrument", "No change. The printer stays in the line"]],
     "port": {
-      "kind": "LAN",
       "connector": "RJ45 (Ethernet)",
       "settings": "100 Mbit · raw print, TCP port 9100",
       "pins": [["1", "TX+", "Data to the network"], ["2", "TX-", "Data to the network"], ["3", "RX+", "Data from the network"], ["6", "RX-", "Data from the network"]]
@@ -122,7 +119,6 @@
     "specs": [["Analyzer", "Quadrupole mass filter"], ["Library", "Spectral library on the data system"], ["Output", "Match report, IEEE-488 (GPIB)"]],
     "connection": [["Where", "The IEEE-488 (GPIB) socket on the instrument"], ["Today", "The old PC controls the bus and prints the report"], ["Trigger", "One report for each run, sent in talk-only mode"], ["Format", "A text table with one row for each peak: retention time, area, match quality and library name"], ["On the instrument", "No change. Keep the bus address and the print mode"]],
     "port": {
-      "kind": "IEEE-488 (GPIB)",
       "connector": "24-pin socket",
       "settings": "Bus address 5 · talk-only mode · ASCII",
       "pins": [["1–4, 13–16", "DIO1–DIO8", "Report data from the instrument"], ["5", "EOI", "End of a report line"], ["6", "DAV", "Data valid"], ["7", "NRFD", "Instrument not ready for data"], ["8", "NDAC", "Data not yet accepted"], ["18–24", "GND", "Signal ground"]]
@@ -160,7 +156,6 @@
     "specs": [["Range", "0 to 14 pH"], ["Resolution", "0.01 pH"], ["Output", "Continuous print, RS-232"]],
     "connection": [["Where", "Rear panel, the port marked RS-232"], ["Today", "A serial printer or a PC reads the port"], ["Trigger", "One line each second while the meter reads"], ["Format", "pH 7.02 25.1C READY: the pH, the temperature, then READY for a settled value or DRIFT for a moving one"], ["On the instrument", "No change. Keep 9600 baud and 8N1"]],
     "port": {
-      "kind": "RS-232",
       "connector": "DB9 female",
       "settings": "9600 baud · 8N1 · no flow control",
       "pins": [["2", "RXD", "Data from meter"], ["3", "TXD", "Commands to meter"], ["5", "GND", "Signal ground"]]
@@ -191,7 +186,6 @@
     "specs": [["Method", "Volumetric titration"], ["Reports", "Sample weight, titrant, drift and water"], ["Output", "Result strip, RS-232"]],
     "connection": [["Where", "Rear panel, the port marked PRINTER"], ["Today", "A strip printer reads the port"], ["Trigger", "One block of lines at the end of each titration"], ["Format", "A label, a value and a unit on each line: Sample wt, Titrant, Drift and Water"], ["On the instrument", "No change. Keep 4800 baud and 8N1"]],
     "port": {
-      "kind": "RS-232",
       "connector": "DB9 male",
       "settings": "4800 baud · 8N1 · no flow control",
       "pins": [["2", "RXD", "Data from titrator"], ["3", "TXD", "Commands to titrator"], ["5", "GND", "Signal ground"]]

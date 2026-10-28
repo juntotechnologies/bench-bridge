@@ -2,13 +2,15 @@
 import { runBridge } from "@shared/bridge/pipeline"
 import type { BridgeRun, Reading } from "@shared/bridge/types"
 import { DeliverResponse } from "@shared/contracts"
-import { catalog, devices, isLive, kitTitle } from "@shared/registry"
-import type { CatalogEntry, Device } from "@shared/registry/schema"
+import { catalog, connectionLabel, devices, isLive, kitTitle, portKind } from "@shared/registry"
+import { Connection, type CatalogEntry, type Device } from "@shared/registry/schema"
 import { handleDeliver } from "@server/handler"
 import { createDeps } from "@server/refs"
 import pkg from "../../package.json" with { type: "json" }
 
 const LIST = new Intl.ListFormat("en", { style: "long", type: "conjunction" })
+/** The connection types that a legend names. "other" is a bucket, not a type. */
+const NAMED_CONNECTIONS = Connection.exclude(["other"]).options
 
 export interface Facts {
   [key: string]: string
@@ -29,6 +31,7 @@ function catalogFacts(): Facts {
     "catalog.live": String(live.length),
     "catalog.planned": String(catalog.length - live.length),
     "catalog.liveNames": LIST.format(live.map(entryName)),
+    "catalog.connections": LIST.format(NAMED_CONNECTIONS.map(connectionLabel)),
   }
 }
 
@@ -61,7 +64,7 @@ function identityFacts(device: Device): Facts {
     model: device.model,
     era: String(device.era),
     kit: kitTitle(device),
-    "port.kind": device.port.kind,
+    "port.kind": portKind(device),
     "port.connector": device.port.connector,
     "port.settings": device.port.settings,
     "port.pins": String(device.port.pins.length),

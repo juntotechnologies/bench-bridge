@@ -1,6 +1,7 @@
 /** App state and a minimal store: one state object, set by patch, observed by listeners. */
 import type { DeliverResponse } from "@shared/contracts"
 import type { BridgeRun } from "@shared/bridge/types"
+import { Connection } from "@shared/registry/schema"
 import type { Theme } from "./theme"
 
 export type TabId = "overview" | "port" | "kit" | "data" | "deliver"
@@ -9,9 +10,13 @@ export type TabId = "overview" | "port" | "kit" | "data" | "deliver"
 export const PANES = ["devices", "stage", "inspector"] as const
 export type Pane = (typeof PANES)[number]
 
-/** The catalogue filter chips, in order. */
-export const CATALOG_FILTERS = ["all", "bridged", "planned"] as const
-export type CatalogFilter = (typeof CATALOG_FILTERS)[number]
+/** The status chips, in order. */
+export const STATUS_FILTERS = ["all", "bridged", "planned"] as const
+export type StatusFilter = (typeof STATUS_FILTERS)[number]
+
+/** Every catalogue chip, in order: each status, then each connection type. One chip is on at a time. */
+export const CATALOG_FILTERS = [...STATUS_FILTERS, ...Connection.options] as const
+export type CatalogFilter = StatusFilter | Connection
 
 export interface RunState {
   run: BridgeRun | null

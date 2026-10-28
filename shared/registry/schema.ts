@@ -39,6 +39,9 @@ export const Capture = z.object({
   lines: z.array(z.string()).min(1),
 })
 
+/** How an instrument sends its data. Instruments with any other port share the "other" bucket. Labels live in copy.json. */
+export const Connection = z.enum(["rs232", "gpib", "lan", "other"])
+
 export const KitExample = z.object({ vendor: z.string(), product: z.string(), note: z.string() })
 
 /** One part of a bridge kit. Examples name real products as labelled examples only. */
@@ -79,7 +82,8 @@ export const Device = z.object({
   specs: z.array(Pair),
   /** Facts about the connection on this instrument, as label and text. */
   connection: z.array(Pair),
-  port: z.object({ kind: z.string(), connector: z.string(), settings: z.string(), pins: z.array(Triple) }),
+  /** The port kind comes from the catalogue entry's connection. */
+  port: z.object({ connector: z.string(), settings: z.string(), pins: z.array(Triple) }),
   parser: ParserConfig,
   normalize: NormalizeRules,
   capture: Capture,
@@ -99,6 +103,8 @@ export const CatalogEntry = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/),
   name: z.string(),
   interface: z.string(),
+  /** The one connection type that the filter and the port tab use. */
+  connection: Connection,
   era: z.string(),
   why: z.string(),
 })
@@ -118,3 +124,4 @@ export type NormalizeRules = z.infer<typeof NormalizeRules>
 export type Capture = z.infer<typeof Capture>
 export type FieldSource = z.infer<typeof FieldSource>
 export type TargetId = z.infer<typeof TargetId>
+export type Connection = z.infer<typeof Connection>

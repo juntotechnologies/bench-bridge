@@ -17,8 +17,15 @@
     { "id": "bridged", "label": "Bridged" },
     { "id": "planned", "label": "Planned" }
   ],
+  "connections": [
+    { "id": "rs232", "label": "RS-232" },
+    { "id": "gpib", "label": "IEEE-488 (GPIB)" },
+    { "id": "lan", "label": "LAN" },
+    { "id": "other", "label": "Other" }
+  ],
   "panels": {
     "devices": "Instrument catalogue",
+    "connection": "Connection",
     "parts": "Parts",
     "tabs": {
       "overview": "Overview",

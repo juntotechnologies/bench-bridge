@@ -1,6 +1,6 @@
 /** The Port tab: connector diagram, line settings and pin table. */
-import { copy } from "@shared/registry"
-import type { Device } from "@shared/registry/schema"
+import { connectionOf, copy, portKind } from "@shared/registry"
+import type { Connection, Device } from "@shared/registry/schema"
 import { h, svg, type Child } from "../dom"
 import { pairList } from "./pairs"
 
@@ -8,7 +8,7 @@ const SETTING_SEPARATOR = " · "
 
 type Diagram = (used: Set<string>) => string
 
-const DIAGRAMS: Record<string, Diagram> = { "RS-232": db9, LAN: rj45, "IEEE-488 (GPIB)": gpib }
+const DIAGRAMS: Partial<Record<Connection, Diagram>> = { rs232: db9, lan: rj45, gpib }
 const GPIB_PINS = 24
 const GPIB_LEFT = 24
 const GPIB_PITCH = 15
@@ -36,9 +36,9 @@ function offsetFrom(from: number, _: unknown, index: number): string {
   return String(from + index)
 }
 
-/** The connector drawing for a port kind, with the used pins filled. */
-export function portDiagram(kind: string, used: Set<string>): string | undefined {
-  return DIAGRAMS[kind]?.(used)
+/** The connector drawing for a connection type, with the used pins filled. */
+export function portDiagram(connection: Connection, used: Set<string>): string | undefined {
+  return DIAGRAMS[connection]?.(used)
 }
 
 /** The parts of a settings line, split at each middle dot. */
@@ -52,9 +52,9 @@ function settingChip(part: string): HTMLElement {
 
 export function portTab(device: Device): Child[] {
   const used = new Set(device.port.pins.map(pinLabel).flatMap(pinNumbers))
-  const diagram = portDiagram(device.port.kind, used)
+  const diagram = portDiagram(connectionOf(device), used)
   return [
-    h("h2", { class: "inspector-title" }, [device.port.kind, h("small", {}, [device.port.connector])]),
+    h("h2", { class: "inspector-title" }, [portKind(device), h("small", {}, [device.port.connector])]),
     diagram ? svg(diagram, "port-diagram") : null,
     h("div", { class: "eyebrow" }, [copy.port.connection]),
     pairList(device.connection),

@@ -51,6 +51,12 @@ describe("renderers", () => {
     expect(() => createRenderers(inputs({ scripts: ["dev", "lint"] })).scripts?.("")).toThrow("missing note for script lint")
   })
 
+  it("renders the catalogue with a connection column", () => {
+    const table = createRenderers(inputs()).catalog?.("") ?? ""
+    expect(table).toContain("| Connection |")
+    expect(table).toContain("| GC-MS | IEEE-488 (GPIB) | IEEE-488 (GPIB), legacy CDS |")
+  })
+
   it("builds a markdown table", () => {
     expect(markdownTable(["A", "B"], [["1", "2"]])).toBe("\n| A | B |\n| --- | --- |\n| 1 | 2 |\n")
   })
@@ -101,6 +107,10 @@ describe("facts", () => {
     expect(facts["gc.run.records"]).toBe("3")
     expect(facts["gc-ms.run.unstable"]).toBe("1")
     expect(facts["gc-ms.receipt.lims"]).toBe("RES-000001")
+  })
+
+  it("names the connection types that the legend lists, without Other", () => {
+    expect(facts["catalog.connections"]).toBe("RS-232, IEEE-488 (GPIB), and LAN")
   })
 
   it("names the live instruments", () => {

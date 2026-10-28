@@ -1,5 +1,5 @@
 /** One renderer per generated block name: a fact, a file table, a directory table, a script table, the catalogue. */
-import { catalog, copy, isLive } from "@shared/registry"
+import { catalog, connectionLabel, copy, isLive } from "@shared/registry"
 import type { Facts } from "./facts"
 import { glossary, spelled, spellOut, type GlossaryEntry } from "./glossary"
 import type { Renderers } from "./markers"
@@ -109,10 +109,10 @@ function scriptRow(notes: Notes, name: string): string[] {
 }
 
 function renderCatalog(): string {
-  return markdownTable(["#", "Instrument", "Interface", "Era", "Status", "Why it matters"], catalog.map(catalogRow))
+  return markdownTable(["#", "Instrument", "Connection", "Interface", "Era", "Status", "Why it matters"], catalog.map(catalogRow))
 }
 
 function catalogRow(entry: (typeof catalog)[number], index: number): string[] {
   const status = isLive(entry) ? copy.status.bridged : copy.status.planned
-  return [String(index + 1), entry.name, entry.interface, entry.era, status, entry.why]
+  return [String(index + 1), entry.name, connectionLabel(entry.connection), entry.interface, entry.era, status, entry.why]
 }

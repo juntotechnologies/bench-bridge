@@ -6,7 +6,7 @@ import catalogJson from "../data/catalog.json"
 import pipelineJson from "../data/pipeline.json"
 import copyJson from "../data/copy.json"
 import kitsJson from "../data/kits.json"
-import { CatalogEntry, Device, KitFile, Stage, Target, TargetId, type Kit, type KitPart } from "./schema"
+import { CatalogEntry, Device, KitFile, Stage, Target, TargetId, type Connection, type Kit, type KitPart } from "./schema"
 
 export const devices = z.array(Device).parse(devicesJson)
 export const targets = z.record(TargetId, Target).parse(targetsJson)
@@ -49,6 +49,25 @@ export function partsOf(kit: Kit): KitPart[] {
 
 function partById(id: string): KitPart[] {
   return kitParts.filter(matchesId.bind(null, id))
+}
+
+export function catalogById(id: string): CatalogEntry | undefined {
+  return catalog.find(matchesId.bind(null, id))
+}
+
+/** The label of a connection type, such as "IEEE-488 (GPIB)". copy.json owns the labels. */
+export function connectionLabel(connection: Connection): string {
+  return copy.connections.find(matchesId.bind(null, connection))?.label ?? connection
+}
+
+/** A live device's connection type, from its catalogue entry. A test checks that every device has one. */
+export function connectionOf(device: Device): Connection {
+  return catalogById(device.id)?.connection ?? "other"
+}
+
+/** The port kind that the Port and Data tabs show, such as "RS-232". */
+export function portKind(device: Device): string {
+  return connectionLabel(connectionOf(device))
 }
 
 /** An instrument is live when it has a full bridge config in data/devices.json. */
