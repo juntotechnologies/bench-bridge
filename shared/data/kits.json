@@ -53,7 +53,7 @@
     {
       "id": "tap-gpib",
       "name": "Listen-only bus interface",
-      "job": "A GPIB gateway set to listen-only mode. It receives the report that the instrument sends in talk-only mode. It never addresses the instrument and never sends a command.",
+      "job": "An IEEE-488 (GPIB) gateway set to listen-only mode. It receives the report that the instrument sends in talk-only mode. It never addresses the instrument and never sends a command.",
       "why": "A GPIB bus has one controller. The old PC stays the controller. The kit joins the bus as a listener only.",
       "examples": [
         { "vendor": "Prologix", "product": "GPIB-ETHERNET", "note": "GPIB to LAN gateway with a device mode and a listen-only setting." },
@@ -173,8 +173,8 @@
     },
     {
       "id": "gpib-tap",
-      "name": "GPIB tap",
-      "summary": "GPIB is an old instrument bus. An instrument can send its report on the bus in talk-only mode. This tap stacks onto the instrument's GPIB socket and listens. The old PC stays in charge of the bus.",
+      "name": "IEEE-488 (GPIB) tap",
+      "summary": "IEEE-488 (GPIB) is an older instrument bus. An instrument can send its report on the bus in talk-only mode. This tap stacks onto the instrument's GPIB socket and listens. The old PC stays in charge of the bus.",
       "flow": [
         { "title": "Listen", "detail": "The gateway in listen-only mode receives each report that the instrument sends. It never addresses the instrument and never sends a command." },
         { "title": "Stamp", "detail": "The capture computer adds a time to each line. A clock that the lab network keeps in step gives the time." },

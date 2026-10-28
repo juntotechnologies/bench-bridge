@@ -1,15 +1,15 @@
 [
   { "id": "balance", "name": "Analytical balance", "interface": "RS-232 print", "era": "1990s", "why": "Every controlled-substance weigh-out must match the CS ledger." },
-  { "id": "hplc", "name": "HPLC system", "interface": "LAN / GPIB, legacy CDS", "era": "2000s", "why": "Assay and purity results. CDS and OS updates drop old instrument drivers." },
+  { "id": "hplc", "name": "HPLC system", "interface": "LAN / IEEE-488 (GPIB), legacy CDS", "era": "2000s", "why": "Assay and purity results. CDS and OS updates drop old instrument drivers." },
   { "id": "gc", "name": "GC system", "interface": "LAN, legacy CDS", "era": "2000s", "why": "Residual solvent and purity results. CDS and OS updates drop old instrument drivers." },
-  { "id": "gc-ms", "name": "GC-MS", "interface": "GPIB, legacy CDS", "era": "1990s", "why": "Identity tests for controlled substances." },
+  { "id": "gc-ms", "name": "GC-MS", "interface": "IEEE-488 (GPIB), legacy CDS", "era": "1990s", "why": "Identity tests for controlled substances." },
   { "id": "ph-meter", "name": "pH meter", "interface": "RS-232 print", "era": "2000s", "why": "pH results for buffers and solutions are copied from the display." },
   { "id": "kf-titrator", "name": "Karl Fischer titrator", "interface": "RS-232 print", "era": "2000s", "why": "Water content results are typed in from a strip printer." },
   { "id": "lc-ms", "name": "LC-MS/MS", "interface": "LAN, vendor export files", "era": "2000s", "why": "Potency and trace results sit in vendor files the LIMS cannot read." },
-  { "id": "gc-headspace", "name": "Headspace GC", "interface": "GPIB / RS-232", "era": "1990s", "why": "Residual solvent results for release testing." },
+  { "id": "gc-headspace", "name": "Headspace GC", "interface": "IEEE-488 (GPIB) / RS-232", "era": "1990s", "why": "Residual solvent results for release testing." },
   { "id": "dissolution", "name": "Dissolution tester", "interface": "Parallel printer port", "era": "1990s", "why": "Release results print on paper strips." },
   { "id": "ftir", "name": "FTIR spectrometer", "interface": "Serial, floppy export", "era": "1990s", "why": "Identity tests on incoming controlled-substance lots." },
-  { "id": "uv-vis", "name": "UV-Vis spectrophotometer", "interface": "GPIB", "era": "1990s", "why": "Assay and identity results need an old PC with a GPIB card." },
+  { "id": "uv-vis", "name": "UV-Vis spectrophotometer", "interface": "IEEE-488 (GPIB)", "era": "1990s", "why": "Assay and identity results need an old PC with a GPIB card." },
   { "id": "stability-chamber", "name": "Stability chamber", "interface": "4–20 mA, chart recorder", "era": "1990s", "why": "Storage condition records for stability studies are on paper charts." },
   { "id": "cs-vault", "name": "CS vault and safe", "interface": "Door contact, keypad log", "era": "2000s", "why": "Access to controlled-substance storage must be logged." }
 ]

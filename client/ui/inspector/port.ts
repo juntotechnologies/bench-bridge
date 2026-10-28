@@ -8,7 +8,7 @@ const SETTING_SEPARATOR = " · "
 
 type Diagram = (used: Set<string>) => string
 
-const DIAGRAMS: Record<string, Diagram> = { "RS-232": db9, LAN: rj45, GPIB: gpib }
+const DIAGRAMS: Record<string, Diagram> = { "RS-232": db9, LAN: rj45, "IEEE-488 (GPIB)": gpib }
 const GPIB_PINS = 24
 const GPIB_LEFT = 24
 const GPIB_PITCH = 15
