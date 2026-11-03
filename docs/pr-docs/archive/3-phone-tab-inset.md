@@ -1,6 +1,6 @@
 # PR 3: Inspector tab inset
 
-Status: in-scope work complete
+Status: done
 
 Branch: `fix/phone-tab-inset`
 
