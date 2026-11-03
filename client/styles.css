@@ -156,7 +156,7 @@ code, pre { font-family: var(--font-mono); }
 /* The scroll padding keeps a picked part below the sticky tabs and above the fade. */
 .inspector { grid-area: inspector; display: flex; flex-direction: column; scroll-padding: 56px 0 var(--fade); }
 .tabs { display: flex; gap: 2px; padding: 8px 8px 0; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--panel); z-index: 1; }
-.tabs button { flex: 1; border: 0; background: transparent; padding: 10px 4px; font: 500 10.5px var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); border-bottom: 2px solid transparent; }
+.tabs button { flex: 1; border: 0; background: transparent; padding: 10px 6px; font: 500 10.5px var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); border-bottom: 2px solid transparent; }
 .tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
 .inspector-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
 .inspector-title { margin: 0; font-size: 17px; letter-spacing: -0.01em; display: flex; flex-direction: column; }
