@@ -156,7 +156,7 @@ code, pre { font-family: var(--font-mono); }
 /* The scroll padding keeps a picked part below the sticky tabs and above the fade. */
 .inspector { grid-area: inspector; display: flex; flex-direction: column; scroll-padding: 56px 0 var(--fade); }
 .tabs { display: flex; gap: 2px; padding: 8px 8px 0; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--panel); z-index: 1; }
-.tabs button { flex: 1; border: 0; background: transparent; padding: 10px 4px; font: 500 10.5px var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); border-bottom: 2px solid transparent; }
+.tabs button { flex: 1; border: 0; background: transparent; padding: 10px 6px; font: 500 10.5px var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); border-bottom: 2px solid transparent; }
 .tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
 .inspector-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
 .inspector-title { margin: 0; font-size: 17px; letter-spacing: -0.01em; display: flex; flex-direction: column; }
@@ -414,7 +414,7 @@ td, th { padding: 6px 4px; border-bottom: 1px solid var(--line); }
   .stage-label { font-size: 8.5px; letter-spacing: 0.04em; }
   .stage-no { display: none; }
   .pane-nav { grid-column: 1 / 4; }
-  .pane-nav button { flex-direction: column; gap: 2px; min-width: 0; padding: 4px 2px; font-size: 8.5px; letter-spacing: 0.04em; }
+  .pane-nav button { flex-direction: column; gap: 2px; min-width: 0; padding: 4px 2px; font-size: 8.5px; letter-spacing: 0; }
   /* Every control reaches the touch size. The copy button keeps its row height with a negative margin. */
   .filter, .segmented button, .tabs button, .kit-open, .stage-switch, .part-row, .slider input, .code-copy { min-height: var(--touch); }
   .code-copy { margin: -6px 0; }

@@ -4,7 +4,9 @@ One doc per pull request. Each doc holds the goal, the checklist, the smoke test
 
 ## Active
 
-None.
+| PR | Doc | Status |
+| --- | --- | --- |
+| 3 | [Inspector tab inset](3-phone-tab-inset.md) | in-scope work complete |
 
 ## Archive
 
