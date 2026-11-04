@@ -6,11 +6,11 @@ One doc per pull request. Each doc holds the goal, the checklist, the smoke test
 
 | PR | Doc | Status |
 | --- | --- | --- |
-| [PR 4: regular reviewer, not hostile](./4-regular-reviewer.md) | `AGENTS.md` tells agents to reread their diff as a regular reviewer. |
 
 ## Archive
 
 | PR | Doc | Status |
 | --- | --- | --- |
+| 4 | [Regular reviewer, not hostile](archive/4-regular-reviewer.md) | done (merged 2026-11-04) |
 | 3 | [Inspector tab inset](./archive/3-phone-tab-inset.md) | in-scope work complete |
 | 1 | [Alive kit and parity](archive/1-alive-and-parity.md) | done (merged 2026-10-27) |
