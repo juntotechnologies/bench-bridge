@@ -6,6 +6,7 @@ One doc per pull request. Each doc holds the goal, the checklist, the smoke test
 
 | PR | Doc | Status |
 | --- | --- | --- |
+| [PR 4: regular reviewer, not hostile](./4-regular-reviewer.md) | `AGENTS.md` tells agents to reread their diff as a regular reviewer. |
 
 ## Archive
 
